@@ -4,5 +4,5 @@ import { type RootStore } from './RootStore'
 import { StoreContext } from './StoreContext'
 
 export function StoreProvider({ store, children }: { store: RootStore; children: ReactNode }) {
-  return <StoreContext value={store}>{children}</StoreContext>
+  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
 }

@@ -2,7 +2,7 @@ import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@
 import { configure } from 'mobx'
 import { type ReactElement, useCallback } from 'react'
 
-import { SidebarProvider, useSidebarStore } from './main/context'
+import { SidebarProvider } from './main/context'
 import { Sidebar } from './main/Sidebar'
 import { SidebarIcon } from './main/SidebarIcon'
 import { SidebarStore } from './main/store'
@@ -39,8 +39,6 @@ export function AxSidebar(props: AxSidebarContainerProps): ReactElement {
 }
 
 function AxSidebarSync(props: AxSidebarContainerProps): ReactElement {
-  const store = useSidebarStore()
-
   // Subscribe to event bus (broadcast + private topic)
   const handleEvent = useCallback((_event: AxEvent) => {
     // Handle events from other widgets or Mendix nanoflows

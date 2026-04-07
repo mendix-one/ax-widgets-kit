@@ -2,4 +2,4 @@ packages:
   - "packages/*"
   - "widgets/*"
   - "simulation"
-  - "web-app"
+  - "react-app"

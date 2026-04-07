@@ -31,7 +31,7 @@ export const Slider = observer(function Slider(): ReactElement {
         size={store.size}
         marks={store.marks}
         valueLabelDisplay={store.valueLabelDisplay}
-        onChange={(_e, v) => store.setValue(v)}
+        onChange={(_e, v) => store.setValue(v as number)}
       />
       {store.validation && (
         <Typography color="error" variant="caption">

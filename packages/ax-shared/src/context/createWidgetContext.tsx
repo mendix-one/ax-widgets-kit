@@ -15,7 +15,7 @@ export function createWidgetContext<T>(displayName?: string) {
 
   function Provider({ createStore, children }: { createStore: () => T; children: ReactNode }) {
     const store = useMemo(createStore, [])
-    return <Context value={store}>{children}</Context>
+    return <Context.Provider value={store}>{children}</Context.Provider>
   }
 
   function useStore(): T {

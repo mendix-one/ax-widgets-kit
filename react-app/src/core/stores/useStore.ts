@@ -1,10 +1,10 @@
-import { use } from 'react'
+import { useContext } from 'react'
 
 import { type RootStore } from './RootStore'
 import { StoreContext } from './StoreContext'
 
 export const useStore = (): RootStore => {
-  const store = use(StoreContext)
+  const store = useContext(StoreContext)
   if (!store) {
     throw new Error('useStore must be used within a StoreProvider')
   }
