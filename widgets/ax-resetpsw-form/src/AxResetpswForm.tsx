@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxResetpswFormContainerProps } from '../typings/AxResetpswFormProps'
 
 import { ResetPassFormProvider } from './main/context'
 import { ResetPassForm } from './main/ResetPassForm'
 import { ResetPassFormStore } from './main/store'
+
+import type { AxResetpswFormContainerProps } from '../typings/AxResetpswFormProps'
 
 export function AxResetpswForm(props: AxResetpswFormContainerProps): ReactElement {
   const [store] = useState(() => new ResetPassFormStore())

@@ -5,9 +5,11 @@ import MenuItem from '@mui/material/MenuItem'
 import MuiSelect from '@mui/material/Select'
 import Skeleton from '@mui/material/Skeleton'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useSelectStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const Select = observer(function Select(): ReactElement {
   const store = useSelectStore()
@@ -29,7 +31,7 @@ export const Select = observer(function Select(): ReactElement {
         labelId={labelId}
         value={store.value}
         label={store.label}
-        onChange={(e) => store.setValue(e.target.value as string)}
+        onChange={(e) => store.setValue(e.target.value)}
       >
         {store.options.map((option) => (
           <MenuItem key={option.value} value={option.value}>

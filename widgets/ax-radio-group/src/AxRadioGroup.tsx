@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxRadioGroupContainerProps } from '../typings/AxRadioGroupProps'
 
 import { RadioGroupProvider } from './main/context'
 import { RadioGroup } from './main/RadioGroup'
 import { RadioGroupStore } from './main/store'
+
+import type { AxRadioGroupContainerProps } from '../typings/AxRadioGroupProps'
 
 export function AxRadioGroup(props: AxRadioGroupContainerProps): ReactElement {
   const [store] = useState(() => new RadioGroupStore())

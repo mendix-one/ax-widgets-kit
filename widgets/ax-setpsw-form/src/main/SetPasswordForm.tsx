@@ -8,9 +8,11 @@ import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { FormEvent, ReactElement } from 'react'
 
 import { useSetPasswordFormStore } from './context'
+
+import type { FormEvent, ReactElement } from 'react'
+
 
 export const SetPasswordForm = observer(function SetPasswordForm(): ReactElement {
   const store = useSetPasswordFormStore()

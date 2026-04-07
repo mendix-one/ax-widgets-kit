@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxSelectPreviewProps } from '../typings/AxSelectProps'
+
 import { SelectPreview } from './preview/SelectPreview'
 
 export function preview(props: AxSelectPreviewProps): ReactElement {

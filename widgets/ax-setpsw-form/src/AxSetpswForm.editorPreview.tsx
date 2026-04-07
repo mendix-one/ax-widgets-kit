@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
-import { AxSetpswFormPreviewProps } from '../typings/AxSetpswFormProps'
+import { type AxSetpswFormPreviewProps } from '../typings/AxSetpswFormProps'
+
 import { SetPasswordFormPreview } from './preview/SetPasswordFormPreview'
 
 export function preview(_props: AxSetpswFormPreviewProps): ReactElement {

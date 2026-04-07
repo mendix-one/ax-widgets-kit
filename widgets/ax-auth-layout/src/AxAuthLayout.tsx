@@ -1,4 +1,3 @@
-import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
   type AxEvent,
@@ -8,12 +7,14 @@ import {
   setGlobalThemeTokens,
   useWidgetEvents,
 } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 
-import type { AxAuthLayoutContainerProps } from '../typings/AxAuthLayoutProps'
 
 import { AuthLayout } from './main/AuthLayout'
 import { AuthLayoutProvider } from './main/context'
 import { AuthLayoutStore } from './main/store'
+
+import type { AxAuthLayoutContainerProps } from '../typings/AxAuthLayoutProps'
 
 export function AxAuthLayout(props: AxAuthLayoutContainerProps): ReactElement {
   const [store] = useState(() => new AuthLayoutStore())

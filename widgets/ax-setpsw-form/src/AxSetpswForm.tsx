@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxSetpswFormContainerProps } from '../typings/AxSetpswFormProps'
 
 import { SetPasswordFormProvider } from './main/context'
 import { SetPasswordForm } from './main/SetPasswordForm'
 import { SetPasswordFormStore } from './main/store'
+
+import type { AxSetpswFormContainerProps } from '../typings/AxSetpswFormProps'
 
 export function AxSetpswForm(props: AxSetpswFormContainerProps): ReactElement {
   const [store] = useState(() => new SetPasswordFormStore())

@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
-import { AxButtonGroupPreviewProps } from '../typings/AxButtonGroupProps'
+import { type AxButtonGroupPreviewProps } from '../typings/AxButtonGroupProps'
+
 import { ButtonGroupPreview } from './preview/ButtonGroupPreview'
 
 export function preview(props: AxButtonGroupPreviewProps): ReactElement {

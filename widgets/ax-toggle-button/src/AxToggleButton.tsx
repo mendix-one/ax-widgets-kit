@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxToggleButtonContainerProps } from '../typings/AxToggleButtonProps'
 
 import { ToggleButtonProvider } from './main/context'
-import { ToggleButton } from './main/ToggleButton'
 import { ToggleButtonStore } from './main/store'
+import { ToggleButton } from './main/ToggleButton'
+
+import type { AxToggleButtonContainerProps } from '../typings/AxToggleButtonProps'
 
 export function AxToggleButton(props: AxToggleButtonContainerProps): ReactElement {
   const [store] = useState(() => new ToggleButtonStore())

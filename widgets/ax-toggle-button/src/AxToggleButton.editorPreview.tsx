@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxToggleButtonPreviewProps } from '../typings/AxToggleButtonProps'
+
 import { ToggleButtonPreview } from './preview/ToggleButtonPreview'
 
 export function preview(props: AxToggleButtonPreviewProps): ReactElement {

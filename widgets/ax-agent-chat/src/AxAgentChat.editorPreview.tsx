@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxAgentChatPreviewProps } from '../typings/AxAgentChatProps'
+
 import { AgentChatPreview } from './preview/AgentChatPreview'
 
 export function preview(props: AxAgentChatPreviewProps): ReactElement {

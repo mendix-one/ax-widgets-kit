@@ -1,4 +1,4 @@
-import { AxSetpswFormPreviewProps } from '../typings/AxSetpswFormProps'
+import { type AxSetpswFormPreviewProps } from '../typings/AxSetpswFormProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

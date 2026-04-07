@@ -1,4 +1,4 @@
-import { AxRadioGroupPreviewProps } from '../typings/AxRadioGroupProps'
+import { type AxRadioGroupPreviewProps } from '../typings/AxRadioGroupProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

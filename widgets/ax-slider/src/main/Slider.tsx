@@ -3,9 +3,11 @@ import Skeleton from '@mui/material/Skeleton'
 import MuiSlider from '@mui/material/Slider'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useSliderStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const Slider = observer(function Slider(): ReactElement {
   const store = useSliderStore()
@@ -29,7 +31,7 @@ export const Slider = observer(function Slider(): ReactElement {
         size={store.size}
         marks={store.marks}
         valueLabelDisplay={store.valueLabelDisplay}
-        onChange={(_e, v) => store.setValue(v as number)}
+        onChange={(_e, v) => store.setValue(v)}
       />
       {store.validation && (
         <Typography color="error" variant="caption">

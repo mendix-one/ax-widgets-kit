@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
-import { AxTextFieldPreviewProps } from '../typings/AxTextFieldProps'
+import { type AxTextFieldPreviewProps } from '../typings/AxTextFieldProps'
+
 import { TextFieldPreview } from './preview/TextFieldPreview'
 
 export function preview(props: AxTextFieldPreviewProps): ReactElement {

@@ -3,9 +3,11 @@ import MuiToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useToggleButtonStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const ToggleButton = observer(function ToggleButton(): ReactElement {
   const store = useToggleButtonStore()

@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxWebAppPreviewProps } from '../typings/AxWebAppProps'
+
 import { WebAppPreview } from './preview/WebAppPreview'
 
 export function preview(props: AxWebAppPreviewProps): ReactElement {

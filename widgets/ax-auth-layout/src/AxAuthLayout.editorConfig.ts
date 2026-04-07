@@ -1,4 +1,4 @@
-import { AxAuthLayoutPreviewProps } from '../typings/AxAuthLayoutProps'
+import { type AxAuthLayoutPreviewProps } from '../typings/AxAuthLayoutProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

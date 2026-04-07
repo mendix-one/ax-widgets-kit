@@ -6,9 +6,11 @@ import Radio from '@mui/material/Radio'
 import MuiRadioGroup from '@mui/material/RadioGroup'
 import Skeleton from '@mui/material/Skeleton'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useRadioGroupStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const RadioGroup = observer(function RadioGroup(): ReactElement {
   const store = useRadioGroupStore()

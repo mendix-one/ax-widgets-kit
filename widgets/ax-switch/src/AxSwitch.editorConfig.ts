@@ -1,4 +1,4 @@
-import { AxSwitchPreviewProps } from '../typings/AxSwitchProps'
+import { type AxSwitchPreviewProps } from '../typings/AxSwitchProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

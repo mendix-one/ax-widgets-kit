@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxCheckboxContainerProps } from '../typings/AxCheckboxProps'
 
 import { Checkbox } from './main/Checkbox'
 import { CheckboxProvider } from './main/context'
 import { CheckboxStore } from './main/store'
+
+import type { AxCheckboxContainerProps } from '../typings/AxCheckboxProps'
 
 export function AxCheckbox(props: AxCheckboxContainerProps): ReactElement {
   const [store] = useState(() => new CheckboxStore())

@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, executeAction, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxTasksMenuContainerProps } from '../typings/AxTasksMenuProps'
 
 import { TasksMenuProvider } from './main/context'
 import { TasksMenuStore } from './main/store'
 import { TasksMenu } from './main/TasksMenu'
+
+import type { AxTasksMenuContainerProps } from '../typings/AxTasksMenuProps'
 
 const sampleTasks = [
   {

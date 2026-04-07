@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
+
+
+import { Button } from './main/Button'
+import { ButtonProvider } from './main/context'
+import { ButtonStore } from './main/store'
 
 import type { AxButtonContainerProps } from '../typings/AxButtonProps'
-
-import { ButtonProvider } from './main/context'
-import { Button } from './main/Button'
-import { ButtonStore } from './main/store'
 
 export function AxButton(props: AxButtonContainerProps): ReactElement {
   const [store] = useState(() => new ButtonStore())

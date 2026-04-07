@@ -1,10 +1,10 @@
+import { AxAuthLayout } from '@ax/auth-layout/src/AxAuthLayout'
+import { AxSignupForm } from '@ax/signup-form/src/AxSignupForm'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import type { DynamicValue, EditableValue } from 'mendix'
 
-import { AxAuthLayout } from '@ax/auth-layout/src/AxAuthLayout'
-import { AxSignupForm } from '@ax/signup-form/src/AxSignupForm'
 
 function useMockAttr(initial = '') {
   const [value, setVal] = useState(initial)

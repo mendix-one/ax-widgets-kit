@@ -1,6 +1,7 @@
+import { AxAuthLayout } from '@ax/auth-layout/src/AxAuthLayout'
+
 import type { DynamicValue } from 'mendix'
 
-import { AxAuthLayout } from '@ax/auth-layout/src/AxAuthLayout'
 
 function mockDynamic(value: string) {
   return { status: 'available' as const, value } as DynamicValue<string>

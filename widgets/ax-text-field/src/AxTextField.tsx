@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxTextFieldContainerProps } from '../typings/AxTextFieldProps'
 
 import { TextFieldProvider } from './main/context'
-import { TextField } from './main/TextField'
 import { TextFieldStore } from './main/store'
+import { TextField } from './main/TextField'
+
+import type { AxTextFieldContainerProps } from '../typings/AxTextFieldProps'
 
 export function AxTextField(props: AxTextFieldContainerProps): ReactElement {
   const [store] = useState(() => new TextFieldStore())

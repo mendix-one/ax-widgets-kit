@@ -5,9 +5,11 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Skeleton from '@mui/material/Skeleton'
 import MuiTextField from '@mui/material/TextField'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useTextFieldStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const TextField = observer(function TextField(): ReactElement {
   const store = useTextFieldStore()

@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxLogoContainerProps } from '../typings/AxLogoProps'
 
 import { LogoProvider } from './main/context'
 import { Logo } from './main/Logo'
 import { LogoStore } from './main/store'
+
+import type { AxLogoContainerProps } from '../typings/AxLogoProps'
 
 export function AxLogo(props: AxLogoContainerProps): ReactElement {
   const [store] = useState(() => new LogoStore())

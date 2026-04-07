@@ -3,10 +3,12 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement, ReactNode } from 'react'
+
 
 import { AiBg } from './AiBg'
 import { useAuthLayoutStore } from './context'
+
+import type { ReactElement, ReactNode } from 'react'
 
 interface AuthLayoutProps {
   children?: ReactNode

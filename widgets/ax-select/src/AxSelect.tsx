@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents, isLoading } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxSelectContainerProps } from '../typings/AxSelectProps'
 
 import { SelectProvider } from './main/context'
 import { Select } from './main/Select'
 import { SelectStore } from './main/store'
+
+import type { AxSelectContainerProps } from '../typings/AxSelectProps'
 
 export function AxSelect(props: AxSelectContainerProps): ReactElement {
   const [store] = useState(() => new SelectStore())

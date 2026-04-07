@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
-import { AxSignupFormPreviewProps } from '../typings/AxSignupFormProps'
+import { type AxSignupFormPreviewProps } from '../typings/AxSignupFormProps'
+
 import { SignUpFormPreview } from './preview/SignUpFormPreview'
 
 export function preview(props: AxSignupFormPreviewProps): ReactElement {

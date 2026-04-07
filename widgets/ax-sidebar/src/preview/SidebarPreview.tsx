@@ -1,4 +1,4 @@
-import { ReactElement, ComponentType, ReactNode } from 'react'
+import { type ReactElement, type ComponentType, type ReactNode } from 'react'
 
 export interface SidebarPreviewProps {
   content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> }

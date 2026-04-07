@@ -1,9 +1,3 @@
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import type { DynamicValue } from 'mendix'
 
 import { AxAgentChat } from '@ax/agent-chat/src/AxAgentChat'
 import { AxLogo } from '@ax/logo/src/AxLogo'
@@ -12,9 +6,16 @@ import { AxSidebar } from '@ax/sidebar/src/AxSidebar'
 import { AxTasksMenu } from '@ax/tasks-menu/src/AxTasksMenu'
 import { AxUserMenu } from '@ax/user-menu/src/AxUserMenu'
 import { AxWebApp } from '@ax/web-app/src/AxWebApp'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 import aPlannerDark from '../../assets/a-planner-ai-dark.png'
 import aPlannerLight from '../../assets/a-planner-ai-light.png'
+
+import type { DynamicValue } from 'mendix'
 
 function mockDynamic(value: string) {
   return { status: 'available' as const, value } as DynamicValue<string>

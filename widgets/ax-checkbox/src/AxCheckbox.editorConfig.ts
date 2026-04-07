@@ -1,4 +1,4 @@
-import { AxCheckboxPreviewProps } from '../typings/AxCheckboxProps'
+import { type AxCheckboxPreviewProps } from '../typings/AxCheckboxProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

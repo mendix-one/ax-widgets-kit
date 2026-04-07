@@ -1,8 +1,10 @@
 import MuiButtonGroup from '@mui/material/ButtonGroup'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement, ReactNode } from 'react'
 
 import { useButtonGroupStore } from './context'
+
+import type { ReactElement, ReactNode } from 'react'
+
 
 interface ButtonGroupProps {
   children?: ReactNode

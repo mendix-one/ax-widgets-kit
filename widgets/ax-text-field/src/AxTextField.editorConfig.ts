@@ -1,4 +1,4 @@
-import { AxTextFieldPreviewProps } from '../typings/AxTextFieldProps'
+import { type AxTextFieldPreviewProps } from '../typings/AxTextFieldProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

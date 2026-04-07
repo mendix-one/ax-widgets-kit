@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxSwitchPreviewProps } from '../typings/AxSwitchProps'
+
 import { SwitchPreview } from './preview/SwitchPreview'
 
 export function preview(props: AxSwitchPreviewProps): ReactElement {

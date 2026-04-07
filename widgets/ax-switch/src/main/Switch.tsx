@@ -3,9 +3,11 @@ import Skeleton from '@mui/material/Skeleton'
 import MuiSwitch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useSwitchStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const Switch = observer(function Switch(): ReactElement {
   const store = useSwitchStore()

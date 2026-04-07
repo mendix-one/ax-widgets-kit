@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxAgentChatContainerProps } from '../typings/AxAgentChatProps'
 
 import { AgentChat } from './main/AgentChat'
 import { AgentChatProvider } from './main/context'
 import { AgentChatStore } from './main/store'
+
+import type { AxAgentChatContainerProps } from '../typings/AxAgentChatProps'
 
 export function AxAgentChat(props: AxAgentChatContainerProps): ReactElement {
   const [store] = useState(() => new AgentChatStore(props.welcomeMessage?.value))

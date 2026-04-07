@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, executeAction, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxUserMenuContainerProps } from '../typings/AxUserMenuProps'
 
 import { UserMenuProvider } from './main/context'
 import { UserMenuStore } from './main/store'
 import { UserMenu } from './main/UserMenu'
+
+import type { AxUserMenuContainerProps } from '../typings/AxUserMenuProps'
 
 export function AxUserMenu(props: AxUserMenuContainerProps): ReactElement {
   const [store] = useState(() => new UserMenuStore())

@@ -3,9 +3,11 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { ReactElement } from 'react'
 
 import { useCheckboxStore } from './context'
+
+import type { ReactElement } from 'react'
+
 
 export const Checkbox = observer(function Checkbox(): ReactElement {
   const store = useCheckboxStore()

@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
-import { AxAuthLayoutPreviewProps } from '../typings/AxAuthLayoutProps'
+import { type AxAuthLayoutPreviewProps } from '../typings/AxAuthLayoutProps'
+
 import { AuthLayoutPreview } from './preview/AuthLayoutPreview'
 
 export function preview(props: AxAuthLayoutPreviewProps): ReactElement {

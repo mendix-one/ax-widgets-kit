@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxSliderPreviewProps } from '../typings/AxSliderProps'
+
 import { SliderPreview } from './preview/SliderPreview'
 
 export function preview(props: AxSliderPreviewProps): ReactElement {

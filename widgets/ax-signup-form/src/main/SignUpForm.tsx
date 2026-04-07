@@ -9,9 +9,11 @@ import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { FormEvent, ReactElement } from 'react'
 
 import { useSignUpFormStore } from './context'
+
+import type { FormEvent, ReactElement } from 'react'
+
 
 export const SignUpForm = observer(function SignUpForm(): ReactElement {
   const store = useSignUpFormStore()

@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxSignupFormContainerProps } from '../typings/AxSignupFormProps'
 
 import { SignUpFormProvider } from './main/context'
 import { SignUpForm } from './main/SignUpForm'
 import { SignUpFormStore } from './main/store'
+
+import type { AxSignupFormContainerProps } from '../typings/AxSignupFormProps'
 
 export function AxSignupForm(props: AxSignupFormContainerProps): ReactElement {
   const [store] = useState(() => new SignUpFormStore())

@@ -1,7 +1,8 @@
-import { ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
-import { AxResetpswFormPreviewProps } from '../typings/AxResetpswFormProps'
+import { type AxResetpswFormPreviewProps } from '../typings/AxResetpswFormProps'
+
 import { ResetPassFormPreview } from './preview/ResetPassFormPreview'
 
 export function preview(_props: AxResetpswFormPreviewProps): ReactElement {

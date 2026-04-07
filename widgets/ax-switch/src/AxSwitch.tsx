@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents, isLoading } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxSwitchContainerProps } from '../typings/AxSwitchProps'
 
 import { SwitchProvider } from './main/context'
-import { Switch } from './main/Switch'
 import { SwitchStore } from './main/store'
+import { Switch } from './main/Switch'
+
+import type { AxSwitchContainerProps } from '../typings/AxSwitchProps'
 
 export function AxSwitch(props: AxSwitchContainerProps): ReactElement {
   const [store] = useState(() => new SwitchStore())

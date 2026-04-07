@@ -1,12 +1,13 @@
-import { type ReactElement, useCallback, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useState } from 'react'
 
-import type { AxSidebarContainerProps } from '../typings/AxSidebarProps'
 
 import { SidebarProvider } from './main/context'
 import { Sidebar } from './main/Sidebar'
 import { SidebarIcon } from './main/SidebarIcon'
 import { SidebarStore } from './main/store'
+
+import type { AxSidebarContainerProps } from '../typings/AxSidebarProps'
 
 const defaultItems = [
   { id: 'dashboard', label: 'Dashboard', icon: <SidebarIcon type="dashboard" /> },

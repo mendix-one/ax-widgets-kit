@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxRadioGroupPreviewProps } from '../typings/AxRadioGroupProps'
+
 import { RadioGroupPreview } from './preview/RadioGroupPreview'
 
 export function preview(props: AxRadioGroupPreviewProps): ReactElement {

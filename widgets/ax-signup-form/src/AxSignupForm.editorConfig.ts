@@ -1,4 +1,4 @@
-import { AxSignupFormPreviewProps } from '../typings/AxSignupFormProps'
+import { type AxSignupFormPreviewProps } from '../typings/AxSignupFormProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

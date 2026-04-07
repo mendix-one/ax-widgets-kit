@@ -1,4 +1,3 @@
-import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
   type AxEvent,
@@ -8,12 +7,14 @@ import {
   setGlobalThemeTokens,
   useWidgetEvents,
 } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 
-import type { AxWebAppContainerProps } from '../typings/AxWebAppProps'
 
 import { WebAppProvider } from './main/context'
 import { WebAppStore } from './main/store'
 import { WebAppLayout } from './main/WebAppLayout'
+
+import type { AxWebAppContainerProps } from '../typings/AxWebAppProps'
 
 export function AxWebApp(props: AxWebAppContainerProps): ReactElement {
   const [store] = useState(() => new WebAppStore())

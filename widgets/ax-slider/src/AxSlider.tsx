@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxSliderContainerProps } from '../typings/AxSliderProps'
 
 import { SliderProvider } from './main/context'
 import { Slider } from './main/Slider'
 import { SliderStore } from './main/store'
+
+import type { AxSliderContainerProps } from '../typings/AxSliderProps'
 
 export function AxSlider(props: AxSliderContainerProps): ReactElement {
   const [store] = useState(() => new SliderStore())

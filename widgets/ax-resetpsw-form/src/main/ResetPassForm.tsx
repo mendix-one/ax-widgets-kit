@@ -6,9 +6,11 @@ import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
-import type { FormEvent, ReactElement } from 'react'
 
 import { useResetPassFormStore } from './context'
+
+import type { FormEvent, ReactElement } from 'react'
+
 
 export const ResetPassForm = observer(function ResetPassForm(): ReactElement {
   const store = useResetPassFormStore()

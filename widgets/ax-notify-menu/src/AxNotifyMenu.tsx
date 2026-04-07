@@ -1,11 +1,12 @@
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
 import { AxThemeProvider, ErrorBoundary, executeAction, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { type ReactElement, useCallback, useEffect, useState } from 'react'
 
-import type { AxNotifyMenuContainerProps } from '../typings/AxNotifyMenuProps'
 
 import { NotifyMenuProvider } from './main/context'
-import { NotifyMenuStore } from './main/store'
 import { NotifyMenu } from './main/NotifyMenu'
+import { NotifyMenuStore } from './main/store'
+
+import type { AxNotifyMenuContainerProps } from '../typings/AxNotifyMenuProps'
 
 const sampleNotifications = [
   {

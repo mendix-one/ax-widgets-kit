@@ -1,4 +1,4 @@
-import { ComponentType, ReactElement, ReactNode } from 'react'
+import { type ComponentType, type ReactElement, type ReactNode } from 'react'
 
 export interface AuthLayoutPreviewProps {
   content: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> }

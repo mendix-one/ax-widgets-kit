@@ -1,4 +1,4 @@
-import { AxSliderPreviewProps } from '../typings/AxSliderProps'
+import { type AxSliderPreviewProps } from '../typings/AxSliderProps'
 
 export type Properties = PropertyGroup[]
 export type PropertyGroup = { caption: string; propertyGroups?: PropertyGroup[]; properties?: Property[] }

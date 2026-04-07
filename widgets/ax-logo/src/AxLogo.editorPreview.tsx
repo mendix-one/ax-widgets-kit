@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxLogoPreviewProps } from '../typings/AxLogoProps'
+
 import { LogoPreview } from './preview/LogoPreview'
 
 export function preview(props: AxLogoPreviewProps): ReactElement {

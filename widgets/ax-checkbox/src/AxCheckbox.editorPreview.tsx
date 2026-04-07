@@ -1,7 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
 
 import { type AxCheckboxPreviewProps } from '../typings/AxCheckboxProps'
+
 import { CheckboxPreview } from './preview/CheckboxPreview'
 
 export function preview(props: AxCheckboxPreviewProps): ReactElement {

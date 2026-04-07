@@ -1,6 +1,8 @@
-import { type ReactElement } from 'react'
 import { ErrorBoundary } from '@ax/shared'
+import { type ReactElement } from 'react'
+
 import { type AxUserMenuPreviewProps } from '../typings/AxUserMenuProps'
+
 import { UserMenuPreview } from './preview/UserMenuPreview'
 
 export function preview(props: AxUserMenuPreviewProps): ReactElement {
