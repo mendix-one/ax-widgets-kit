@@ -1,0 +1,59 @@
+/*
+  AxTasksMenu widget preview styles
+*/
+
+/* Ax Design Tokens — override via Atlas UI or custom CSS */
+/* --ax-color-primary: #3F51B5 */
+/* --ax-color-primary-light: rgba(63, 81, 181, 0.08) */
+/* --ax-color-secondary: #009688 */
+/* --ax-color-success: #4CAF50 */
+/* --ax-color-warning: #FF9800 */
+/* --ax-color-error: #d32f2f */
+/* --ax-color-info: #2196F3 */
+/* --ax-color-text: #333 */
+/* --ax-color-text-secondary: #666 */
+/* --ax-color-border: #c4c4c4 */
+/* --ax-color-bg: #fff */
+/* --ax-font-family: Roboto, Arial, sans-serif */
+/* --ax-border-radius: 4px */
+
+
+.ax-preview-tasks-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ax-font-family, Roboto, Arial, sans-serif);
+  box-sizing: border-box;
+
+  &__trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: default;
+  }
+
+  &__icon {
+    color: var(--ax-color-text-secondary, #666);
+  }
+
+  &__badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--ax-color-error, #d32f2f);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}

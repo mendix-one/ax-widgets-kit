@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axauthlayout.AxAuthLayout"
+  pluginWidget="true"
+  needsEntityContext="false"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxAuth Layout</name>
+  <description>Authentication layout with gradient background, left branding panel, and right content area</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Content">
+        <property key="content" type="widgets" required="false">
+          <caption>Form content</caption>
+          <description>Widgets to display in the right panel (e.g. sign-in form)</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Branding">
+        <property key="tagline" type="textTemplate" required="false">
+          <caption>Tagline</caption>
+          <description>Heading text displayed on the left panel</description>
+        </property>
+        <property key="brandDescription" type="textTemplate" required="false">
+          <caption>Description</caption>
+          <description>Description text below the tagline</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Theme">
+        <property key="themeTokens" type="string" required="false">
+          <caption>Theme tokens (JSON)</caption>
+          <description>JSON string with MUI theme overrides (palette, typography, shape, etc.)</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Background">
+        <property key="showBackground" type="boolean" defaultValue="true">
+          <caption>Show animated background</caption>
+          <description>Display the animated SVG background</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+  </properties>
+</widget>

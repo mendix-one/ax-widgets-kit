@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axusermenu.AxUserMenu"
+  pluginWidget="true"
+  needsEntityContext="false"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxUser Menu</name>
+  <description>User menu widget with avatar, display mode toggle, and actions</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="User">
+        <property key="userName" type="textTemplate" required="false">
+          <caption>User name</caption>
+          <description>Display name of the current user</description>
+        </property>
+        <property key="userEmail" type="textTemplate" required="false">
+          <caption>User email</caption>
+          <description>Email of the current user</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onSignOut" type="action" required="false">
+        <caption>On sign out</caption>
+        <description>Action when user clicks sign out</description>
+      </property>
+      <property key="onProfile" type="action" required="false">
+        <caption>On profile</caption>
+        <description>Action when user clicks profile</description>
+      </property>
+      <property key="onSettings" type="action" required="false">
+        <caption>On settings</caption>
+        <description>Action when user clicks settings</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+    </propertyGroup>
+  </properties>
+</widget>

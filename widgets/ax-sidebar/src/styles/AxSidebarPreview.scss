@@ -1,0 +1,79 @@
+/*
+  AxSidebar Studio Pro preview styles
+  Prefixed with .ax-preview-sidebar
+*/
+
+/* Ax Design Tokens — override via Atlas UI or custom CSS */
+/* --ax-color-primary: #3F51B5 */
+/* --ax-color-primary-light: rgba(63, 81, 181, 0.08) */
+/* --ax-color-secondary: #009688 */
+/* --ax-color-success: #4CAF50 */
+/* --ax-color-warning: #FF9800 */
+/* --ax-color-error: #d32f2f */
+/* --ax-color-info: #2196F3 */
+/* --ax-color-text: #333 */
+/* --ax-color-text-secondary: #666 */
+/* --ax-color-border: #c4c4c4 */
+/* --ax-color-bg: #fff */
+/* --ax-font-family: Roboto, Arial, sans-serif */
+/* --ax-border-radius: 4px */
+
+
+.ax-preview-sidebar {
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  color: var(--ax-color-text, #333);
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── Nav list ────────────────────────────── */
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0;
+  }
+
+  /* ── Nav item ────────────────────────────── */
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--ax-color-text, #333);
+    font-size: 13px;
+    cursor: default;
+
+    &--active {
+      color: var(--ax-color-primary, #3F51B5);
+      background: rgba(63, 81, 181, 0.08);
+    }
+  }
+
+  /* ── Icon ─────────────────────────────────── */
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    font-size: 14px;
+    color: var(--ax-color-text-secondary, #666);
+    text-align: center;
+
+    .ax-preview-sidebar__item--active & {
+      color: var(--ax-color-primary, #3F51B5);
+    }
+  }
+
+  /* ── Label ────────────────────────────────── */
+  &__label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

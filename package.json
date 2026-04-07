@@ -1,0 +1,89 @@
+{
+  "name": "ax-widgets-kit",
+  "private": true,
+  "scripts": {
+    "lint": "turbo run lint",
+    "build": "turbo run build",
+    "format": "turbo run format",
+    "check-types": "turbo run check-types",
+    "build:shared": "pnpm --filter @ax/shared run build",
+    "build:agent-chat": "pnpm --filter @ax/agent-chat run build",
+    "build:auth-layout": "pnpm --filter @ax/auth-layout run build",
+    "build:button": "pnpm --filter @ax/button run build",
+    "build:button-group": "pnpm --filter @ax/button-group run build",
+    "build:checkbox": "pnpm --filter @ax/checkbox run build",
+    "build:logo": "pnpm --filter @ax/logo run build",
+    "build:notify-menu": "pnpm --filter @ax/notify-menu run build",
+    "build:radio-group": "pnpm --filter @ax/radio-group run build",
+    "build:resetpsw-form": "pnpm --filter @ax/resetpsw-form run build",
+    "build:select": "pnpm --filter @ax/select run build",
+    "build:setpsw-form": "pnpm --filter @ax/setpsw-form run build",
+    "build:sidebar": "pnpm --filter @ax/sidebar run build",
+    "build:signin-form": "pnpm --filter @ax/signin-form run build",
+    "build:signup-form": "pnpm --filter @ax/signup-form run build",
+    "build:slider": "pnpm --filter @ax/slider run build",
+    "build:switch": "pnpm --filter @ax/switch run build",
+    "build:tasks-menu": "pnpm --filter @ax/tasks-menu run build",
+    "build:text-field": "pnpm --filter @ax/text-field run build",
+    "build:toggle-button": "pnpm --filter @ax/toggle-button run build",
+    "build:user-menu": "pnpm --filter @ax/user-menu run build",
+    "build:web-app": "pnpm --filter @ax/web-app run build",
+    "format:shared": "pnpm --filter @ax/shared run format",
+    "format:agent-chat": "pnpm --filter @ax/agent-chat run format",
+    "format:auth-layout": "pnpm --filter @ax/auth-layout run format",
+    "format:button": "pnpm --filter @ax/button run format",
+    "format:button-group": "pnpm --filter @ax/button-group run format",
+    "format:checkbox": "pnpm --filter @ax/checkbox run format",
+    "format:logo": "pnpm --filter @ax/logo run format",
+    "format:notify-menu": "pnpm --filter @ax/notify-menu run format",
+    "format:radio-group": "pnpm --filter @ax/radio-group run format",
+    "format:resetpsw-form": "pnpm --filter @ax/resetpsw-form run format",
+    "format:select": "pnpm --filter @ax/select run format",
+    "format:setpsw-form": "pnpm --filter @ax/setpsw-form run format",
+    "format:sidebar": "pnpm --filter @ax/sidebar run format",
+    "format:signin-form": "pnpm --filter @ax/signin-form run format",
+    "format:signup-form": "pnpm --filter @ax/signup-form run format",
+    "format:slider": "pnpm --filter @ax/slider run format",
+    "format:switch": "pnpm --filter @ax/switch run format",
+    "format:tasks-menu": "pnpm --filter @ax/tasks-menu run format",
+    "format:text-field": "pnpm --filter @ax/text-field run format",
+    "format:toggle-button": "pnpm --filter @ax/toggle-button run format",
+    "format:user-menu": "pnpm --filter @ax/user-menu run format",
+    "format:web-app": "pnpm --filter @ax/web-app run format",
+    "format:simulation": "pnpm --filter @ax/simulation run format",
+    "format:react-app": "pnpm --filter @ax/react-app run format",
+    "vite": "pnpm --filter @ax/simulation run vite",
+    "app": "pnpm --filter @ax/react-app run app"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4",
+    "turbo": "^2.9.4",
+    "typescript": "^6.0.2"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10.33.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": ">=19.2.0",
+        "react-dom": ">=19.2.0"
+      },
+      "ignoreMissing": [
+        "react-native"
+      ]
+    },
+    "overrides": {
+      "react": ">=19.2.0",
+      "react-dom": ">=19.2.0",
+      "typescript": ">=6.0.2"
+    },
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "core-js",
+      "es5-ext"
+    ]
+  }
+}

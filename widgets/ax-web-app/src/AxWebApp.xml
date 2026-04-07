@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axwebapp.AxWebApp"
+  pluginWidget="true"
+  needsEntityContext="false"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxWeb App</name>
+  <description>Web application layout with header, sidebar, agent panel, and content area</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Header">
+        <property key="logo" type="widgets" required="false">
+          <caption>Logo</caption>
+          <description>Widget to display as the logo in the header</description>
+        </property>
+        <property key="tasksMenu" type="widgets" required="false">
+          <caption>Tasks menu</caption>
+          <description>Widget for the tasks menu in the header</description>
+        </property>
+        <property key="notifyMenu" type="widgets" required="false">
+          <caption>Notifications menu</caption>
+          <description>Widget for the notifications menu in the header</description>
+        </property>
+        <property key="userMenu" type="widgets" required="false">
+          <caption>User menu</caption>
+          <description>Widget for the user menu in the header</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Navigation">
+        <property key="sidebar" type="widgets" required="false">
+          <caption>Sidebar</caption>
+          <description>Widget for the sidebar navigation panel</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Content">
+        <property key="content" type="widgets" required="false">
+          <caption>Main content</caption>
+          <description>Widgets to display in the main content area</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Theme">
+        <property key="themeTokens" type="string" required="false">
+          <caption>Theme tokens (JSON)</caption>
+          <description>JSON string with MUI theme overrides (palette, typography, shape, etc.)</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Agent">
+        <property key="agentChat" type="widgets" required="false">
+          <caption>Agent chat</caption>
+          <description>Widget for the agent chat panel</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+    </propertyGroup>
+  </properties>
+</widget>

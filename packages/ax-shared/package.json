@@ -1,0 +1,20 @@
+{
+  "name": "@ax/shared",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared utilities, types, and components for Ax widgets",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,yaml,xml}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,css,scss,json,yaml,xml}\""
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "mobx": "^6.15.0",
+    "mobx-react-lite": "^4.1.1",
+    "nanobus": "^4.5.0"
+  }
+}

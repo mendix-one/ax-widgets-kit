@@ -1,0 +1,173 @@
+/*
+  AxAgentChat Studio Pro preview styles
+  Prefixed with .ax-preview-agent-chat
+*/
+
+/* Ax Design Tokens — override via Atlas UI or custom CSS */
+/* --ax-color-primary: #3F51B5 */
+/* --ax-color-primary-light: rgba(63, 81, 181, 0.08) */
+/* --ax-color-secondary: #009688 */
+/* --ax-color-success: #4CAF50 */
+/* --ax-color-warning: #FF9800 */
+/* --ax-color-error: #d32f2f */
+/* --ax-color-info: #2196F3 */
+/* --ax-color-text: #333 */
+/* --ax-color-text-secondary: #666 */
+/* --ax-color-border: #c4c4c4 */
+/* --ax-color-bg: #fff */
+/* --ax-font-family: Roboto, Arial, sans-serif */
+/* --ax-border-radius: 4px */
+
+
+.ax-preview-agent-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 280px;
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  color: var(--ax-color-text, #333);
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* ── Header ─────────────────────────────── */
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 14px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  &__header-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ax-color-primary, #3F51B5);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  &__header-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ax-color-text, #333);
+  }
+
+  /* ── Messages ────────────────────────────── */
+  &__messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    background: #f5f5f5;
+  }
+
+  &__msg {
+    margin-bottom: 12px;
+
+    &--agent {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &--user {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }
+
+  &__msg-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    max-width: 85%;
+
+    .ax-preview-agent-chat__msg--user & {
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__msg-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--ax-color-primary, #3F51B5);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &__bubble {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    word-break: break-word;
+
+    &--agent {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      color: var(--ax-color-text, #333);
+    }
+
+    &--user {
+      background: var(--ax-color-primary, #3F51B5);
+      color: #fff;
+    }
+  }
+
+  /* ── Input ───────────────────────────────── */
+  &__input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  &__field {
+    flex: 1;
+    padding: 7px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #999;
+    background: #fff;
+  }
+
+  &__send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--ax-color-primary, #3F51B5);
+    font-size: 16px;
+    cursor: default;
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axagentchat.AxAgentChat"
+  pluginWidget="true"
+  needsEntityContext="false"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxAgent Chat</name>
+  <description>Agent chat panel widget with conversation list and messaging</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Display">
+        <property key="title" type="textTemplate" required="false">
+          <caption>Title</caption>
+          <description>Title displayed in the chat header</description>
+        </property>
+        <property key="welcomeMessage" type="textTemplate" required="false">
+          <caption>Welcome message</caption>
+          <description>Initial greeting from the agent</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onSendMessage" type="action" required="false">
+        <caption>On send message</caption>
+        <description>Action when user sends a message</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+    </propertyGroup>
+  </properties>
+</widget>

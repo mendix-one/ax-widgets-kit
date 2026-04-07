@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axsetpswform.AxSetpswForm"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxSetpsw Form</name>
+  <description>Set new password form with password and confirmation fields</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Form data">
+        <property key="passwordAttr" type="attribute" required="false">
+          <caption>Password</caption>
+          <description>Attribute to bind the new password field</description>
+          <attributeTypes>
+            <attributeType name="String" />
+          </attributeTypes>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onSubmit" type="action" required="false">
+        <caption>On submit</caption>
+        <description>Action to execute when the form is submitted</description>
+      </property>
+      <property key="onNavigateSignIn" type="action" required="false">
+        <caption>On navigate to Sign In</caption>
+        <description>Action when user clicks Back to Sign In</description>
+      </property>
+    </propertyGroup>
+  </properties>
+</widget>

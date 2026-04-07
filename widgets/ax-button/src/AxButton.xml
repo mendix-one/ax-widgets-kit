@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axbutton.AxButton"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxButton</name>
+  <description>Button with MUI styling and configurable variant, color, and size</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Label">
+        <property key="label" type="textTemplate" required="false">
+          <caption>Label</caption>
+          <description>Button text</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Appearance">
+        <property key="variant" type="enumeration" defaultValue="contained">
+          <caption>Variant</caption>
+          <description>Visual variant of the button</description>
+          <enumerationValues>
+            <enumerationValue key="contained">Contained</enumerationValue>
+            <enumerationValue key="outlined">Outlined</enumerationValue>
+            <enumerationValue key="text">Text</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="color" type="enumeration" defaultValue="primary">
+          <caption>Color</caption>
+          <description>Color theme of the button</description>
+          <enumerationValues>
+            <enumerationValue key="primary">Primary</enumerationValue>
+            <enumerationValue key="secondary">Secondary</enumerationValue>
+            <enumerationValue key="success">Success</enumerationValue>
+            <enumerationValue key="warning">Warning</enumerationValue>
+            <enumerationValue key="error">Error</enumerationValue>
+            <enumerationValue key="info">Info</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="size" type="enumeration" defaultValue="medium">
+          <caption>Size</caption>
+          <description>Size of the button</description>
+          <enumerationValues>
+            <enumerationValue key="small">Small</enumerationValue>
+            <enumerationValue key="medium">Medium</enumerationValue>
+            <enumerationValue key="large">Large</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="disabled" type="boolean" defaultValue="false">
+          <caption>Disabled</caption>
+          <description>Whether the button is disabled</description>
+        </property>
+        <property key="fullWidth" type="boolean" defaultValue="false">
+          <caption>Full width</caption>
+          <description>Whether the button takes full container width</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onClick" type="action" required="false">
+        <caption>On click</caption>
+        <description>Action to execute when the button is clicked</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+      <systemProperty key="Editability" />
+    </propertyGroup>
+  </properties>
+</widget>

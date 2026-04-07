@@ -1,0 +1,160 @@
+/*
+  AxSigninForm Studio Pro preview styles
+  Prefix: .ax-preview-signin
+*/
+
+/* Ax Design Tokens — override via Atlas UI or custom CSS */
+/* --ax-color-primary: #3F51B5 */
+/* --ax-color-primary-light: rgba(63, 81, 181, 0.08) */
+/* --ax-color-secondary: #009688 */
+/* --ax-color-success: #4CAF50 */
+/* --ax-color-warning: #FF9800 */
+/* --ax-color-error: #d32f2f */
+/* --ax-color-info: #2196F3 */
+/* --ax-color-text: #333 */
+/* --ax-color-text-secondary: #666 */
+/* --ax-color-border: #c4c4c4 */
+/* --ax-color-bg: #fff */
+/* --ax-font-family: Roboto, Arial, sans-serif */
+/* --ax-border-radius: 4px */
+
+
+.ax-preview-signin {
+  font-family: var(--ax-font-family, Roboto, Arial, sans-serif);
+  padding: 0;
+}
+
+.ax-preview-signin-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--ax-color-text, #333);
+  margin: 0 0 4px;
+}
+
+.ax-preview-signin-subtitle {
+  font-size: 0.8rem;
+  color: var(--ax-color-text-secondary, #666);
+  margin: 0 0 20px;
+}
+
+/* ── SSO ─────────────────────────────────── */
+.ax-preview-signin-sso {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ax-preview-signin-sso-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 13px;
+  color: var(--ax-color-text, #333);
+  cursor: default;
+}
+
+.ax-preview-signin-sso-icon {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ax-color-primary, #3F51B5);
+}
+
+.ax-preview-signin-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: #999;
+  font-size: 11px;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+  }
+}
+
+/* ── Fields ──────────────────────────────── */
+.ax-preview-signin-field {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--ax-color-text-secondary, #666);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+}
+
+.ax-preview-signin-field-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--ax-color-border, #c4c4c4);
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  color: #999;
+  background: #fff;
+}
+
+.ax-preview-signin-password-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ax-preview-signin-eye {
+  color: #999;
+  font-size: 16px;
+  cursor: default;
+}
+
+/* ── Forgot link ─────────────────────────── */
+.ax-preview-signin-forgot {
+  text-align: right;
+  margin-bottom: 16px;
+}
+
+/* ── Submit ──────────────────────────────── */
+.ax-preview-signin-submit {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: var(--ax-color-primary, #1976d2);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+/* ── Link ────────────────────────────────── */
+.ax-preview-signin-link {
+  color: var(--ax-color-primary, #1976d2);
+  font-size: 13px;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: default;
+}
+
+/* ── Footer ──────────────────────────────── */
+.ax-preview-signin-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ax-color-text-secondary, #666);
+  margin: 0;
+}

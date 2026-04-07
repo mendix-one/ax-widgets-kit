@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axresetpswform.AxResetpswForm"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxResetpsw Form</name>
+  <description>Reset password form with email input and success state</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Form data">
+        <property key="emailAttr" type="attribute" required="false">
+          <caption>Email</caption>
+          <description>Attribute to bind the email field</description>
+          <attributeTypes>
+            <attributeType name="String" />
+          </attributeTypes>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onSubmit" type="action" required="false">
+        <caption>On submit</caption>
+        <description>Action to execute when the form is submitted</description>
+      </property>
+      <property key="onNavigateSignIn" type="action" required="false">
+        <caption>On navigate to Sign In</caption>
+        <description>Action when user clicks Back to Sign In</description>
+      </property>
+    </propertyGroup>
+  </properties>
+</widget>

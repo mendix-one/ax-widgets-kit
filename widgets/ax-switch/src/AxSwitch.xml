@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axswitch.AxSwitch"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxSwitch</name>
+  <description>Switch toggle widget with MUI Switch</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Data">
+        <property key="checkedAttr" type="attribute" required="false">
+          <caption>Checked</caption>
+          <description>Attribute to bind the switch checked state</description>
+          <attributeTypes>
+            <attributeType name="Boolean" />
+          </attributeTypes>
+        </property>
+        <property key="label" type="textTemplate" required="false">
+          <caption>Label</caption>
+          <description>Label displayed next to the switch</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Appearance">
+        <property key="color" type="enumeration" defaultValue="primary">
+          <caption>Color</caption>
+          <description>Switch color theme</description>
+          <enumerationValues>
+            <enumerationValue key="primary">Primary</enumerationValue>
+            <enumerationValue key="secondary">Secondary</enumerationValue>
+            <enumerationValue key="success">Success</enumerationValue>
+            <enumerationValue key="warning">Warning</enumerationValue>
+            <enumerationValue key="error">Error</enumerationValue>
+            <enumerationValue key="info">Info</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="size" type="enumeration" defaultValue="medium">
+          <caption>Size</caption>
+          <description>Switch size</description>
+          <enumerationValues>
+            <enumerationValue key="small">Small</enumerationValue>
+            <enumerationValue key="medium">Medium</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="labelPlacement" type="enumeration" defaultValue="end">
+          <caption>Label placement</caption>
+          <description>Position of the label relative to the switch</description>
+          <enumerationValues>
+            <enumerationValue key="end">End</enumerationValue>
+            <enumerationValue key="start">Start</enumerationValue>
+            <enumerationValue key="top">Top</enumerationValue>
+            <enumerationValue key="bottom">Bottom</enumerationValue>
+          </enumerationValues>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Configuration">
+        <property key="disabled" type="boolean" defaultValue="false">
+          <caption>Disabled</caption>
+          <description>Disable the switch</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onChange" type="action" required="false">
+        <caption>On change</caption>
+        <description>Action to execute when the switch is toggled</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+      <systemProperty key="Editability" />
+    </propertyGroup>
+  </properties>
+</widget>

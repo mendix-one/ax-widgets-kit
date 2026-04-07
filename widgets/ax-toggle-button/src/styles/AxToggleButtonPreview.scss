@@ -1,0 +1,73 @@
+/*
+  AxToggleButton widget preview styles
+  Preview styles for Studio Pro design mode.
+*/
+
+/* Ax Design Tokens — override via Atlas UI or custom CSS */
+/* --ax-color-primary: #3F51B5 */
+/* --ax-color-primary-light: rgba(63, 81, 181, 0.08) */
+/* --ax-color-secondary: #009688 */
+/* --ax-color-success: #4CAF50 */
+/* --ax-color-warning: #FF9800 */
+/* --ax-color-error: #d32f2f */
+/* --ax-color-info: #2196F3 */
+/* --ax-color-text: #333 */
+/* --ax-color-text-secondary: #666 */
+/* --ax-color-border: #c4c4c4 */
+/* --ax-color-bg: #fff */
+/* --ax-font-family: Roboto, Arial, sans-serif */
+/* --ax-border-radius: 4px */
+
+
+.ax-preview-toggle {
+  display: inline-flex;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--full-width {
+    display: flex;
+    width: 100%;
+
+    .ax-preview-toggle__button {
+      flex: 1;
+      text-align: center;
+    }
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &__button {
+    border: 1px solid var(--ax-color-border, #c4c4c4);
+    cursor: default;
+    white-space: nowrap;
+    line-height: 1.4;
+    box-sizing: border-box;
+    font-weight: 500;
+    transition: none;
+  }
+
+  // Collapse double borders — horizontal
+  &--horizontal &__button + &__button {
+    margin-left: -1px;
+  }
+
+  // Collapse double borders — vertical
+  &--vertical &__button + &__button {
+    margin-top: -1px;
+  }
+
+  &__button--selected {
+    z-index: 1;
+    position: relative;
+  }
+}

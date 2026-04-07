@@ -1,0 +1,37 @@
+.ax-preview-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &__box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    border: 2px solid;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  &__check {
+    display: block;
+  }
+
+  &__label {
+    font-size: 14px;
+    color: var(--ax-color-text, #333);
+    line-height: 1.4;
+    user-select: none;
+  }
+
+  &--small &__label {
+    font-size: 13px;
+  }
+}

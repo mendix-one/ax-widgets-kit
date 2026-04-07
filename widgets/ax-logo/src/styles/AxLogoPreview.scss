@@ -1,0 +1,73 @@
+/*
+  AxLogo Studio Pro preview styles
+  Prefixed with .ax-preview-logo
+*/
+
+/* Ax Design Tokens — override via Atlas UI or custom CSS */
+/* --ax-color-primary: #3F51B5 */
+/* --ax-color-primary-light: rgba(63, 81, 181, 0.08) */
+/* --ax-color-secondary: #009688 */
+/* --ax-color-success: #4CAF50 */
+/* --ax-color-warning: #FF9800 */
+/* --ax-color-error: #d32f2f */
+/* --ax-color-info: #2196F3 */
+/* --ax-color-text: #333 */
+/* --ax-color-text-secondary: #666 */
+/* --ax-color-border: #c4c4c4 */
+/* --ax-color-bg: #fff */
+/* --ax-font-family: Roboto, Arial, sans-serif */
+/* --ax-border-radius: 4px */
+
+
+.ax-preview-logo {
+  display: inline-flex;
+  align-items: center;
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+
+  /* ── Image variant ───────────────────────── */
+  &--image {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__img-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+    border: 1px dashed #e0e0e0;
+    border-radius: 3px;
+    background: #f5f5f5;
+    overflow: hidden;
+  }
+
+  &__img-icon {
+    font-size: 14px;
+    color: var(--ax-color-text-secondary, #666);
+    flex-shrink: 0;
+  }
+
+  &__img-url {
+    font-size: 10px;
+    color: var(--ax-color-text-secondary, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+  }
+
+  /* ── Text variant ────────────────────────── */
+  &--text {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__label {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ax-color-primary, #3F51B5);
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+}

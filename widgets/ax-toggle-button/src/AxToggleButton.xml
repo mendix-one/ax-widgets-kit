@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axtogglebutton.AxToggleButton"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxToggle Button</name>
+  <description>Toggle button group widget with MUI ToggleButtonGroup</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Data">
+        <property key="valueAttr" type="attribute" required="false">
+          <caption>Value</caption>
+          <description>Attribute to bind the selected value</description>
+          <attributeTypes>
+            <attributeType name="String" />
+          </attributeTypes>
+        </property>
+        <property key="options" type="object" isList="true">
+          <caption>Options</caption>
+          <description>List of toggle button options</description>
+          <properties>
+            <property key="optValue" type="string">
+              <caption>Value</caption>
+              <description>Option value</description>
+            </property>
+            <property key="optLabel" type="textTemplate" required="false">
+              <caption>Label</caption>
+              <description>Option display label</description>
+            </property>
+          </properties>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Configuration">
+        <property key="exclusive" type="boolean" defaultValue="true">
+          <caption>Exclusive</caption>
+          <description>Only allow one option to be selected at a time</description>
+        </property>
+        <property key="disabled" type="boolean" defaultValue="false">
+          <caption>Disabled</caption>
+          <description>Disable all toggle buttons</description>
+        </property>
+        <property key="fullWidth" type="boolean" defaultValue="false">
+          <caption>Full width</caption>
+          <description>Stretch buttons to fill the container</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Appearance">
+        <property key="color" type="enumeration" defaultValue="primary">
+          <caption>Color</caption>
+          <description>Toggle button color theme</description>
+          <enumerationValues>
+            <enumerationValue key="primary">Primary</enumerationValue>
+            <enumerationValue key="secondary">Secondary</enumerationValue>
+            <enumerationValue key="success">Success</enumerationValue>
+            <enumerationValue key="warning">Warning</enumerationValue>
+            <enumerationValue key="error">Error</enumerationValue>
+            <enumerationValue key="info">Info</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="size" type="enumeration" defaultValue="medium">
+          <caption>Size</caption>
+          <description>Toggle button size</description>
+          <enumerationValues>
+            <enumerationValue key="small">Small</enumerationValue>
+            <enumerationValue key="medium">Medium</enumerationValue>
+            <enumerationValue key="large">Large</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="orientation" type="enumeration" defaultValue="horizontal">
+          <caption>Orientation</caption>
+          <description>Layout direction of the toggle button group</description>
+          <enumerationValues>
+            <enumerationValue key="horizontal">Horizontal</enumerationValue>
+            <enumerationValue key="vertical">Vertical</enumerationValue>
+          </enumerationValues>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onChange" type="action" required="false">
+        <caption>On change</caption>
+        <description>Action to execute when the selected value changes</description>
+      </property>
+    </propertyGroup>
+  </properties>
+</widget>

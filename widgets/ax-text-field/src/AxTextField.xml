@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axtextfield.AxTextField"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxText Field</name>
+  <description>Text field with MUI styling and password visibility toggle</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Data">
+        <property key="valueAttr" type="attribute" required="false">
+          <caption>Value</caption>
+          <description>Attribute to bind the text field value</description>
+          <attributeTypes>
+            <attributeType name="String" />
+          </attributeTypes>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Label &amp; placeholder">
+        <property key="label" type="textTemplate" required="false">
+          <caption>Label</caption>
+          <description>Field label text</description>
+        </property>
+        <property key="placeholder" type="textTemplate" required="false">
+          <caption>Placeholder</caption>
+          <description>Placeholder text when empty</description>
+        </property>
+        <property key="helperText" type="textTemplate" required="false">
+          <caption>Helper text</caption>
+          <description>Helper text displayed below the field</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Appearance">
+        <property key="variant" type="enumeration" defaultValue="outlined">
+          <caption>Variant</caption>
+          <description>Visual variant of the text field</description>
+          <enumerationValues>
+            <enumerationValue key="outlined">Outlined</enumerationValue>
+            <enumerationValue key="filled">Filled</enumerationValue>
+            <enumerationValue key="standard">Standard</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="size" type="enumeration" defaultValue="small">
+          <caption>Size</caption>
+          <description>Size of the text field</description>
+          <enumerationValues>
+            <enumerationValue key="small">Small</enumerationValue>
+            <enumerationValue key="medium">Medium</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="fullWidth" type="boolean" defaultValue="true">
+          <caption>Full width</caption>
+          <description>Whether the field takes full container width</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Input">
+        <property key="inputType" type="enumeration" defaultValue="text">
+          <caption>Input type</caption>
+          <description>HTML input type</description>
+          <enumerationValues>
+            <enumerationValue key="text">Text</enumerationValue>
+            <enumerationValue key="email">Email</enumerationValue>
+            <enumerationValue key="password">Password</enumerationValue>
+            <enumerationValue key="number">Number</enumerationValue>
+            <enumerationValue key="tel">Tel</enumerationValue>
+            <enumerationValue key="url">URL</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="multiline" type="boolean" defaultValue="false">
+          <caption>Multiline</caption>
+          <description>Enable multiline text area mode</description>
+        </property>
+        <property key="rows" type="integer" defaultValue="1">
+          <caption>Rows</caption>
+          <description>Minimum number of rows for multiline</description>
+        </property>
+        <property key="maxRows" type="integer" defaultValue="4">
+          <caption>Max rows</caption>
+          <description>Maximum number of rows for multiline</description>
+        </property>
+        <property key="required" type="boolean" defaultValue="false">
+          <caption>Required</caption>
+          <description>Whether the field is required</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onChange" type="action" required="false">
+        <caption>On change</caption>
+        <description>Action to execute when the value changes</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+      <systemProperty key="Editability" />
+    </propertyGroup>
+  </properties>
+</widget>

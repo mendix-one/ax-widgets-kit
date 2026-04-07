@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axcheckbox.AxCheckbox"
+  pluginWidget="true"
+  needsEntityContext="true"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxCheckbox</name>
+  <description>Checkbox widget with MUI styling</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Data">
+        <property key="checkedAttr" type="attribute" required="false">
+          <caption>Checked</caption>
+          <description>Boolean attribute to bind the checked state</description>
+          <attributeTypes>
+            <attributeType name="Boolean" />
+          </attributeTypes>
+        </property>
+        <property key="label" type="textTemplate" required="false">
+          <caption>Label</caption>
+          <description>Label text for the checkbox</description>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Appearance">
+        <property key="color" type="enumeration" defaultValue="primary">
+          <caption>Color</caption>
+          <description>Checkbox color</description>
+          <enumerationValues>
+            <enumerationValue key="primary">Primary</enumerationValue>
+            <enumerationValue key="secondary">Secondary</enumerationValue>
+            <enumerationValue key="success">Success</enumerationValue>
+            <enumerationValue key="warning">Warning</enumerationValue>
+            <enumerationValue key="error">Error</enumerationValue>
+            <enumerationValue key="info">Info</enumerationValue>
+            <enumerationValue key="default">Default</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="size" type="enumeration" defaultValue="medium">
+          <caption>Size</caption>
+          <description>Checkbox size</description>
+          <enumerationValues>
+            <enumerationValue key="small">Small</enumerationValue>
+            <enumerationValue key="medium">Medium</enumerationValue>
+          </enumerationValues>
+        </property>
+        <property key="disabled" type="boolean" defaultValue="false">
+          <caption>Disabled</caption>
+          <description>Disable the checkbox</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onChange" type="action" required="false">
+        <caption>On change</caption>
+        <description>Action to execute when the checkbox value changes</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+      <systemProperty key="Editability" />
+    </propertyGroup>
+  </properties>
+</widget>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+  id="one.mendix.axnotifymenu.AxNotifyMenu"
+  pluginWidget="true"
+  needsEntityContext="false"
+  offlineCapable="true"
+  supportedPlatform="Web"
+  xmlns="http://www.mendix.com/widget/1.0/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+  <name>AxNotify Menu</name>
+  <description>Notifications menu widget with badge count and notification list</description>
+  <icon />
+  <properties>
+    <propertyGroup caption="General">
+      <propertyGroup caption="Display">
+        <property key="title" type="textTemplate" required="false">
+          <caption>Title</caption>
+          <description>Header title for the notifications dropdown</description>
+        </property>
+      </propertyGroup>
+    </propertyGroup>
+    <propertyGroup caption="Events">
+      <property key="onNotifyClick" type="action" required="false">
+        <caption>On notification click</caption>
+        <description>Action when a notification item is clicked</description>
+      </property>
+    </propertyGroup>
+    <propertyGroup caption="Common">
+      <systemProperty key="Name" />
+      <systemProperty key="TabIndex" />
+      <systemProperty key="Visibility" />
+    </propertyGroup>
+  </properties>
+</widget>
