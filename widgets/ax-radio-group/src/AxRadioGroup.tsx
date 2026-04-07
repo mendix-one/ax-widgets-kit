@@ -1,24 +1,38 @@
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { RadioGroupProvider } from './main/context'
+import { RadioGroupProvider, useRadioGroupStore } from './main/context'
 import { RadioGroup } from './main/RadioGroup'
 import { RadioGroupStore } from './main/store'
 
 import type { AxRadioGroupContainerProps } from '../typings/AxRadioGroupProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxRadioGroup(props: AxRadioGroupContainerProps): ReactElement {
-  const [store] = useState(() => new RadioGroupStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <RadioGroupProvider createStore={() => new RadioGroupStore()}>
+          <AxRadioGroupSync {...props} />
+        </RadioGroupProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxRadioGroupSync(props: AxRadioGroupContainerProps): ReactElement {
+  const store = useRadioGroupStore()
 
   // Sync Mendix EditableValue props to store
   useEffect(() => {
     store.syncValue(props.valueAttr?.value ?? '')
-  }, [props.valueAttr?.value])
+  }, [store, props.valueAttr?.value])
 
   useEffect(() => {
     store.setLabel(props.label?.value ?? '')
-  }, [props.label?.value])
+  }, [store, props.label?.value])
 
   // Map Mendix object list to simple {value, label} array
   useEffect(() => {
@@ -27,28 +41,28 @@ export function AxRadioGroup(props: AxRadioGroupContainerProps): ReactElement {
       label: opt.optLabel?.value ?? opt.optValue,
     }))
     store.setOptions(mapped)
-  }, [props.options])
+  }, [store, props.options])
 
   useEffect(() => {
     store.setRow(props.row)
-  }, [props.row])
+  }, [store, props.row])
 
   useEffect(() => {
     store.setColor(props.color)
-  }, [props.color])
+  }, [store, props.color])
 
   useEffect(() => {
     store.setSize(props.size)
-  }, [props.size])
+  }, [store, props.size])
 
   useEffect(() => {
     store.setDisabled(props.disabled)
-  }, [props.disabled])
+  }, [store, props.disabled])
 
   // Sync callbacks
   useEffect(() => {
-    store.onValueChange = (v: string) => props.valueAttr?.setValue(v)
-    store.onChangeAction = props.onChange?.canExecute ? () => props.onChange!.execute() : undefined
+    store.setOnValueChange((v: string) => props.valueAttr?.setValue(v))
+    store.setOnChangeAction(props.onChange?.canExecute ? () => props.onChange!.execute() : undefined)
   })
 
   // Subscribe to event bus (broadcast + private topic)
@@ -58,13 +72,5 @@ export function AxRadioGroup(props: AxRadioGroupContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <RadioGroupProvider store={store}>
-          <RadioGroup />
-        </RadioGroupProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <RadioGroup />
 }

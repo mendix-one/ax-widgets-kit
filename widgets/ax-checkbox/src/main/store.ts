@@ -55,4 +55,8 @@ export class CheckboxStore {
   setLoading(v: boolean) {
     this.loading = v
   }
+
+  setOnCheckedChange(fn: ((v: boolean) => void) | undefined) { this.onCheckedChange = fn }
+
+  setOnChangeAction(fn: (() => void) | undefined) { this.onChangeAction = fn }
 }

@@ -90,4 +90,18 @@ export class SignUpFormStore {
       })
     }, 600)
   }
+
+  setOnFullNameChange(fn: ((v: string) => void) | undefined) { this.onFullNameChange = fn }
+
+  setOnEmailChange(fn: ((v: string) => void) | undefined) { this.onEmailChange = fn }
+
+  setOnPasswordChange(fn: ((v: string) => void) | undefined) { this.onPasswordChange = fn }
+
+  setOnSubmit(fn: (() => void) | undefined) { this.onSubmit = fn }
+
+  setOnNavigateSignIn(fn: (() => void) | undefined) { this.onNavigateSignIn = fn }
+
+  setOnGoogleSSO(fn: (() => void) | undefined) { this.onGoogleSSO = fn }
+
+  setOnMicrosoftSSO(fn: (() => void) | undefined) { this.onMicrosoftSSO = fn }
 }

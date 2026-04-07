@@ -1,15 +1,29 @@
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
-
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
 import { AgentChat } from './main/AgentChat'
-import { AgentChatProvider } from './main/context'
+import { AgentChatProvider, useAgentChatStore } from './main/context'
 import { AgentChatStore } from './main/store'
 
 import type { AxAgentChatContainerProps } from '../typings/AxAgentChatProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxAgentChat(props: AxAgentChatContainerProps): ReactElement {
-  const [store] = useState(() => new AgentChatStore(props.welcomeMessage?.value))
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <AgentChatProvider createStore={() => new AgentChatStore(props.welcomeMessage?.value)}>
+          <AxAgentChatSync {...props} />
+        </AgentChatProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxAgentChatSync(props: AxAgentChatContainerProps): ReactElement {
+  const store = useAgentChatStore()
 
   useEffect(() => {
     if (props.title?.value) store.setTitle(props.title.value)
@@ -26,13 +40,5 @@ export function AxAgentChat(props: AxAgentChatContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <AgentChatProvider store={store}>
-          <AgentChat />
-        </AgentChatProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <AgentChat />
 }

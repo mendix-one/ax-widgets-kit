@@ -1,12 +1,14 @@
 import { AxThemeProvider, ErrorBoundary, executeAction, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { NotifyMenuProvider } from './main/context'
+import { NotifyMenuProvider, useNotifyMenuStore } from './main/context'
 import { NotifyMenu } from './main/NotifyMenu'
 import { NotifyMenuStore } from './main/store'
 
 import type { AxNotifyMenuContainerProps } from '../typings/AxNotifyMenuProps'
+
+configure({ isolateGlobalState: true })
 
 const sampleNotifications = [
   {
@@ -52,19 +54,33 @@ const sampleNotifications = [
 ]
 
 export function AxNotifyMenu(props: AxNotifyMenuContainerProps): ReactElement {
-  const [store] = useState(() => new NotifyMenuStore())
+  return (
+    <ErrorBoundary>
+      <div className={props.class} style={{ ...props.style, display: 'inline-flex' }}>
+        <AxThemeProvider>
+          <NotifyMenuProvider createStore={() => new NotifyMenuStore()}>
+            <AxNotifyMenuSync {...props} />
+          </NotifyMenuProvider>
+        </AxThemeProvider>
+      </div>
+    </ErrorBoundary>
+  )
+}
+
+function AxNotifyMenuSync(props: AxNotifyMenuContainerProps): ReactElement {
+  const store = useNotifyMenuStore()
 
   useEffect(() => {
     store.setTitle(props.title?.value ?? 'Notifications')
-  }, [props.title?.value])
+  }, [store, props.title?.value])
 
   useEffect(() => {
     store.setItems(sampleNotifications)
-  }, [])
+  }, [store])
 
   useEffect(() => {
     store.setOnNotifyClick(() => executeAction(props.onNotifyClick))
-  }, [props.onNotifyClick?.canExecute])
+  }, [store, props.onNotifyClick?.canExecute])
 
   // Subscribe to event bus (broadcast + private topic)
   const handleEvent = useCallback((_event: AxEvent) => {
@@ -73,15 +89,5 @@ export function AxNotifyMenu(props: AxNotifyMenuContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <div className={props.class} style={{ ...props.style, display: 'inline-flex' }}>
-        <AxThemeProvider>
-          <NotifyMenuProvider store={store}>
-            <NotifyMenu />
-          </NotifyMenuProvider>
-        </AxThemeProvider>
-      </div>
-    </ErrorBoundary>
-  )
+  return <NotifyMenu />
 }

@@ -71,4 +71,8 @@ export class ToggleButtonStore {
   setLoading(v: boolean) {
     this.loading = v
   }
+
+  setOnValueChange(fn: ((v: string) => void) | undefined) { this.onValueChange = fn }
+
+  setOnChangeAction(fn: (() => void) | undefined) { this.onChangeAction = fn }
 }

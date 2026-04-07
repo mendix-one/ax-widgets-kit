@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext } from 'react'
+import { createContext, type ReactNode, useContext, useMemo } from 'react'
 
 /**
  * Creates a typed React context + Provider + useStore hook for a MobX widget store.
@@ -13,7 +13,8 @@ export function createWidgetContext<T>(displayName?: string) {
   const Context = createContext<T | null>(null)
   if (displayName) Context.displayName = displayName
 
-  function Provider({ store, children }: { store: T; children: ReactNode }) {
+  function Provider({ createStore, children }: { createStore: () => T; children: ReactNode }) {
+    const store = useMemo(createStore, [])
     return <Context value={store}>{children}</Context>
   }
 

@@ -1,24 +1,38 @@
-import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents, isLoading } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { type AxEvent, AxThemeProvider, ErrorBoundary, isLoading, useWidgetEvents } from '@ax/shared'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { SelectProvider } from './main/context'
+import { SelectProvider, useSelectStore } from './main/context'
 import { Select } from './main/Select'
 import { SelectStore } from './main/store'
 
 import type { AxSelectContainerProps } from '../typings/AxSelectProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxSelect(props: AxSelectContainerProps): ReactElement {
-  const [store] = useState(() => new SelectStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <SelectProvider createStore={() => new SelectStore()}>
+          <AxSelectSync {...props} />
+        </SelectProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxSelectSync(props: AxSelectContainerProps): ReactElement {
+  const store = useSelectStore()
 
   // Sync Mendix EditableValue props to store
   useEffect(() => {
     store.syncValue(props.valueAttr?.value ?? '')
-  }, [props.valueAttr?.value])
+  }, [store, props.valueAttr?.value])
 
   useEffect(() => {
     store.setLabel(props.label?.value ?? '')
-  }, [props.label?.value])
+  }, [store, props.label?.value])
 
   // Map Mendix object list to simple {value, label} array
   useEffect(() => {
@@ -27,43 +41,42 @@ export function AxSelect(props: AxSelectContainerProps): ReactElement {
       label: opt.optLabel?.value ?? opt.optValue,
     }))
     store.setOptions(mapped)
-  }, [props.options])
+  }, [store, props.options])
 
   useEffect(() => {
     store.setVariant(props.variant)
-  }, [props.variant])
+  }, [store, props.variant])
 
   useEffect(() => {
     store.setSize(props.size)
-  }, [props.size])
+  }, [store, props.size])
 
   useEffect(() => {
     store.setDisabled(props.disabled)
-  }, [props.disabled])
+  }, [store, props.disabled])
 
   useEffect(() => {
     store.setFullWidth(props.fullWidth)
-  }, [props.fullWidth])
+  }, [store, props.fullWidth])
 
   useEffect(() => {
     store.setHelperText(props.helperText?.value ?? '')
-  }, [props.helperText?.value])
+  }, [store, props.helperText?.value])
 
   // Sync callbacks
   useEffect(() => {
-    store.onValueChange = (v: string) => props.valueAttr?.setValue(v)
-    store.onChangeAction = props.onChange?.canExecute ? () => props.onChange!.execute() : undefined
+    store.setOnValueChange((v: string) => props.valueAttr?.setValue(v))
+    store.setOnChangeAction(props.onChange?.canExecute ? () => props.onChange!.execute() : undefined)
   })
-
 
   // Sync validation + loading state
   useEffect(() => {
     store.setValidation(props.valueAttr?.validation)
-  }, [props.valueAttr?.validation])
+  }, [store, props.valueAttr?.validation])
 
   useEffect(() => {
     store.setLoading(isLoading(props.valueAttr))
-  }, [props.valueAttr?.status])
+  }, [store, props.valueAttr?.status])
 
   // Subscribe to event bus (broadcast + private topic)
   const handleEvent = useCallback((_event: AxEvent) => {
@@ -72,13 +85,5 @@ export function AxSelect(props: AxSelectContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <SelectProvider store={store}>
-          <Select />
-        </SelectProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <Select />
 }

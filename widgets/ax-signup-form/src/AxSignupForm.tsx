@@ -1,46 +1,60 @@
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { SignUpFormProvider } from './main/context'
+import { SignUpFormProvider, useSignUpFormStore } from './main/context'
 import { SignUpForm } from './main/SignUpForm'
 import { SignUpFormStore } from './main/store'
 
 import type { AxSignupFormContainerProps } from '../typings/AxSignupFormProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxSignupForm(props: AxSignupFormContainerProps): ReactElement {
-  const [store] = useState(() => new SignUpFormStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <SignUpFormProvider createStore={() => new SignUpFormStore()}>
+          <AxSignupFormSync {...props} />
+        </SignUpFormProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxSignupFormSync(props: AxSignupFormContainerProps): ReactElement {
+  const store = useSignUpFormStore()
 
   // Sync Mendix EditableValue props to store
   useEffect(() => {
     store.syncFullName(props.fullNameAttr?.value ?? '')
-  }, [props.fullNameAttr?.value])
+  }, [store, props.fullNameAttr?.value])
 
   useEffect(() => {
     store.syncEmail(props.emailAttr?.value ?? '')
-  }, [props.emailAttr?.value])
+  }, [store, props.emailAttr?.value])
 
   useEffect(() => {
     store.syncPassword(props.passwordAttr?.value ?? '')
-  }, [props.passwordAttr?.value])
+  }, [store, props.passwordAttr?.value])
 
   useEffect(() => {
     store.setReadOnly(props.emailAttr?.readOnly ?? false)
-  }, [props.emailAttr?.readOnly])
+  }, [store, props.emailAttr?.readOnly])
 
   useEffect(() => {
     store.setShowSSO(props.showSSO)
-  }, [props.showSSO])
+  }, [store, props.showSSO])
 
   // Sync callbacks
   useEffect(() => {
-    store.onFullNameChange = (v: string) => props.fullNameAttr?.setValue(v)
-    store.onEmailChange = (v: string) => props.emailAttr?.setValue(v)
-    store.onPasswordChange = (v: string) => props.passwordAttr?.setValue(v)
-    store.onSubmit = props.onSubmit?.canExecute ? () => props.onSubmit!.execute() : undefined
-    store.onNavigateSignIn = props.onNavigateSignIn?.canExecute ? () => props.onNavigateSignIn!.execute() : undefined
-    store.onGoogleSSO = props.onGoogleSSO?.canExecute ? () => props.onGoogleSSO!.execute() : undefined
-    store.onMicrosoftSSO = props.onMicrosoftSSO?.canExecute ? () => props.onMicrosoftSSO!.execute() : undefined
+    store.setOnFullNameChange((v: string) => props.fullNameAttr?.setValue(v))
+    store.setOnEmailChange((v: string) => props.emailAttr?.setValue(v))
+    store.setOnPasswordChange((v: string) => props.passwordAttr?.setValue(v))
+    store.setOnSubmit(props.onSubmit?.canExecute ? () => props.onSubmit!.execute() : undefined)
+    store.setOnNavigateSignIn(props.onNavigateSignIn?.canExecute ? () => props.onNavigateSignIn!.execute() : undefined)
+    store.setOnGoogleSSO(props.onGoogleSSO?.canExecute ? () => props.onGoogleSSO!.execute() : undefined)
+    store.setOnMicrosoftSSO(props.onMicrosoftSSO?.canExecute ? () => props.onMicrosoftSSO!.execute() : undefined)
   })
 
   // Subscribe to event bus (broadcast + private topic)
@@ -50,13 +64,5 @@ export function AxSignupForm(props: AxSignupFormContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <SignUpFormProvider store={store}>
-          <SignUpForm />
-        </SignUpFormProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <SignUpForm />
 }

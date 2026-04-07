@@ -1,73 +1,87 @@
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { TextFieldProvider } from './main/context'
+import { TextFieldProvider, useTextFieldStore } from './main/context'
 import { TextFieldStore } from './main/store'
 import { TextField } from './main/TextField'
 
 import type { AxTextFieldContainerProps } from '../typings/AxTextFieldProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxTextField(props: AxTextFieldContainerProps): ReactElement {
-  const [store] = useState(() => new TextFieldStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <TextFieldProvider createStore={() => new TextFieldStore()}>
+          <AxTextFieldSync {...props} />
+        </TextFieldProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxTextFieldSync(props: AxTextFieldContainerProps): ReactElement {
+  const store = useTextFieldStore()
 
   // Sync Mendix EditableValue props to store
   useEffect(() => {
     store.syncValue(props.valueAttr?.value ?? '')
-  }, [props.valueAttr?.value])
+  }, [store, props.valueAttr?.value])
 
   useEffect(() => {
     store.setReadOnly(props.valueAttr?.readOnly ?? false)
-  }, [props.valueAttr?.readOnly])
+  }, [store, props.valueAttr?.readOnly])
 
   useEffect(() => {
     store.setLabel(props.label?.value ?? '')
-  }, [props.label?.value])
+  }, [store, props.label?.value])
 
   useEffect(() => {
     store.setPlaceholder(props.placeholder?.value ?? '')
-  }, [props.placeholder?.value])
+  }, [store, props.placeholder?.value])
 
   useEffect(() => {
     store.setHelperText(props.helperText?.value ?? '')
-  }, [props.helperText?.value])
+  }, [store, props.helperText?.value])
 
   useEffect(() => {
     store.setVariant(props.variant)
-  }, [props.variant])
+  }, [store, props.variant])
 
   useEffect(() => {
     store.setSize(props.size)
-  }, [props.size])
+  }, [store, props.size])
 
   useEffect(() => {
     store.setInputType(props.inputType)
-  }, [props.inputType])
+  }, [store, props.inputType])
 
   useEffect(() => {
     store.setMultiline(props.multiline)
-  }, [props.multiline])
+  }, [store, props.multiline])
 
   useEffect(() => {
     store.setRows(props.rows)
-  }, [props.rows])
+  }, [store, props.rows])
 
   useEffect(() => {
     store.setMaxRows(props.maxRows)
-  }, [props.maxRows])
+  }, [store, props.maxRows])
 
   useEffect(() => {
     store.setRequired(props.required)
-  }, [props.required])
+  }, [store, props.required])
 
   useEffect(() => {
     store.setFullWidth(props.fullWidth)
-  }, [props.fullWidth])
+  }, [store, props.fullWidth])
 
   // Sync callbacks
   useEffect(() => {
-    store.onValueChange = (v: string) => props.valueAttr?.setValue(v)
-    store.onChangeAction = props.onChange?.canExecute ? () => props.onChange!.execute() : undefined
+    store.setOnValueChange((v: string) => props.valueAttr?.setValue(v))
+    store.setOnChangeAction(props.onChange?.canExecute ? () => props.onChange!.execute() : undefined)
   })
 
   // Subscribe to event bus (broadcast + private topic)
@@ -77,13 +91,5 @@ export function AxTextField(props: AxTextFieldContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <TextFieldProvider store={store}>
-          <TextField />
-        </TextFieldProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <TextField />
 }

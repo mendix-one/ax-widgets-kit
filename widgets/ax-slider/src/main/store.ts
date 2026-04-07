@@ -76,4 +76,8 @@ export class SliderStore {
   setLoading(v: boolean) {
     this.loading = v
   }
+
+  setOnValueChange(fn: ((v: number) => void) | undefined) { this.onValueChange = fn }
+
+  setOnChangeAction(fn: (() => void) | undefined) { this.onChangeAction = fn }
 }

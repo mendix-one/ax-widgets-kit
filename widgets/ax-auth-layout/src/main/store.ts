@@ -8,4 +8,10 @@ export class AuthLayoutStore {
   constructor() {
     makeAutoObservable(this)
   }
+
+  setTagline(v: string | undefined) { this.tagline = v }
+
+  setDescription(v: string | undefined) { this.description = v }
+
+  setShowBackground(v: boolean) { this.showBackground = v }
 }

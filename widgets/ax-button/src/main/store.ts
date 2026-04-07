@@ -42,4 +42,6 @@ export class ButtonStore {
   handleClick() {
     this.onClick?.()
   }
+
+  setOnClick(fn: (() => void) | undefined) { this.onClick = fn }
 }

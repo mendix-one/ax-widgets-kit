@@ -1,20 +1,34 @@
 import { type AxEvent, AxThemeProvider, ErrorBoundary, useWidgetEvents } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { ToggleButtonProvider } from './main/context'
+import { ToggleButtonProvider, useToggleButtonStore } from './main/context'
 import { ToggleButtonStore } from './main/store'
 import { ToggleButton } from './main/ToggleButton'
 
 import type { AxToggleButtonContainerProps } from '../typings/AxToggleButtonProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxToggleButton(props: AxToggleButtonContainerProps): ReactElement {
-  const [store] = useState(() => new ToggleButtonStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <ToggleButtonProvider createStore={() => new ToggleButtonStore()}>
+          <AxToggleButtonSync {...props} />
+        </ToggleButtonProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxToggleButtonSync(props: AxToggleButtonContainerProps): ReactElement {
+  const store = useToggleButtonStore()
 
   // Sync Mendix EditableValue props to store
   useEffect(() => {
     store.syncValue(props.valueAttr?.value ?? '')
-  }, [props.valueAttr?.value])
+  }, [store, props.valueAttr?.value])
 
   useEffect(() => {
     store.setOptions(
@@ -23,36 +37,36 @@ export function AxToggleButton(props: AxToggleButtonContainerProps): ReactElemen
         label: opt.optLabel?.value ?? opt.optValue,
       })),
     )
-  }, [props.options])
+  }, [store, props.options])
 
   useEffect(() => {
     store.setExclusive(props.exclusive)
-  }, [props.exclusive])
+  }, [store, props.exclusive])
 
   useEffect(() => {
     store.setColor(props.color)
-  }, [props.color])
+  }, [store, props.color])
 
   useEffect(() => {
     store.setSize(props.size)
-  }, [props.size])
+  }, [store, props.size])
 
   useEffect(() => {
     store.setOrientation(props.orientation)
-  }, [props.orientation])
+  }, [store, props.orientation])
 
   useEffect(() => {
     store.setDisabled(props.disabled)
-  }, [props.disabled])
+  }, [store, props.disabled])
 
   useEffect(() => {
     store.setFullWidth(props.fullWidth)
-  }, [props.fullWidth])
+  }, [store, props.fullWidth])
 
   // Sync callbacks
   useEffect(() => {
-    store.onValueChange = (v: string) => props.valueAttr?.setValue(v)
-    store.onChangeAction = props.onChange?.canExecute ? () => props.onChange!.execute() : undefined
+    store.setOnValueChange((v: string) => props.valueAttr?.setValue(v))
+    store.setOnChangeAction(props.onChange?.canExecute ? () => props.onChange!.execute() : undefined)
   })
 
   // Subscribe to event bus (broadcast + private topic)
@@ -62,13 +76,5 @@ export function AxToggleButton(props: AxToggleButtonContainerProps): ReactElemen
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <ToggleButtonProvider store={store}>
-          <ToggleButton />
-        </ToggleButtonProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <ToggleButton />
 }

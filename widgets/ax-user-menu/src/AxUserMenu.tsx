@@ -1,15 +1,31 @@
 import { AxThemeProvider, ErrorBoundary, executeAction, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { UserMenuProvider } from './main/context'
+import { UserMenuProvider, useUserMenuStore } from './main/context'
 import { UserMenuStore } from './main/store'
 import { UserMenu } from './main/UserMenu'
 
 import type { AxUserMenuContainerProps } from '../typings/AxUserMenuProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxUserMenu(props: AxUserMenuContainerProps): ReactElement {
-  const [store] = useState(() => new UserMenuStore())
+  return (
+    <ErrorBoundary>
+      <div className={props.class} style={{ ...props.style, display: 'inline-flex' }}>
+        <AxThemeProvider>
+          <UserMenuProvider createStore={() => new UserMenuStore()}>
+            <AxUserMenuSync {...props} />
+          </UserMenuProvider>
+        </AxThemeProvider>
+      </div>
+    </ErrorBoundary>
+  )
+}
+
+function AxUserMenuSync(props: AxUserMenuContainerProps): ReactElement {
+  const store = useUserMenuStore()
 
   useEffect(() => {
     if (props.userName?.value !== undefined) {
@@ -42,15 +58,5 @@ export function AxUserMenu(props: AxUserMenuContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <div className={props.class} style={{ ...props.style, display: 'inline-flex' }}>
-        <AxThemeProvider>
-          <UserMenuProvider store={store}>
-            <UserMenu />
-          </UserMenuProvider>
-        </AxThemeProvider>
-      </div>
-    </ErrorBoundary>
-  )
+  return <UserMenu />
 }

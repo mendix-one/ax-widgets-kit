@@ -13,4 +13,10 @@ export class LogoStore {
   setOnClick(fn: (() => void) | undefined) {
     this.onClick = fn
   }
+
+  setSrc(v: string | undefined) { this.src = v }
+
+  setAlt(v: string | undefined) { this.alt = v }
+
+  setHeight(v: number) { this.height = v }
 }

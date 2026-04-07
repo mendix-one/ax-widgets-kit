@@ -7,23 +7,39 @@ import {
   setGlobalThemeTokens,
   useWidgetEvents,
 } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect, useMemo } from 'react'
 
-
-import { WebAppProvider } from './main/context'
+import { WebAppProvider, useWebAppStore } from './main/context'
 import { WebAppStore } from './main/store'
 import { WebAppLayout } from './main/WebAppLayout'
 
 import type { AxWebAppContainerProps } from '../typings/AxWebAppProps'
 
-export function AxWebApp(props: AxWebAppContainerProps): ReactElement {
-  const [store] = useState(() => new WebAppStore())
+configure({ isolateGlobalState: true })
 
+export function AxWebApp(props: AxWebAppContainerProps): ReactElement {
   const themeOverrides = useMemo(() => parseThemeTokens(props.themeTokens), [props.themeTokens])
 
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider overrides={themeOverrides} isLayout>
+        <WebAppProvider createStore={() => new WebAppStore()}>
+          <AxWebAppSync {...props} themeOverrides={themeOverrides} />
+        </WebAppProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxWebAppSync(
+  props: AxWebAppContainerProps & { themeOverrides: ReturnType<typeof parseThemeTokens> },
+): ReactElement {
+  const store = useWebAppStore()
+
   useEffect(() => {
-    if (themeOverrides) setGlobalThemeTokens(themeOverrides)
-  }, [themeOverrides])
+    if (props.themeOverrides) setGlobalThemeTokens(props.themeOverrides)
+  }, [props.themeOverrides])
 
   // Layout widget initializes the event bus and listens
   const handleEvent = useCallback(
@@ -37,20 +53,14 @@ export function AxWebApp(props: AxWebAppContainerProps): ReactElement {
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent, isLayout: true })
 
   return (
-    <ErrorBoundary>
-      <AxThemeProvider overrides={themeOverrides} isLayout>
-        <WebAppProvider store={store}>
-          <WebAppLayout
-            logo={props.logo}
-            tasksMenu={props.tasksMenu}
-            notifyMenu={props.notifyMenu}
-            userMenu={props.userMenu}
-            sidebar={props.sidebar}
-            content={props.content}
-            agentChat={props.agentChat}
-          />
-        </WebAppProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
+    <WebAppLayout
+      logo={props.logo}
+      tasksMenu={props.tasksMenu}
+      notifyMenu={props.notifyMenu}
+      userMenu={props.userMenu}
+      sidebar={props.sidebar}
+      content={props.content}
+      agentChat={props.agentChat}
+    />
   )
 }

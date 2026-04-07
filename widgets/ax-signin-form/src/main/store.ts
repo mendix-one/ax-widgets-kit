@@ -71,4 +71,18 @@ export class SignInFormStore {
       })
     }, 600)
   }
+
+  setOnEmailChange(fn: ((v: string) => void) | undefined) { this.onEmailChange = fn }
+
+  setOnPasswordChange(fn: ((v: string) => void) | undefined) { this.onPasswordChange = fn }
+
+  setOnSubmit(fn: (() => void) | undefined) { this.onSubmit = fn }
+
+  setOnNavigateSignUp(fn: (() => void) | undefined) { this.onNavigateSignUp = fn }
+
+  setOnNavigateResetPass(fn: (() => void) | undefined) { this.onNavigateResetPass = fn }
+
+  setOnGoogleSSO(fn: (() => void) | undefined) { this.onGoogleSSO = fn }
+
+  setOnMicrosoftSSO(fn: (() => void) | undefined) { this.onMicrosoftSSO = fn }
 }

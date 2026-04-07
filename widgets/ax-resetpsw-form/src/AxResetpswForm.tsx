@@ -1,30 +1,44 @@
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { ResetPassFormProvider } from './main/context'
+import { ResetPassFormProvider, useResetPassFormStore } from './main/context'
 import { ResetPassForm } from './main/ResetPassForm'
 import { ResetPassFormStore } from './main/store'
 
 import type { AxResetpswFormContainerProps } from '../typings/AxResetpswFormProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxResetpswForm(props: AxResetpswFormContainerProps): ReactElement {
-  const [store] = useState(() => new ResetPassFormStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <ResetPassFormProvider createStore={() => new ResetPassFormStore()}>
+          <AxResetpswFormSync {...props} />
+        </ResetPassFormProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxResetpswFormSync(props: AxResetpswFormContainerProps): ReactElement {
+  const store = useResetPassFormStore()
 
   // Sync Mendix EditableValue props to store
   useEffect(() => {
     store.syncEmail(props.emailAttr?.value ?? '')
-  }, [props.emailAttr?.value])
+  }, [store, props.emailAttr?.value])
 
   useEffect(() => {
     store.setReadOnly(props.emailAttr?.readOnly ?? false)
-  }, [props.emailAttr?.readOnly])
+  }, [store, props.emailAttr?.readOnly])
 
   // Sync callbacks
   useEffect(() => {
-    store.onEmailChange = (v: string) => props.emailAttr?.setValue(v)
-    store.onSubmit = props.onSubmit?.canExecute ? () => props.onSubmit!.execute() : undefined
-    store.onNavigateSignIn = props.onNavigateSignIn?.canExecute ? () => props.onNavigateSignIn!.execute() : undefined
+    store.setOnEmailChange((v: string) => props.emailAttr?.setValue(v))
+    store.setOnSubmit(props.onSubmit?.canExecute ? () => props.onSubmit!.execute() : undefined)
+    store.setOnNavigateSignIn(props.onNavigateSignIn?.canExecute ? () => props.onNavigateSignIn!.execute() : undefined)
   })
 
   // Subscribe to event bus (broadcast + private topic)
@@ -34,13 +48,5 @@ export function AxResetpswForm(props: AxResetpswFormContainerProps): ReactElemen
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <ResetPassFormProvider store={store}>
-          <ResetPassForm />
-        </ResetPassFormProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <ResetPassForm />
 }

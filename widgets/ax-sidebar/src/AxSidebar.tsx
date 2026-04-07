@@ -1,13 +1,15 @@
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback } from 'react'
 
-
-import { SidebarProvider } from './main/context'
+import { SidebarProvider, useSidebarStore } from './main/context'
 import { Sidebar } from './main/Sidebar'
 import { SidebarIcon } from './main/SidebarIcon'
 import { SidebarStore } from './main/store'
 
 import type { AxSidebarContainerProps } from '../typings/AxSidebarProps'
+
+configure({ isolateGlobalState: true })
 
 const defaultItems = [
   { id: 'dashboard', label: 'Dashboard', icon: <SidebarIcon type="dashboard" /> },
@@ -18,12 +20,26 @@ const defaultItems = [
 ]
 
 export function AxSidebar(props: AxSidebarContainerProps): ReactElement {
-  const [store] = useState(() => {
-    const s = new SidebarStore()
-    s.setItems(defaultItems)
-    s.setActiveId(defaultItems[0]?.id ?? '')
-    return s
-  })
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <SidebarProvider
+          createStore={() => {
+            const s = new SidebarStore()
+            s.setItems(defaultItems)
+            s.setActiveId(defaultItems[0]?.id ?? '')
+            return s
+          }}
+        >
+          <AxSidebarSync {...props} />
+        </SidebarProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxSidebarSync(props: AxSidebarContainerProps): ReactElement {
+  const store = useSidebarStore()
 
   // Subscribe to event bus (broadcast + private topic)
   const handleEvent = useCallback((_event: AxEvent) => {
@@ -32,13 +48,5 @@ export function AxSidebar(props: AxSidebarContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <SidebarProvider store={store}>
-          <Sidebar>{props.content}</Sidebar>
-        </SidebarProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <Sidebar>{props.content}</Sidebar>
 }

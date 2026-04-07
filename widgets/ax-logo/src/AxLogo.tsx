@@ -1,26 +1,40 @@
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
-import { type ReactElement, useCallback, useEffect, useState } from 'react'
+import { configure } from 'mobx'
+import { type ReactElement, useCallback, useEffect } from 'react'
 
-
-import { LogoProvider } from './main/context'
+import { LogoProvider, useLogoStore } from './main/context'
 import { Logo } from './main/Logo'
 import { LogoStore } from './main/store'
 
 import type { AxLogoContainerProps } from '../typings/AxLogoProps'
 
+configure({ isolateGlobalState: true })
+
 export function AxLogo(props: AxLogoContainerProps): ReactElement {
-  const [store] = useState(() => new LogoStore())
+  return (
+    <ErrorBoundary>
+      <AxThemeProvider>
+        <LogoProvider createStore={() => new LogoStore()}>
+          <AxLogoSync {...props} />
+        </LogoProvider>
+      </AxThemeProvider>
+    </ErrorBoundary>
+  )
+}
+
+function AxLogoSync(props: AxLogoContainerProps): ReactElement {
+  const store = useLogoStore()
 
   useEffect(() => {
-    store.src = props.logoUrl?.value
+    store.setSrc(props.logoUrl?.value)
   }, [store, props.logoUrl?.value])
 
   useEffect(() => {
-    store.alt = props.altText?.value
+    store.setAlt(props.altText?.value)
   }, [store, props.altText?.value])
 
   useEffect(() => {
-    store.height = props.height
+    store.setHeight(props.height)
   }, [store, props.height])
 
   useEffect(() => {
@@ -34,13 +48,5 @@ export function AxLogo(props: AxLogoContainerProps): ReactElement {
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent })
 
-  return (
-    <ErrorBoundary>
-      <AxThemeProvider>
-        <LogoProvider store={store}>
-          <Logo />
-        </LogoProvider>
-      </AxThemeProvider>
-    </ErrorBoundary>
-  )
+  return <Logo />
 }

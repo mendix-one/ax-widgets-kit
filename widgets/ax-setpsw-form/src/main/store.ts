@@ -63,4 +63,10 @@ export class SetPasswordFormStore {
       })
     }, 600)
   }
+
+  setOnPasswordChange(fn: ((v: string) => void) | undefined) { this.onPasswordChange = fn }
+
+  setOnSubmit(fn: (() => void) | undefined) { this.onSubmit = fn }
+
+  setOnNavigateSignIn(fn: (() => void) | undefined) { this.onNavigateSignIn = fn }
 }

@@ -49,4 +49,10 @@ export class ResetPassFormStore {
       })
     }, 600)
   }
+
+  setOnEmailChange(fn: ((v: string) => void) | undefined) { this.onEmailChange = fn }
+
+  setOnSubmit(fn: (() => void) | undefined) { this.onSubmit = fn }
+
+  setOnNavigateSignIn(fn: (() => void) | undefined) { this.onNavigateSignIn = fn }
 }
