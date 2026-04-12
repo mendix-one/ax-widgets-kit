@@ -32,8 +32,12 @@
       </propertyGroup>
       <propertyGroup caption="SSO">
         <property key="showSSO" type="boolean" defaultValue="true">
-          <caption>Show SSO buttons</caption>
-          <description>Show Google and Microsoft SSO buttons</description>
+          <caption>Show SSO button</caption>
+          <description>Show an alternative SSO sign-in button</description>
+        </property>
+        <property key="ssoLabel" type="textTemplate" required="false">
+          <caption>SSO button label</caption>
+          <description>Label for the SSO button</description>
         </property>
       </propertyGroup>
     </propertyGroup>
@@ -50,13 +54,9 @@
         <caption>On navigate to Reset Password</caption>
         <description>Action when user clicks Forgot Password</description>
       </property>
-      <property key="onGoogleSSO" type="action" required="false">
-        <caption>On Google SSO</caption>
-        <description>Action when user clicks the Google SSO button</description>
-      </property>
-      <property key="onMicrosoftSSO" type="action" required="false">
-        <caption>On Microsoft SSO</caption>
-        <description>Action when user clicks the Microsoft SSO button</description>
+      <property key="onSSO" type="action" required="false">
+        <caption>On SSO</caption>
+        <description>Action when user clicks the SSO sign-in button</description>
       </property>
     </propertyGroup>
   </properties>

@@ -4,14 +4,14 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, DynamicValue } from "mendix";
+import { ActionValue, DynamicValue, WebImage } from "mendix";
 
 export interface AxLogoContainerProps {
     name: string;
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    logoUrl?: DynamicValue<string>;
+    logoUrl?: DynamicValue<WebImage>;
     altText?: DynamicValue<string>;
     height: number;
     onClick?: ActionValue;
@@ -28,7 +28,7 @@ export interface AxLogoPreviewProps {
     readOnly: boolean;
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
-    logoUrl: string;
+    logoUrl: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;
     altText: string;
     height: number | null;
     onClick: {} | null;

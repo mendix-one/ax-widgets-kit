@@ -1,13 +1,39 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 
+export type DisplayMode = 'light' | 'dark' | 'auto'
+export type Locale = 'en' | 'ko' | 'ja' | 'vi'
+
+const LS_LOCALE = 'ax_signin_locale'
+const LS_DISPLAY_MODE = 'ax_signin_display_mode'
+
+function readLS<T extends string>(key: string, fallback: T): T {
+  try {
+    return (localStorage.getItem(key) as T | null) ?? fallback
+  } catch {
+    return fallback
+  }
+}
+
+function writeLS(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    // ignore
+  }
+}
+
 export class SignInFormStore {
   email = ''
   password = ''
   showPassword = false
   showSSO = true
+  ssoLabel = ''
   readOnly = false
   error = ''
   loading = false
+  locale: Locale = readLS<Locale>(LS_LOCALE, 'en')
+  displayMode: DisplayMode = readLS<DisplayMode>(LS_DISPLAY_MODE, 'auto')
+  systemPrefersDark = false
 
   // Callbacks set by container
   onEmailChange?: (v: string) => void
@@ -15,11 +41,25 @@ export class SignInFormStore {
   onSubmit?: () => void
   onNavigateSignUp?: () => void
   onNavigateResetPass?: () => void
-  onGoogleSSO?: () => void
-  onMicrosoftSSO?: () => void
+  onSSO?: () => void
 
   constructor() {
     makeAutoObservable(this)
+    // Track system dark mode preference
+    if (typeof window !== 'undefined') {
+      const mql = window.matchMedia('(prefers-color-scheme: dark)')
+      this.systemPrefersDark = mql.matches
+      mql.addEventListener('change', (e) => {
+        runInAction(() => {
+          this.systemPrefersDark = e.matches
+        })
+      })
+    }
+  }
+
+  get resolvedMode(): 'light' | 'dark' {
+    if (this.displayMode === 'auto') return this.systemPrefersDark ? 'dark' : 'light'
+    return this.displayMode
   }
 
   setEmail(v: string) {
@@ -40,12 +80,26 @@ export class SignInFormStore {
     this.showSSO = v
   }
 
+  setSsoLabel(v: string) {
+    this.ssoLabel = v
+  }
+
   setReadOnly(v: boolean) {
     this.readOnly = v
   }
 
   setError(v: string) {
     this.error = v
+  }
+
+  setLocale(v: Locale) {
+    this.locale = v
+    writeLS(LS_LOCALE, v)
+  }
+
+  setDisplayMode(v: DisplayMode) {
+    this.displayMode = v
+    writeLS(LS_DISPLAY_MODE, v)
   }
 
   // Sync from Mendix (don't trigger onChange callback)
@@ -82,7 +136,5 @@ export class SignInFormStore {
 
   setOnNavigateResetPass(fn: (() => void) | undefined) { this.onNavigateResetPass = fn }
 
-  setOnGoogleSSO(fn: (() => void) | undefined) { this.onGoogleSSO = fn }
-
-  setOnMicrosoftSSO(fn: (() => void) | undefined) { this.onMicrosoftSSO = fn }
+  setOnSSO(fn: (() => void) | undefined) { this.onSSO = fn }
 }

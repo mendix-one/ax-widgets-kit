@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react'
 
 export interface LogoPreviewProps {
-  logoUrl: string
+  logoUrl?: string
   altText: string
   height: number | null
 }
@@ -17,8 +17,16 @@ export function LogoPreview({ logoUrl, altText, height }: LogoPreviewProps): Rea
         style={{ height: effectiveHeight }}
       >
         <div className="ax-preview-logo__img-box" style={{ height: effectiveHeight }}>
-          <span className="ax-preview-logo__img-icon">&#9633;</span>
-          <span className="ax-preview-logo__img-url">{logoUrl}</span>
+          <img
+            src={logoUrl}
+            alt={altText || 'Logo'}
+            style={{
+              maxHeight: effectiveHeight,
+              maxWidth: '100%',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+          />
         </div>
       </div>
     )

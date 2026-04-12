@@ -52,11 +52,11 @@ export default function SignInPage() {
           emailAttr={emailAttr}
           passwordAttr={passwordAttr}
           showSSO={true}
+          ssoLabel={mockDynamic('Sign in with SSO')}
           onSubmit={mockAction}
           onNavigateSignUp={navAction('/sign-up')}
           onNavigateResetPass={navAction('/reset-psw')}
-          onGoogleSSO={mockAction}
-          onMicrosoftSSO={mockAction}
+          onSSO={mockAction}
         />
       }
     />

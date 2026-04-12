@@ -26,7 +26,7 @@ function AxLogoSync(props: AxLogoContainerProps): ReactElement {
   const store = useLogoStore()
 
   useEffect(() => {
-    store.setSrc(props.logoUrl?.value)
+    store.setSrc(props.logoUrl?.value?.uri)
   }, [store, props.logoUrl?.value])
 
   useEffect(() => {

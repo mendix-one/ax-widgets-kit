@@ -68,18 +68,18 @@
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {
-        "react": ">=18.2.0",
-        "react-dom": ">=18.2.0"
+        "react": ">=19.0.0",
+        "react-dom": ">=19.0.0"
       },
       "ignoreMissing": [
         "react-native"
       ]
     },
     "overrides": {
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "@types/react": "^18.2.0",
-      "@types/react-dom": "^18.2.0",
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0",
+      "@types/react": "^19.0.0",
+      "@types/react-dom": "^19.0.0",
       "typescript": ">=6.0.2"
     },
     "ignoredBuiltDependencies": [

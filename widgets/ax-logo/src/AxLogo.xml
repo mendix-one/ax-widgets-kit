@@ -15,9 +15,9 @@
   <properties>
     <propertyGroup caption="General">
       <propertyGroup caption="Logo">
-        <property key="logoUrl" type="textTemplate" required="false">
-          <caption>Logo URL</caption>
-          <description>URL or path to the logo image</description>
+        <property key="logoUrl" type="image" required="false">
+          <caption>Logo image</caption>
+          <description>Mendix image file or image attribute for the logo</description>
         </property>
         <property key="altText" type="textTemplate" required="false">
           <caption>Alt text</caption>

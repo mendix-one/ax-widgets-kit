@@ -4,7 +4,7 @@
  * @author Mendix Widgets Framework Team
  */
 import { CSSProperties } from "react";
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
 export interface AxSigninFormContainerProps {
     name: string;
@@ -14,11 +14,11 @@ export interface AxSigninFormContainerProps {
     emailAttr?: EditableValue<string>;
     passwordAttr?: EditableValue<string>;
     showSSO: boolean;
+    ssoLabel?: DynamicValue<string>;
     onSubmit?: ActionValue;
     onNavigateSignUp?: ActionValue;
     onNavigateResetPass?: ActionValue;
-    onGoogleSSO?: ActionValue;
-    onMicrosoftSSO?: ActionValue;
+    onSSO?: ActionValue;
 }
 
 export interface AxSigninFormPreviewProps {
@@ -35,9 +35,9 @@ export interface AxSigninFormPreviewProps {
     emailAttr: string;
     passwordAttr: string;
     showSSO: boolean;
+    ssoLabel: string;
     onSubmit: {} | null;
     onNavigateSignUp: {} | null;
     onNavigateResetPass: {} | null;
-    onGoogleSSO: {} | null;
-    onMicrosoftSSO: {} | null;
+    onSSO: {} | null;
 }

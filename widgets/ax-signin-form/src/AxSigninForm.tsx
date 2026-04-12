@@ -1,6 +1,7 @@
 import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
 import { configure } from 'mobx'
-import { type ReactElement, useCallback, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import { type ReactElement, type ReactNode, useCallback, useEffect } from 'react'
 
 import { SignInFormProvider, useSignInFormStore } from './main/context'
 import { SignInForm } from './main/SignInForm'
@@ -13,14 +14,24 @@ configure({ isolateGlobalState: true })
 export function AxSigninForm(props: AxSigninFormContainerProps): ReactElement {
   return (
     <ErrorBoundary>
-      <AxThemeProvider>
-        <SignInFormProvider createStore={() => new SignInFormStore()}>
+      <SignInFormProvider createStore={() => new SignInFormStore()}>
+        <ThemedSigninContent>
           <AxSigninFormSync {...props} />
-        </SignInFormProvider>
-      </AxThemeProvider>
+        </ThemedSigninContent>
+      </SignInFormProvider>
     </ErrorBoundary>
   )
 }
+
+/** Reads resolvedMode from store and re-provides a correctly-colored theme. */
+const ThemedSigninContent = observer(function ThemedSigninContent({ children }: { children: ReactNode }): ReactElement {
+  const store = useSignInFormStore()
+  return (
+    <AxThemeProvider overrides={{ palette: { mode: store.resolvedMode } }}>
+      {children}
+    </AxThemeProvider>
+  )
+})
 
 function AxSigninFormSync(props: AxSigninFormContainerProps): ReactElement {
   const store = useSignInFormStore()
@@ -42,6 +53,10 @@ function AxSigninFormSync(props: AxSigninFormContainerProps): ReactElement {
     store.setShowSSO(props.showSSO)
   }, [store, props.showSSO])
 
+  useEffect(() => {
+    store.setSsoLabel(props.ssoLabel?.value ?? '')
+  }, [store, props.ssoLabel?.value])
+
   // Sync callbacks
   useEffect(() => {
     store.setOnEmailChange((v: string) => props.emailAttr?.setValue(v))
@@ -51,8 +66,7 @@ function AxSigninFormSync(props: AxSigninFormContainerProps): ReactElement {
     store.setOnNavigateResetPass(
       props.onNavigateResetPass?.canExecute ? () => props.onNavigateResetPass!.execute() : undefined,
     )
-    store.setOnGoogleSSO(props.onGoogleSSO?.canExecute ? () => props.onGoogleSSO!.execute() : undefined)
-    store.setOnMicrosoftSSO(props.onMicrosoftSSO?.canExecute ? () => props.onMicrosoftSSO!.execute() : undefined)
+    store.setOnSSO(props.onSSO?.canExecute ? () => props.onSSO!.execute() : undefined)
   })
 
   // Subscribe to event bus (broadcast + private topic)

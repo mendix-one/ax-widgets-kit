@@ -8,7 +8,7 @@
   "license": "Apache-2.0",
   "packagePath": "one.mendix",
   "config": {
-    "projectPath": "../../../ax-webapp-main",
+    "projectPath": "F:/01_Projects/mendix/PreviewLayout",
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3021
   },

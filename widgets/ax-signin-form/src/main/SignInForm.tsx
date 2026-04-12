@@ -1,3 +1,7 @@
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import KeyIcon from '@mui/icons-material/Key'
+import LightModeIcon from '@mui/icons-material/LightMode'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Box from '@mui/material/Box'
@@ -7,13 +11,15 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Typography from '@mui/material/Typography'
 import { observer } from 'mobx-react-lite'
 
 import { useSignInFormStore } from './context'
+import { type DisplayMode } from './store'
 
 import type { FormEvent, ReactElement } from 'react'
-
 
 export const SignInForm = observer(function SignInForm(): ReactElement {
   const store = useSignInFormStore()
@@ -24,42 +30,14 @@ export const SignInForm = observer(function SignInForm(): ReactElement {
   }
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      {/* Header */}
       <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
         Sign In
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
         Welcome back — sign in to continue
       </Typography>
-
-      {store.showSSO && (
-        <>
-          <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
-            <Button
-              variant="outlined"
-              fullWidth
-              onClick={() => store.onGoogleSSO?.()}
-              disabled={store.readOnly}
-              startIcon={<Box component="img" src={googleSvg} alt="" sx={{ width: 20, height: 20 }} />}
-              sx={{ textTransform: 'none', color: 'text.primary', borderColor: 'divider' }}
-            >
-              Google
-            </Button>
-            <Button
-              variant="outlined"
-              fullWidth
-              onClick={() => store.onMicrosoftSSO?.()}
-              disabled={store.readOnly}
-              startIcon={<Box component="img" src={microsoftSvg} alt="" sx={{ width: 20, height: 20 }} />}
-              sx={{ textTransform: 'none', color: 'text.primary', borderColor: 'divider' }}
-            >
-              Microsoft
-            </Button>
-          </Box>
-          <Divider sx={{ mb: 3, fontSize: 12, color: 'text.disabled' }}>or continue with</Divider>
-        </>
-      )}
-
       <Box component="form" onSubmit={handleSubmit} noValidate>
         <TextField
           label="Email"
@@ -115,8 +93,25 @@ export const SignInForm = observer(function SignInForm(): ReactElement {
         )}
 
         <Button type="submit" variant="contained" fullWidth disabled={store.loading || store.readOnly} sx={{ mb: 2 }}>
-          {store.loading ? 'Signing in\u2026' : 'Sign In'}
+          {store.loading ? 'Signing in…' : 'Sign In'}
         </Button>
+
+        {/* SSO alternative */}
+        {store.showSSO && store.onSSO && (
+          <>
+            <Divider sx={{ mb: 2, fontSize: 12, color: 'text.disabled' }}>or continue with</Divider>
+            <Button
+              variant="outlined"
+              fullWidth
+              onClick={() => store.onSSO?.()}
+              disabled={store.readOnly}
+              startIcon={<KeyIcon fontSize="small" />}
+              sx={{ textTransform: 'none', color: 'text.primary', borderColor: 'divider', mb: 2 }}
+            >
+              {store.ssoLabel || 'Sign in with SSO'}
+            </Button>
+          </>
+        )}
 
         {store.onNavigateSignUp && (
           <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
@@ -127,12 +122,38 @@ export const SignInForm = observer(function SignInForm(): ReactElement {
           </Typography>
         )}
       </Box>
+
+      {/* Bottom options bar — theme */}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mt: 3,
+          pt: 2,
+          borderTop: '1px solid',
+          borderColor: 'divider',
+        }}
+      >
+        <ToggleButtonGroup
+          value={store.displayMode}
+          exclusive
+          onChange={(_e, val: DisplayMode | null) => {
+            if (val) store.setDisplayMode(val)
+          }}
+          size="small"
+        >
+          <ToggleButton value="light" aria-label="Light mode">
+            <LightModeIcon sx={{ fontSize: 18 }} />
+          </ToggleButton>
+          <ToggleButton value="dark" aria-label="Dark mode">
+            <DarkModeIcon sx={{ fontSize: 18 }} />
+          </ToggleButton>
+          <ToggleButton value="auto" aria-label="Auto mode">
+            <BrightnessAutoIcon sx={{ fontSize: 18 }} />
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
     </Box>
   )
 })
-
-const googleSvg =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23fbc02d' d='M43.6 20.1H42V20H24v8h11.3C33.9 33.1 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.7-.4-3.9z'/%3E%3Cpath fill='%23e53935' d='M6.3 14.7l6.6 4.8C14.3 15.7 18.8 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z'/%3E%3Cpath fill='%234caf50' d='M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.2 26.7 36 24 36c-5.4 0-9.9-3.5-11.5-8.3l-6.5 5C9.5 39.5 16.2 44 24 44z'/%3E%3Cpath fill='%231565c0' d='M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.6l6.2 5.2C37 39.3 44 34 44 24c0-1.3-.1-2.7-.4-3.9z'/%3E%3C/svg%3E"
-
-const microsoftSvg =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 23 23'%3E%3Crect x='1' y='1' width='10' height='10' fill='%23f25022'/%3E%3Crect x='12' y='1' width='10' height='10' fill='%237fba00'/%3E%3Crect x='1' y='12' width='10' height='10' fill='%2300a4ef'/%3E%3Crect x='12' y='12' width='10' height='10' fill='%23ffb900'/%3E%3C/svg%3E"
