@@ -7,8 +7,9 @@ import {
   setGlobalThemeTokens,
   useWidgetEvents,
 } from '@ax/shared'
+import { type ThemeOptions } from '@mui/material/styles'
 import { configure } from 'mobx'
-import { type ReactElement, useCallback, useEffect, useMemo } from 'react'
+import { type ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { AuthLayout } from './main/AuthLayout'
 import { AuthLayoutProvider, useAuthLayoutStore } from './main/context'
@@ -20,12 +21,27 @@ configure({ isolateGlobalState: true })
 
 export function AxAuthLayout(props: AxAuthLayoutContainerProps): ReactElement {
   const themeOverrides = useMemo(() => parseThemeTokens(props.themeTokens), [props.themeTokens])
+  const [runtimeMode, setRuntimeMode] = useState<'light' | 'dark' | undefined>(undefined)
+  const resolvedThemeOverrides = useMemo<ThemeOptions | undefined>(() => {
+    if (!runtimeMode) return themeOverrides
+    return {
+      ...themeOverrides,
+      palette: {
+        ...themeOverrides?.palette,
+        mode: runtimeMode,
+      },
+    }
+  }, [themeOverrides, runtimeMode])
 
   return (
     <ErrorBoundary>
-      <AxThemeProvider overrides={themeOverrides} isLayout>
+      <AxThemeProvider overrides={resolvedThemeOverrides} isLayout>
         <AuthLayoutProvider createStore={() => new AuthLayoutStore()}>
-          <AxAuthLayoutSync {...props} themeOverrides={themeOverrides} />
+          <AxAuthLayoutSync
+            {...props}
+            themeOverrides={resolvedThemeOverrides}
+            onThemeModeChange={setRuntimeMode}
+          />
         </AuthLayoutProvider>
       </AxThemeProvider>
     </ErrorBoundary>
@@ -33,9 +49,13 @@ export function AxAuthLayout(props: AxAuthLayoutContainerProps): ReactElement {
 }
 
 function AxAuthLayoutSync(
-  props: AxAuthLayoutContainerProps & { themeOverrides: ReturnType<typeof parseThemeTokens> },
+  props: AxAuthLayoutContainerProps & {
+    themeOverrides: ReturnType<typeof parseThemeTokens>
+    onThemeModeChange: (mode: 'light' | 'dark') => void
+  },
 ): ReactElement {
   const store = useAuthLayoutStore()
+  const { onThemeModeChange } = props
 
   useEffect(() => {
     if (props.themeOverrides) setGlobalThemeTokens(props.themeOverrides)
@@ -57,8 +77,18 @@ function AxAuthLayoutSync(
   const handleEvent = useCallback(
     (event: AxEvent) => {
       if (event.action === 'toggleBackground') store.setShowBackground(!store.showBackground)
+      if (event.action === 'theme-changed') {
+        const payload = event.payload
+        const mode =
+          payload && typeof payload === 'object' && 'mode' in payload
+            ? (payload.mode as unknown)
+            : undefined
+        if (mode === 'light' || mode === 'dark') {
+          onThemeModeChange(mode)
+        }
+      }
     },
-    [store],
+    [onThemeModeChange, store],
   )
 
   useWidgetEvents({ widgetName: props.name, onEvent: handleEvent, isLayout: true })

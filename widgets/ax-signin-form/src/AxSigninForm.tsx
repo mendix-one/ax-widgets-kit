@@ -1,4 +1,4 @@
-import { AxThemeProvider, ErrorBoundary, useWidgetEvents, type AxEvent } from '@ax/shared'
+import { Ax_BROADCAST, AxThemeProvider, ErrorBoundary, emitEvent, useWidgetEvents, type AxEvent } from '@ax/shared'
 import { configure } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import { type ReactElement, type ReactNode, useCallback, useEffect } from 'react'
@@ -26,6 +26,14 @@ export function AxSigninForm(props: AxSigninFormContainerProps): ReactElement {
 /** Reads resolvedMode from store and re-provides a correctly-colored theme. */
 const ThemedSigninContent = observer(function ThemedSigninContent({ children }: { children: ReactNode }): ReactElement {
   const store = useSignInFormStore()
+
+  useEffect(() => {
+    emitEvent(Ax_BROADCAST, {
+      action: 'theme-changed',
+      payload: { mode: store.resolvedMode },
+    })
+  }, [store.resolvedMode])
+
   return (
     <AxThemeProvider overrides={{ palette: { mode: store.resolvedMode } }}>
       {children}

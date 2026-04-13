@@ -34,7 +34,7 @@ export function AxThemeProvider({
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline enableColorScheme />
+      <CssBaseline enableColorScheme={true} />
       {children}
     </ThemeProvider>
   )

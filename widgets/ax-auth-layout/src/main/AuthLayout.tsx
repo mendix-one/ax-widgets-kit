@@ -112,6 +112,7 @@ export const AuthLayout = observer(function AuthLayout({ children }: AuthLayoutP
             elevation={isDesktop ? 8 : 0}
             sx={{
               width: '100%',
+              bgcolor: 'Background.paper',
               ...(isDesktop ? { borderRadius: 3 } : { borderRadius: '24px 24px 0 0', flex: 1 }),
             }}
           >
