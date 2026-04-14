@@ -5,6 +5,7 @@ const vi = {
     defectAnalysis: 'Phân tích lỗi',
     lotTracking: 'Theo dõi lô',
     technologyRoadmap: 'Lộ trình Công nghệ',
+    worldMap: 'Bản đồ thế giới',
     about: 'Giới thiệu',
   },
   layout: {
@@ -103,6 +104,22 @@ const vi = {
     title: 'Theo dõi lô',
     description:
       'Tầm nhìn lô thời gian thực từ đầu đến cuối — giám sát WIP, theo dõi tiến độ và duy trì lịch sản xuất. Sắp ra mắt.',
+  },
+  worldMap: {
+    title: 'Bản đồ nhà máy toàn cầu',
+    subtitle:
+      'Theo dõi các cơ sở sản xuất trọng yếu trên toàn thế giới. Nhấp vào nền bản đồ để phóng to, nhấp vào điểm để tới mức phóng to sâu nhất, và rê chuột để xem hiệu suất.',
+    zoomIn: 'Phóng to',
+    zoomOut: 'Thu nhỏ',
+    zoomLevel: 'Mức zoom {{level}} / {{total}}',
+    factories: '{{count}} nhà máy',
+    details: 'Nhà máy được chọn',
+    specialty: 'Chuyên môn sản xuất',
+    resourcing: 'Nguồn lực',
+    yield: 'Năng suất',
+    defect: 'Lỗi',
+    helpText:
+      'Mẹo: nhấp vào vùng trống của bản đồ để tăng zoom từng bước. Nhấp vào điểm nhà máy để căn giữa ở mức zoom tối đa.',
   },
   about: {
     title: 'Giới thiệu',

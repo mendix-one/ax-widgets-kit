@@ -5,6 +5,7 @@ const en = {
     defectAnalysis: 'Defect Analysis',
     lotTracking: 'Lot Tracking',
     technologyRoadmap: 'Technology Roadmap',
+    worldMap: 'World Map',
     about: 'About',
   },
   layout: {
@@ -104,6 +105,22 @@ const en = {
     title: 'Lot Tracking',
     description:
       'Real-time lot visibility from start to finish — monitor WIP, track progress, and keep production on schedule. Coming soon.',
+  },
+  worldMap: {
+    title: 'Global Manufactory Map',
+    subtitle:
+      'Explore example Samsung manufacturing locations worldwide. Click the map to zoom in, click a point to jump to the deepest view, and hover a site to inspect demo performance metrics.',
+    zoomIn: 'Zoom in',
+    zoomOut: 'Zoom out',
+    zoomLevel: 'Zoom {{level}} / {{total}}',
+    factories: '{{count}} manufactories',
+    details: 'Selected manufactory',
+    specialty: 'Manufacturing',
+    resourcing: 'Resourcing',
+    yield: 'Yield',
+    defect: 'Defect',
+    helpText:
+      'Tip: click empty map space to zoom step-by-step. Click a manufactory marker to center the site at maximum zoom. Site names are based on public Samsung location information and KPI values are demo examples.',
   },
   about: {
     title: 'About',

@@ -5,6 +5,7 @@ const ko = {
     defectAnalysis: '결함 분석',
     lotTracking: '로트 추적',
     technologyRoadmap: '기술 로드맵',
+    worldMap: '월드 맵',
     about: '정보',
   },
   layout: {
@@ -102,6 +103,22 @@ const ko = {
     title: '로트 추적',
     description:
       '처음부터 끝까지 실시간 로트 가시성 — WIP를 모니터링하고, 진행 상황을 추적하며, 생산 일정을 유지합니다. 곧 출시됩니다.',
+  },
+  worldMap: {
+    title: '글로벌 제조 지도',
+    subtitle:
+      '전 세계 핵심 생산 거점을 확인하세요. 지도를 클릭하면 확대되고, 포인트를 클릭하면 최대 확대 상태로 이동하며, 마우스를 올리면 성능 정보를 볼 수 있습니다.',
+    zoomIn: '확대',
+    zoomOut: '축소',
+    zoomLevel: '줌 {{level}} / {{total}}',
+    factories: '제조 거점 {{count}}곳',
+    details: '선택된 제조 거점',
+    specialty: '제조 분야',
+    resourcing: '자원 현황',
+    yield: '수율',
+    defect: '결함률',
+    helpText:
+      '팁: 빈 지도 영역을 클릭하면 단계적으로 확대됩니다. 마커를 클릭하면 해당 거점이 최대 줌으로 중앙에 표시됩니다.',
   },
   about: {
     title: '정보',

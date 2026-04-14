@@ -5,6 +5,7 @@ const ja = {
     defectAnalysis: '欠陥分析',
     lotTracking: 'ロット追跡',
     technologyRoadmap: '技術ロードマップ',
+    worldMap: 'ワールドマップ',
     about: '概要',
   },
   layout: {
@@ -104,6 +105,22 @@ const ja = {
     title: 'ロット追跡',
     description:
       '最初から最後までリアルタイムのロット可視性 — WIPを監視し、進捗を追跡し、生産スケジュールを維持します。近日公開。',
+  },
+  worldMap: {
+    title: 'グローバル製造拠点マップ',
+    subtitle:
+      '世界中の重要な製造拠点を確認できます。地図をクリックして拡大し、ポイントをクリックすると最大倍率へ移動し、ホバーで詳細を確認できます。',
+    zoomIn: '拡大',
+    zoomOut: '縮小',
+    zoomLevel: 'ズーム {{level}} / {{total}}',
+    factories: '{{count}} 拠点',
+    details: '選択中の拠点',
+    specialty: '製造内容',
+    resourcing: 'リソース',
+    yield: '歩留まり',
+    defect: '欠陥率',
+    helpText:
+      'ヒント: 空いている地図領域をクリックすると段階的に拡大します。拠点マーカーをクリックすると最大倍率で中央表示されます。',
   },
   about: {
     title: '概要',

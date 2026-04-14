@@ -83,6 +83,13 @@ export const router = createBrowserRouter([
             },
           },
           {
+            path: 'world-map',
+            lazy: async () => {
+              const module = await import('../../pages/world-map/WorldMapPage')
+              return { Component: module.default }
+            },
+          },
+          {
             path: 'roadmap',
             lazy: async () => {
               const module = await import('../../pages/roadmap/RoadmapPage')

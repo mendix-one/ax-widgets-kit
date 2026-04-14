@@ -3,6 +3,7 @@ import BugReportIcon from '@mui/icons-material/BugReport'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import InfoIcon from '@mui/icons-material/Info'
 import InventoryIcon from '@mui/icons-material/Inventory'
+import PublicIcon from '@mui/icons-material/Public'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
@@ -36,6 +37,7 @@ export const AppSidebar = observer(function AppSidebar({ isMobile }: AppSidebarP
     { label: t('nav.defectAnalysis'), icon: <BugReportIcon />, to: '/defects' },
     { label: t('nav.lotTracking'), icon: <InventoryIcon />, to: '/lots' },
     { label: t('nav.technologyRoadmap'), icon: <AccountTreeIcon />, to: '/technology-roadmap' },
+    { label: t('nav.worldMap'), icon: <PublicIcon />, to: '/world-map' },
   ]
 
   const handleNavClick = () => {
