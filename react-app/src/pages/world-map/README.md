@@ -10,6 +10,7 @@ Show manufacturing sites around the world and let users inspect each site’s op
 
 - Interactive world map view
 - 4 fixed zoom levels
+- Double-click a country to center and zoom to it
 - Click empty map area to zoom in step-by-step
 - Click a manufactory point to jump to the maximum zoom level
 - Hover a point to view details:

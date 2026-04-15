@@ -27,6 +27,24 @@ type MapPoint = [number, number]
 
 type TranslateFn = ReturnType<typeof useTranslation>['t']
 
+type CountryFeature = {
+  properties?: {
+    name?: string
+  }
+  geometry?: {
+    coordinates?: unknown
+  }
+}
+
+type WorldGeoJson = Parameters<typeof echarts.registerMap>[1] & {
+  features?: CountryFeature[]
+}
+
+type CountryViewport = {
+  center: MapPoint
+  zoom: number
+}
+
 type Manufactory = {
   id: string
   name: string
@@ -39,7 +57,9 @@ type Manufactory = {
 }
 
 type ClickEventParams = {
+  componentType?: string
   name?: string
+  seriesType?: string
   data?: {
     site?: Manufactory
   }
@@ -47,7 +67,7 @@ type ClickEventParams = {
 
 const MAP_NAME = 'ax-world-geo'
 
-const WORLD_GEOJSON = JSON.parse(worldGeoJsonText) as Parameters<typeof echarts.registerMap>[1]
+const WORLD_GEOJSON = JSON.parse(worldGeoJsonText) as WorldGeoJson
 
 const MANUFACTORIES: Manufactory[] = [
   {
@@ -257,8 +277,77 @@ const INITIAL_CENTER: MapPoint = [15, 20]
 const INITIAL_ZOOM = 1.15
 const MIN_ZOOM = 1
 const MAX_ZOOM = 200
+const MIN_COUNTRY_ZOOM = 3
+const MAX_COUNTRY_ZOOM = 40
 const SELECT_ZOOM = 100
 const ZOOM_STEP = 1.6
+
+function updateBoundsFromCoordinates(
+  coordinates: unknown,
+  bounds: { minLon: number; maxLon: number; minLat: number; maxLat: number },
+) {
+  if (!Array.isArray(coordinates) || coordinates.length === 0) {
+    return
+  }
+
+  const [first, second] = coordinates
+
+  if (typeof first === 'number' && typeof second === 'number') {
+    bounds.minLon = Math.min(bounds.minLon, first)
+    bounds.maxLon = Math.max(bounds.maxLon, first)
+    bounds.minLat = Math.min(bounds.minLat, second)
+    bounds.maxLat = Math.max(bounds.maxLat, second)
+    return
+  }
+
+  for (const nestedCoordinates of coordinates) {
+    updateBoundsFromCoordinates(nestedCoordinates, bounds)
+  }
+}
+
+function buildCountryViewports(geoJson: WorldGeoJson) {
+  const viewports = new Map<string, CountryViewport>()
+
+  for (const feature of geoJson.features ?? []) {
+    const countryName = feature.properties?.name
+    const coordinates = feature.geometry?.coordinates
+
+    if (!countryName || !coordinates) {
+      continue
+    }
+
+    const bounds = {
+      minLon: Number.POSITIVE_INFINITY,
+      maxLon: Number.NEGATIVE_INFINITY,
+      minLat: Number.POSITIVE_INFINITY,
+      maxLat: Number.NEGATIVE_INFINITY,
+    }
+
+    updateBoundsFromCoordinates(coordinates, bounds)
+
+    if (
+      !Number.isFinite(bounds.minLon)
+      || !Number.isFinite(bounds.maxLon)
+      || !Number.isFinite(bounds.minLat)
+      || !Number.isFinite(bounds.maxLat)
+    ) {
+      continue
+    }
+
+    const lonSpan = bounds.maxLon - bounds.minLon
+    const latSpan = bounds.maxLat - bounds.minLat
+    const span = Math.max(lonSpan, latSpan * 1.35, 1.2)
+
+    viewports.set(countryName, {
+      center: [(bounds.minLon + bounds.maxLon) / 2, (bounds.minLat + bounds.maxLat) / 2],
+      zoom: Math.min(MAX_COUNTRY_ZOOM, Math.max(MIN_COUNTRY_ZOOM, Number((140 / span).toFixed(2)))),
+    })
+  }
+
+  return viewports
+}
+
+const COUNTRY_VIEWPORTS = buildCountryViewports(WORLD_GEOJSON)
 
 if (!echarts.getMap(MAP_NAME)) {
   echarts.registerMap(MAP_NAME, WORLD_GEOJSON)
@@ -323,7 +412,7 @@ export default function WorldMapPage() {
         top: 10,
         bottom: 10,
         label: {
-          show: true,
+          show: false,
           color: alpha(theme.palette.text.primary, isDarkMode ? 0.6 : 0.7),
           fontSize: isMobile ? 7 : 9,
         },
@@ -350,7 +439,7 @@ export default function WorldMapPage() {
           geoIndex: 0,
           silent: false,
           label: {
-            show: true,
+            show: false,
           },
           emphasis: {
             label: {
@@ -426,8 +515,25 @@ export default function WorldMapPage() {
     }
   }
 
+  const handleCountryDoubleClick = (params: unknown) => {
+    const typed = params as ClickEventParams
+
+    if (typed.data?.site || typed.seriesType !== 'map' || !typed.name) {
+      return
+    }
+
+    const countryViewport = COUNTRY_VIEWPORTS.get(typed.name)
+
+    if (!countryViewport) {
+      return
+    }
+
+    setMapCenter(countryViewport.center)
+    setMapZoom((current) => Math.min(MAX_ZOOM, Number((current * ZOOM_STEP).toFixed(2))))
+  }
+
   return (
-    <Box>
+    <Box maxHeight={'100%'} id='root-box'>
       <Typography variant={isMobile ? 'h5' : 'h4'} component="h1" gutterBottom>
         {t('worldMap.title')}
       </Typography>
@@ -435,9 +541,9 @@ export default function WorldMapPage() {
         {t('worldMap.subtitle')}
       </Typography>
 
-      <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2}>
-        <Card sx={{ flex: 1, minWidth: 0 }}>
-          <CardContent>
+      <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2} height={'100%'}>
+        <Card sx={{ flex: 1, minWidth: 0, height: '100%' }}>
+          <CardContent sx={{ height: '100%' }}>
             <Stack
               direction={{ xs: 'column', sm: 'row' }}
               spacing={1.5}
@@ -453,7 +559,7 @@ export default function WorldMapPage() {
                 />
                 <Chip
                   icon={<MyLocationIcon />}
-                  label={isMobile ? 'Pinch to zoom' : 'Scroll or pinch to zoom'}
+                  label={isMobile ? 'Pinch to zoom' : 'Double-click a country or scroll to zoom'}
                   variant="outlined"
                 />
               </Stack>
@@ -513,7 +619,7 @@ export default function WorldMapPage() {
             <Box
               sx={{
                 overflow: 'hidden',
-                height: { xs: 360, md: 480, xl: 540 },
+                height: 'calc(100% - 60px)',
                 borderRadius: 0,
                 border: `1px solid ${alpha(theme.palette.primary.main, 0.16)}`,
                 background: isDarkMode
@@ -526,7 +632,7 @@ export default function WorldMapPage() {
                 option={chartOption}
                 notMerge
                 lazyUpdate
-                onEvents={{ click: handleChartClick }}
+                onEvents={{ click: handleChartClick, dblclick: handleCountryDoubleClick }}
                 style={{ height: '100%', width: '100%' }}
               />
             </Box>
