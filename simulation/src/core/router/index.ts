@@ -46,6 +46,13 @@ export const router = createBrowserRouter([
     },
   },
   {
+    path: 'data-table',
+    lazy: async () => {
+      const module = await import('../../pages/data-table/DataTablePage')
+      return { Component: module.default }
+    },
+  },
+  {
     Component: Layout,
     children: [
       {

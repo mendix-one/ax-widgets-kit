@@ -18,6 +18,7 @@
     "@ax/button": "workspace:*",
     "@ax/button-group": "workspace:*",
     "@ax/checkbox": "workspace:*",
+    "@ax/data-table": "workspace:*",
     "@ax/logo": "workspace:*",
     "@ax/notify-menu": "workspace:*",
     "@ax/radio-group": "workspace:*",

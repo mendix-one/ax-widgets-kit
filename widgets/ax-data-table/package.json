@@ -1,0 +1,33 @@
+{
+  "name": "@ax/data-table",
+  "widgetName": "AxDataTable",
+  "version": "1.0.0",
+  "description": "Ax Data Table Widget",
+  "copyright": "Mendix One",
+  "author": "GitHub Copilot",
+  "license": "Apache-2.0",
+  "packagePath": "one.mendix",
+  "config": {
+    "projectPath": "F:/01_Projects/mendix/PreviewLayout",
+    "mendixHost": "http://localhost:8080",
+    "developmentPort": 3017
+  },
+  "scripts": {
+    "start": "pluggable-widgets-tools start:server",
+    "dev": "pluggable-widgets-tools start:web",
+    "build": "pluggable-widgets-tools build:web",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "release": "pluggable-widgets-tools release:web",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,yaml,xml}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,css,scss,json,yaml,xml}\""
+  },
+  "devDependencies": {
+    "@mendix/pluggable-widgets-tools": "^11.8.1",
+    "@types/big.js": "^6.2.2"
+  },
+  "dependencies": {
+    "@ax/shared": "*",
+    "antd": "^5.27.6"
+  }
+}
