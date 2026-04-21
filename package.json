@@ -11,6 +11,7 @@
     "build:auth-layout": "pnpm --filter @ax/auth-layout run build",
     "build:button": "pnpm --filter @ax/button run build",
     "build:data-table": "pnpm --filter @ax/data-table run build",
+    "build:mui-table": "pnpm --filter @ax/mui-table run build",
     "build:button-group": "pnpm --filter @ax/button-group run build",
     "build:checkbox": "pnpm --filter @ax/checkbox run build",
     "build:logo": "pnpm --filter @ax/logo run build",
@@ -34,6 +35,7 @@
     "format:auth-layout": "pnpm --filter @ax/auth-layout run format",
     "format:button": "pnpm --filter @ax/button run format",
     "format:data-table": "pnpm --filter @ax/data-table run format",
+    "format:mui-table": "pnpm --filter @ax/mui-table run format",
     "format:button-group": "pnpm --filter @ax/button-group run format",
     "format:checkbox": "pnpm --filter @ax/checkbox run format",
     "format:logo": "pnpm --filter @ax/logo run format",
@@ -82,6 +84,7 @@
       "react-dom": "^19.0.0",
       "@types/react": "^19.0.0",
       "@types/react-dom": "^19.0.0",
+      "@mui/material": "^9.0.0",
       "typescript": ">=6.0.2"
     },
     "ignoredBuiltDependencies": [

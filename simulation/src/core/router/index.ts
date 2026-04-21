@@ -53,6 +53,13 @@ export const router = createBrowserRouter([
     },
   },
   {
+    path: 'mui-table',
+    lazy: async () => {
+      const module = await import('../../pages/mui-table/MuiTablePage')
+      return { Component: module.default }
+    },
+  },
+  {
     Component: Layout,
     children: [
       {

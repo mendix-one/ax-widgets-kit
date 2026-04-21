@@ -175,17 +175,16 @@ export default function DataTablePage() {
         title={mockDynamic('Order Fulfillment Snapshot')}
         stickyHeader={false}
         tableHeight={420}
-        paginationMode="none"
+        paginationMode="pagingButtons"
         defaultPageNumber={1}
-        pageSize={20}
+        pageSize={2}
         showRowCount={false}
         paginationVerticalPosition="below"
-        paginationHorizontalAlign="right"
+        paginationHorizontalAlign="center"
         selectionMethod="checkbox"
         showSelectAll={false}
         keepSelection={false}
-        columns={columns}
-      />
+        columns={columns} bordered={true} showSizeChanger={true} />
     </Box>
   )
 }

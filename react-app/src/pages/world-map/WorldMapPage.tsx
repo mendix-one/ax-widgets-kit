@@ -326,10 +326,10 @@ function buildCountryViewports(geoJson: WorldGeoJson) {
     updateBoundsFromCoordinates(coordinates, bounds)
 
     if (
-      !Number.isFinite(bounds.minLon)
-      || !Number.isFinite(bounds.maxLon)
-      || !Number.isFinite(bounds.minLat)
-      || !Number.isFinite(bounds.maxLat)
+      !Number.isFinite(bounds.minLon) ||
+      !Number.isFinite(bounds.maxLon) ||
+      !Number.isFinite(bounds.minLat) ||
+      !Number.isFinite(bounds.maxLat)
     ) {
       continue
     }
@@ -383,7 +383,9 @@ export default function WorldMapPage() {
       tooltip: {
         trigger: 'item',
         renderMode: 'html',
-        backgroundColor: isDarkMode ? alpha(theme.palette.grey[900], 0.96) : alpha(theme.palette.grey[800], 0.92),
+        backgroundColor: isDarkMode
+          ? alpha(theme.palette.grey[900], 0.96)
+          : alpha(theme.palette.grey[800], 0.92),
         borderColor: alpha(theme.palette.divider, 0.4),
         borderWidth: 1,
         textStyle: { color: theme.palette.common.white },
@@ -417,13 +419,19 @@ export default function WorldMapPage() {
           fontSize: isMobile ? 7 : 9,
         },
         itemStyle: {
-          areaColor: isDarkMode ? alpha(theme.palette.success.dark, 0.42) : alpha(theme.palette.success.light, 0.45),
-          borderColor: isDarkMode ? alpha(theme.palette.success.light, 0.4) : alpha(theme.palette.success.dark, 0.55),
+          areaColor: isDarkMode
+            ? alpha(theme.palette.success.dark, 0.42)
+            : alpha(theme.palette.success.light, 0.45),
+          borderColor: isDarkMode
+            ? alpha(theme.palette.success.light, 0.4)
+            : alpha(theme.palette.success.dark, 0.55),
           borderWidth: 1.2,
         },
         emphasis: {
           itemStyle: {
-            areaColor: isDarkMode ? alpha(theme.palette.success.main, 0.58) : alpha(theme.palette.success.main, 0.75),
+            areaColor: isDarkMode
+              ? alpha(theme.palette.success.main, 0.58)
+              : alpha(theme.palette.success.main, 0.75),
           },
           label: {
             show: true,
@@ -533,7 +541,7 @@ export default function WorldMapPage() {
   }
 
   return (
-    <Box maxHeight={'100%'} id='root-box'>
+    <Box maxHeight={'100%'} id="root-box">
       <Typography variant={isMobile ? 'h5' : 'h4'} component="h1" gutterBottom>
         {t('worldMap.title')}
       </Typography>
@@ -564,7 +572,11 @@ export default function WorldMapPage() {
                 />
               </Stack>
 
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems={{ sm: 'center' }}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={1}
+                alignItems={{ sm: 'center' }}
+              >
                 <Autocomplete
                   size="small"
                   options={MANUFACTORIES}
@@ -587,20 +599,30 @@ export default function WorldMapPage() {
                       },
                     },
                   }}
-                  renderInput={(params) => <TextField {...params} label="Factory" placeholder="Search factory" />}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Factory" placeholder="Search factory" />
+                  )}
                 />
 
                 <Stack direction="row" spacing={0.5}>
                   <Tooltip title="Zoom out">
                     <span>
-                      <IconButton onClick={handleZoomOut} disabled={mapZoom <= MIN_ZOOM} color="primary">
+                      <IconButton
+                        onClick={handleZoomOut}
+                        disabled={mapZoom <= MIN_ZOOM}
+                        color="primary"
+                      >
                         <RemoveIcon />
                       </IconButton>
                     </span>
                   </Tooltip>
                   <Tooltip title="Zoom in">
                     <span>
-                      <IconButton onClick={handleZoomIn} disabled={mapZoom >= MAX_ZOOM} color="primary">
+                      <IconButton
+                        onClick={handleZoomIn}
+                        disabled={mapZoom >= MAX_ZOOM}
+                        color="primary"
+                      >
                         <AddIcon />
                       </IconButton>
                     </span>
@@ -636,7 +658,6 @@ export default function WorldMapPage() {
                 style={{ height: '100%', width: '100%' }}
               />
             </Box>
-
           </CardContent>
         </Card>
 
