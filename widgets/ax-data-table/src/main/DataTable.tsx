@@ -14,24 +14,24 @@ export const DataTable = observer(function DataTable() {
 
   const pagination = store.paginationMode === 'pagingButtons'
     ? {
-        current: store.currentPage,
-        pageSize: store.pageSize,
-        total: store.totalCount,
-        showSizeChanger: store.showSizeChanger,
-        position: paginationPosition,
-      }
+      current: store.currentPage,
+      pageSize: store.pageSize,
+      total: store.totalCount,
+      showSizeChanger: store.showSizeChanger,
+      position: paginationPosition,
+    }
     : false
 
   const rowSelection: TableProps<DataTableRow>['rowSelection'] = store.selectionMode !== 'none' && store.selectionMethod !== 'row'
     ? {
-        type: store.selectionMethod === 'radio' ? 'radio' : 'checkbox',
-        selectedRowKeys: store.selectedKeys,
-        preserveSelectedRowKeys: store.keepSelection,
-        hideSelectAll: store.selectionMethod !== 'checkbox' || !store.showSelectAll,
-        onChange: (keys: Array<string | number>) => {
-          store.handleSelectionChange(keys.map((key) => String(key)))
-        },
-      }
+      type: store.selectionMethod === 'radio' ? 'radio' : 'checkbox',
+      selectedRowKeys: store.selectedKeys,
+      preserveSelectedRowKeys: store.keepSelection,
+      hideSelectAll: store.selectionMethod !== 'checkbox' || !store.showSelectAll,
+      onChange: (keys: Array<string | number>) => {
+        store.handleSelectionChange(keys.map((key) => String(key)))
+      },
+    }
     : undefined
 
   const handleChange: TableProps<DataTableRow>['onChange'] = (nextPagination, _filters, sorter) => {
@@ -60,6 +60,9 @@ export const DataTable = observer(function DataTable() {
 
   const emptyText = store.unavailable ? 'Datasource unavailable' : 'No rows to display'
 
+  let singleClickTimer: any;
+  let firstClickEvent = false;
+
   return (
     <Flex vertical gap={12} style={{ width: '100%' }}>
       <Table<DataTableRow>
@@ -77,20 +80,28 @@ export const DataTable = observer(function DataTable() {
         onChange={handleChange}
         onRow={(row) => ({
           onClick: () => {
-            store.handleRowClick(row.item)
+            if (!firstClickEvent) {
+              firstClickEvent = true
+              singleClickTimer = setTimeout(() => {
+                store.handleRowClick(row.item)
+                firstClickEvent = false
+              }, 50)
+            }
           },
           onDoubleClick: () => {
+            clearTimeout(singleClickTimer);
+            firstClickEvent
             store.handleRowDoubleClick(row.item)
           },
         })}
         onScroll={
           store.paginationMode === 'virtualScroll'
             ? (event) => {
-                const element = event.currentTarget
-                if (element.scrollTop + element.clientHeight >= element.scrollHeight - 24 && store.hasMoreItems && !store.loading) {
-                  store.handleLoadMore()
-                }
+              const element = event.currentTarget
+              if (element.scrollTop + element.clientHeight >= element.scrollHeight - 24 && store.hasMoreItems && !store.loading) {
+                store.handleLoadMore()
               }
+            }
             : undefined
         }
       />

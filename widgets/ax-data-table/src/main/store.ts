@@ -94,7 +94,7 @@ export class DataTableStore {
     if (config) {
       Object.assign(this, config)
     }
-
+    
     makeAutoObservable(this)
   }
 

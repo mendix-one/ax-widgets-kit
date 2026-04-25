@@ -1,8 +1,7 @@
-const base = require('@mendix/pluggable-widgets-tools/configs/prettier.base.json')
+const base = require('@mendix/pluggable-widgets-tools/configs/eslint.ts.base.json')
 
 module.exports = {
   ...base,
-  plugins: [require('@prettier/plugin-xml')],
   arrowParens: 'always',
   bracketSpacing: true,
   htmlWhitespaceSensitivity: 'css',

@@ -65,8 +65,6 @@ export interface AxDataTableContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     dataSource: ListValue;
-    selection?: SelectionSingleValue | SelectionMultiValue;
-    selectedKeysAttr?: EditableValue<string>;
     title?: DynamicValue<string>;
     stickyHeader: boolean;
     tableHeight: number;
@@ -78,6 +76,8 @@ export interface AxDataTableContainerProps {
     showRowCount: boolean;
     paginationVerticalPosition: PaginationVerticalPositionEnum;
     paginationHorizontalAlign: PaginationHorizontalAlignEnum;
+    selection?: SelectionSingleValue | SelectionMultiValue;
+    selectedKeysAttr?: EditableValue<string>;
     selectionMethod: SelectionMethodEnum;
     showSelectAll: boolean;
     keepSelection: boolean;
@@ -109,8 +109,6 @@ export interface AxDataTablePreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     dataSource: {} | { caption: string } | { type: string } | null;
-    selection: "None" | "Single" | "Multi";
-    selectedKeysAttr: string;
     title: string;
     stickyHeader: boolean;
     tableHeight: number | null;
@@ -122,6 +120,8 @@ export interface AxDataTablePreviewProps {
     showRowCount: boolean;
     paginationVerticalPosition: PaginationVerticalPositionEnum;
     paginationHorizontalAlign: PaginationHorizontalAlignEnum;
+    selection: "None" | "Single" | "Multi";
+    selectedKeysAttr: string;
     selectionMethod: SelectionMethodEnum;
     showSelectAll: boolean;
     keepSelection: boolean;

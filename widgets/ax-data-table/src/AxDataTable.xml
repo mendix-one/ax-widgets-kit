@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget
-  id="one.mendix.axdatatable.AxDataTable"
-  pluginWidget="true"
-  needsEntityContext="true"
-  offlineCapable="true"
-  supportedPlatform="Web"
+<widget id="one.mendix.axdatatable.AxDataTable" pluginWidget="true" needsEntityContext="false" offlineCapable="true" supportedPlatform="Web"
   xmlns="http://www.mendix.com/widget/1.0/"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
->
-  <name>Ax Data Table</name>
-  <description>Render a datasource as an Ant Design table with sorting, selection, and pagination.</description>
-  <prompt>Add a datasource-backed table with grouped headers, sorting, selection, and pagination.</prompt>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+  <name>Ax Data Table v0.1.0</name>
+  <description>ant design table widget</description>
   <icon />
   <properties>
     <propertyGroup caption="General">
@@ -19,27 +11,9 @@
         <property key="dataSource" type="datasource" isList="true">
           <caption>Data source</caption>
           <description>Datasource providing the row objects shown in the table.</description>
-          <prompt>Provides the list of row objects displayed in the table.</prompt>
-        </property>
-        <property key="selection" type="selection" dataSource="dataSource" required="false" onChange="onSelectionChanged">
-          <caption>Selection</caption>
-          <description>Optional Mendix selection binding for the currently selected rows.</description>
-          <prompt>Connect this when selected rows must be available to other widgets or actions.</prompt>
-          <selectionTypes>
-            <selectionType name="None" />
-            <selectionType name="Single" />
-            <selectionType name="Multi" />
-          </selectionTypes>
-        </property>
-        <property key="selectedKeysAttr" type="attribute" required="false">
-          <caption>Selected keys attribute</caption>
-          <description>Optional string attribute that stores selected row IDs as JSON.</description>
-          <attributeTypes>
-            <attributeType name="String" />
-          </attributeTypes>
         </property>
       </propertyGroup>
-      <propertyGroup caption="Header">
+      <propertyGroup caption="Table Options">
         <property key="title" type="textTemplate" required="false">
           <caption>Title</caption>
           <description>Optional title displayed above the table.</description>
@@ -48,7 +22,7 @@
           <caption>Sticky header</caption>
           <description>Keep the table header fixed while the table body scrolls.</description>
         </property>
-        <property key="tableHeight" type="integer" defaultValue="480">
+        <property key="tableHeight" type="integer" defaultValue="500">
           <caption>Table height</caption>
           <description>Height in pixels used for sticky header and virtual scroll modes.</description>
         </property>
@@ -104,6 +78,22 @@
         </property>
       </propertyGroup>
       <propertyGroup caption="Selection">
+        <property key="selection" type="selection" dataSource="dataSource" defaultValue="None" onChange="onSelectionChanged">
+          <caption>Selection</caption>
+          <description>Optional Mendix selection binding for the currently selected rows.</description>
+          <selectionTypes>
+            <selectionType name="None" />
+            <selectionType name="Single" />
+            <selectionType name="Multi" />
+          </selectionTypes>
+        </property>
+        <property key="selectedKeysAttr" type="attribute" required="false">
+          <caption>Selected keys attribute</caption>
+          <description>Optional string attribute that stores selected row IDs as JSON.</description>
+          <attributeTypes>
+            <attributeType name="String" />
+          </attributeTypes>
+        </property>
         <property key="selectionMethod" type="enumeration" defaultValue="checkbox">
           <caption>Selection method</caption>
           <description>Choose checkboxes, radios, or row-click selection.</description>
@@ -159,7 +149,7 @@
                   <enumerationValue key="link">Link</enumerationValue>
                 </enumerationValues>
               </property>
-              <property key="attributeValue" type="attribute" required="false" dataSource="dataSource">
+              <property key="attributeValue" type="attribute" required="false" dataSource="../dataSource">
                 <caption>Attribute value</caption>
                 <description>Datasource attribute shown in the cell and used for sorting when enabled.</description>
                 <attributeTypes>
@@ -174,15 +164,15 @@
                   <attributeType name="String" />
                 </attributeTypes>
               </property>
-              <property key="dynamicTextValue" type="textTemplate" required="false" dataSource="dataSource">
+              <property key="dynamicTextValue" type="textTemplate" required="false" dataSource="../dataSource">
                 <caption>Dynamic text value</caption>
                 <description>Datasource-linked text template shown in the cell.</description>
               </property>
-              <property key="linkCaption" type="textTemplate" required="false" dataSource="dataSource">
+              <property key="linkCaption" type="textTemplate" required="false" dataSource="../dataSource">
                 <caption>Link caption</caption>
                 <description>Caption for link cells. Falls back to dynamic text or attribute value when empty.</description>
               </property>
-              <property key="linkAction" type="action" required="false" dataSource="dataSource">
+              <property key="linkAction" type="action" required="false" dataSource="../dataSource">
                 <caption>Link action</caption>
                 <description>Action executed when the link cell is clicked.</description>
               </property>
@@ -229,7 +219,7 @@
           <caption>Dynamic columns source</caption>
           <description>Optional datasource that provides dynamic column metadata, such as when columns come from JSON configuration.</description>
         </property>
-        <property key="dynamicCellsAttribute" type="attribute" required="false" dataSource="dataSource">
+        <property key="dynamicCellsAttribute" type="attribute" required="false" dataSource="dynamicColumnsSource">
           <caption>Dynamic cells JSON</caption>
           <description>String attribute on each row containing a JSON object used to resolve dynamic cell values.</description>
           <attributeTypes>

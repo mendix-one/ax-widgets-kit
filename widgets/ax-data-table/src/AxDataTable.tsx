@@ -8,11 +8,10 @@ import {
     type DataTableCell,
     type DataTableColumn,
     type DataTableSelectionMode,
-    type DataTableStoreConfig,
     DataTableStore,
 } from './main/store'
 
-import type { ObjectItem } from 'mendix'
+import type { ListValue, ObjectItem } from 'mendix'
 import type { DynamicValue } from 'mendix'
 
 import type { AxDataTableContainerProps, ColumnsType } from '../typings/AxDataTableProps'
@@ -31,7 +30,7 @@ configure({ isolateGlobalState: true })
 export function AxDataTable(props: AxDataTableContainerProps): ReactElement {
     return (
         <ErrorBoundary>
-            <DataTableProvider createStore={() => createDataTableStore(props)}>
+            <DataTableProvider createStore={() => new DataTableStore()}>
                 <AxDataTableSync {...props} />
             </DataTableProvider>
         </ErrorBoundary>
@@ -42,39 +41,22 @@ function AxDataTableSync(props: AxDataTableContainerProps): ReactElement {
     const store = useDataTableStore()
 
     useEffect(() => {
-        initializeDataSource(props.dataSource, store)
-    }, [props.dataSource, store])
-
-    useEffect(() => {
-        syncRuntimeState(props, store)
+        buildStoreEvent(props, store)
+        buildStoreConfig(props, store)
     }, [
-        props.columns,
-        props.dataSource.hasMoreItems,
-        props.dataSource.items,
-        props.dataSource.sortOrder,
-        props.dataSource.status,
-        props.dataSource.totalCount,
-        props.selection,
-        props.title?.value,
-        props.dynamicCellsAttribute,
-        props.dynamicColumnAlign,
-        props.dynamicColumnFixed,
-        props.dynamicColumnGroupKey,
-        props.dynamicColumnGroupTitle,
-        props.dynamicColumnKey,
-        props.dynamicColumnTitle,
-        props.dynamicColumnValueKey,
-        props.dynamicColumnVisible,
-        props.dynamicColumnWidth,
-        props.dynamicColumnsSource?.items,
+        props,
         store,
     ])
+
+    useEffect(() => {
+        buildPagination(props.dataSource, store)
+        syncRuntimeState(props, store)
+    }, [props.dataSource, store])
 
     return <DataTable />
 }
 
-function createDataTableStore(props: AxDataTableContainerProps): DataTableStore {
-    const store = new DataTableStore(buildStoreConfig(props))
+function buildStoreEvent(props: AxDataTableContainerProps, store: DataTableStore) {
 
     store.setOnPageChange((page) => {
         const safePage = Math.max(1, page)
@@ -127,51 +109,50 @@ function createDataTableStore(props: AxDataTableContainerProps): DataTableStore 
     return store
 }
 
-function buildStoreConfig(props: AxDataTableContainerProps): DataTableStoreConfig {
+function buildStoreConfig(props: AxDataTableContainerProps, store: DataTableStore) {
     const initialPage = Math.max(1, props.defaultPageNumber)
-
-    return {
-        title: props.title?.value ?? '',
-        stickyHeader: props.stickyHeader,
-        tableHeight: props.tableHeight,
-        paginationMode: props.paginationMode,
-        defaultPageNumber: initialPage,
-        pageSize: props.pageSize,
-        showRowCount: props.showRowCount,
-        paginationVerticalPosition: props.paginationVerticalPosition,
-        paginationHorizontalAlign: props.paginationHorizontalAlign,
-        selectionMethod: props.selectionMethod,
-        showSelectAll: props.showSelectAll,
-        keepSelection: props.keepSelection,
-        currentPage: initialPage,
-        bordered: props.bordered,
-        showSizeChanger: props.showSizeChanger,
-    }
+    store.setTitle(props.title?.value ?? '')
+    store.setStickyHeader(props.stickyHeader)
+    store.setTableHeight(props.tableHeight || 0)
+    store.setPaginationMode(props.paginationMode)
+    store.setDefaultPageNumber(initialPage)
+    store.setPageSize(props.pageSize)
+    store.setShowRowCount(props.showRowCount)
+    store.setPaginationVerticalPosition(props.paginationVerticalPosition)
+    store.setPaginationHorizontalAlign(props.paginationHorizontalAlign)
+    store.setSelectionMethod(props.selectionMethod)
+    store.setShowSelectAll(props.showSelectAll)
+    store.setKeepSelection(props.keepSelection)
+    store.setBordered(props.bordered)
+    store.setShowSizeChanger(props.showSizeChanger)
 }
 
-function initializeDataSource(dataSource: AxDataTableContainerProps['dataSource'], store: DataTableStore) {
-    dataSource.requestTotalCount(store.showRowCount)
+function buildPagination(dataSource: ListValue, store: DataTableStore) {
+    // always need total count to render pagination correctly, even if pagination mode is 'none'
+    dataSource.requestTotalCount(true)
 
-    if (store.paginationMode === 'pagingButtons') {
-        dataSource.setOffset((store.defaultPageNumber - 1) * Math.max(1, store.pageSize))
-        dataSource.setLimit(Math.max(1, store.pageSize))
-    } else if (store.paginationMode === 'loadMore' || store.paginationMode === 'virtualScroll') {
-        dataSource.setOffset(0)
-        dataSource.setLimit(Math.max(1, store.defaultPageNumber * store.pageSize))
-    } else if (store.paginationMode === 'none') {
-        dataSource.setOffset(0)
-        dataSource.setLimit(undefined)
+    const dsPageNo = dataSource.offset && dataSource.limit ? Math.floor(dataSource.offset / dataSource.limit) + 1 : 1
+    if (dsPageNo !== store.currentPage) {
+        if (store.paginationMode === 'pagingButtons') {
+            const pageSize = Math.max(1, store.pageSize)
+            dataSource.setOffset((store.defaultPageNumber - 1) * pageSize)
+            dataSource.setLimit(pageSize)
+        } else if (store.paginationMode === 'loadMore' || store.paginationMode === 'virtualScroll') {
+            dataSource.setOffset(0)
+            dataSource.setLimit(Math.max(1, store.defaultPageNumber * store.pageSize))
+        } else if (store.paginationMode === 'none') {
+            dataSource.setOffset(0)
+            dataSource.setLimit(undefined)
+        }
+        store.setCurrentPage(store.defaultPageNumber)
     }
-
-    store.setCurrentPage(store.defaultPageNumber)
 }
 
 function syncRuntimeState(props: AxDataTableContainerProps, store: DataTableStore) {
-    store.setTitle(props.title?.value ?? '')
-    store.setLoading(props.dataSource.status === 'loading')
-    store.setUnavailable(props.dataSource.status === 'unavailable')
+    store.setLoading(props.dataSource.status.toString().toLocaleLowerCase() === 'loading')
+    store.setUnavailable(props.dataSource.status.toString().toLocaleLowerCase() === 'unavailable')
 
-    if (props.dataSource.status === 'available') {
+    if (props.dataSource.status.toString().toLocaleLowerCase() === 'available') {
         store.setHasMoreItems(Boolean(props.dataSource.hasMoreItems))
         store.setTotalCount(props.dataSource.totalCount)
         const columns = [...normalizeColumns(props.columns ?? []), ...normalizeDynamicColumns(props)]
@@ -182,8 +163,6 @@ function syncRuntimeState(props: AxDataTableContainerProps, store: DataTableStor
 
         store.setSelectionMode(getSelectionMode(props.selection))
         store.setSelectedKeys(getSelectionKeys(props.selection))
-
-        console.log('data', props.dataSource.items)
 
         const sortInstruction = props.dataSource.sortOrder?.[0]
         if (!sortInstruction) {
