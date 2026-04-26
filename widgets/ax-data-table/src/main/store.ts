@@ -192,4 +192,12 @@ export class DataTableStore {
   handleRowDoubleClick(item: ObjectItem) {
     this.onRowDoubleClick?.(item)
   }
+
+  get visibleRows(): DataTableRow[] {
+    if (this.paginationMode === 'pagingButtons') {
+      const start = (this.currentPage - 1) * this.pageSize
+      return this.rows.slice(start, start + this.pageSize)
+    }
+    return this.rows
+  }
 }

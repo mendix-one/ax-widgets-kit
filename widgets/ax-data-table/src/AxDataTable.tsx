@@ -67,18 +67,7 @@ function buildStoreEvent(props: AxDataTableContainerProps, store: DataTableStore
         store.setCurrentPage(safePage)
         store.setPageSize(safePageSize)
 
-        if (store.paginationMode === 'pagingButtons') {
-            if (store.enableTreeTable) {
-                props.dataSource.setOffset(0)
-                props.dataSource.setLimit(undefined)
-                return
-            }
-
-            props.dataSource.setOffset((safePage - 1) * safePageSize)
-            props.dataSource.setLimit(safePageSize)
-            return
-        }
-
+        // pagingButtons: fully client-side — no datasource offset/limit changes needed
         if (store.paginationMode === 'loadMore' || store.paginationMode === 'virtualScroll') {
             props.dataSource.setOffset(0)
             props.dataSource.setLimit(Math.max(1, safePage * safePageSize))
@@ -145,26 +134,21 @@ function buildPagination(dataSource: ListValue, store: DataTableStore) {
     // always need total count to render pagination correctly, even if pagination mode is 'none'
     dataSource.requestTotalCount(true)
 
-    if (store.enableTreeTable && store.paginationMode === 'pagingButtons') {
+    if (store.paginationMode === 'pagingButtons') {
+        // Client-side pagination: load all rows, slicing is done in store.visibleRows
         dataSource.setOffset(0)
         dataSource.setLimit(undefined)
+        store.setCurrentPage(store.defaultPageNumber)
         return
     }
 
-    const dsPageNo = dataSource.offset && dataSource.limit ? Math.floor(dataSource.offset / dataSource.limit) + 1 : 1
-    if (dsPageNo !== store.currentPage) {
-        if (store.paginationMode === 'pagingButtons') {
-            const pageSize = Math.max(1, store.pageSize)
-            dataSource.setOffset((store.defaultPageNumber - 1) * pageSize)
-            dataSource.setLimit(pageSize)
-        } else if (store.paginationMode === 'loadMore' || store.paginationMode === 'virtualScroll') {
-            dataSource.setOffset(0)
-            dataSource.setLimit(Math.max(1, store.defaultPageNumber * store.pageSize))
-        } else if (store.paginationMode === 'none') {
-            dataSource.setOffset(0)
-            dataSource.setLimit(undefined)
-        }
+    if (store.paginationMode === 'loadMore' || store.paginationMode === 'virtualScroll') {
+        dataSource.setOffset(0)
+        dataSource.setLimit(Math.max(1, store.defaultPageNumber * store.pageSize))
         store.setCurrentPage(store.defaultPageNumber)
+    } else if (store.paginationMode === 'none') {
+        dataSource.setOffset(0)
+        dataSource.setLimit(undefined)
     }
 }
 
@@ -180,17 +164,14 @@ function syncRuntimeState(props: AxDataTableContainerProps, store: DataTableStor
             ? buildTreeRows(flatRows, props.treeTableIdAttr, props.treeTableParentIdAttr)
             : flatRows
 
-        const rows = store.enableTreeTable && store.paginationMode === 'pagingButtons'
-            ? paginateTreeRows(treeRows, store.currentPage, store.pageSize)
-            : treeRows
-
+        // Store all rows — visibleRows getter handles client-side slicing for pagingButtons
         store.setTotalCount(
-            store.enableTreeTable && store.paginationMode === 'pagingButtons'
+            store.paginationMode === 'pagingButtons'
                 ? treeRows.length
                 : props.dataSource.totalCount,
         )
         store.setColumns(columns)
-        store.setRows(rows)
+        store.setRows(treeRows)
         store.pruneSelection(flatRows.map((row) => row.key))
 
         store.setSelectionMode(getSelectionMode(props.selection))
@@ -431,14 +412,6 @@ function buildTreeRows(
     }
 
     return roots
-}
-
-function paginateTreeRows(rows: DataTableRow[], currentPage: number, pageSize: number): DataTableRow[] {
-    const safePageSize = Math.max(1, pageSize)
-    const safePage = Math.max(1, currentPage)
-    const startIndex = (safePage - 1) * safePageSize
-
-    return rows.slice(startIndex, startIndex + safePageSize)
 }
 
 function normalizeAlign(value?: string): DataTableColumn['align'] {

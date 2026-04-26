@@ -68,7 +68,7 @@ export const DataTable = observer(function DataTable() {
     <Flex vertical gap={12} style={{ width: '100%' }}>
       <Table<DataTableRow>
         rowKey="key"
-        dataSource={store.rows}
+        dataSource={store.visibleRows}
         columns={columns}
         loading={store.loading}
         pagination={pagination}
