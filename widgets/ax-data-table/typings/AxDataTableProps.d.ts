@@ -22,13 +22,13 @@ export type AlignEnum = "left" | "center" | "right";
 export type FixedEnum = "none" | "left" | "right";
 
 export interface ColumnsType {
+    attributeValue?: ListAttributeValue<Big | boolean | Date | string>;
     columnKey: string;
     caption?: DynamicValue<string>;
     groupKey: string;
     groupCaption: string;
     visible: boolean;
     renderType: RenderTypeEnum;
-    attributeValue?: ListAttributeValue<Big | boolean | Date | string>;
     dynamicTextValue?: ListExpressionValue<string>;
     linkCaption?: ListExpressionValue<string>;
     linkAction?: ListActionValue;
@@ -41,13 +41,13 @@ export interface ColumnsType {
 }
 
 export interface ColumnsPreviewType {
+    attributeValue: string;
     columnKey: string;
     caption: string;
     groupKey: string;
     groupCaption: string;
     visible: boolean;
     renderType: RenderTypeEnum;
-    attributeValue: string;
     dynamicTextValue: string;
     linkCaption: string;
     linkAction: {} | null;
@@ -81,6 +81,11 @@ export interface AxDataTableContainerProps {
     selectionMethod: SelectionMethodEnum;
     showSelectAll: boolean;
     keepSelection: boolean;
+    enableTreeTable: boolean;
+    treeTableIdAttr?: ListAttributeValue<string | Big>;
+    treeTableParentIdAttr?: ListAttributeValue<string | Big>;
+    treeIndentSize: number;
+    treeCheckStrictly: boolean;
     columns: ColumnsType[];
     dynamicColumnsSource?: ListValue;
     dynamicCellsAttribute?: ListAttributeValue<string>;
@@ -125,6 +130,11 @@ export interface AxDataTablePreviewProps {
     selectionMethod: SelectionMethodEnum;
     showSelectAll: boolean;
     keepSelection: boolean;
+    enableTreeTable: boolean;
+    treeTableIdAttr: string;
+    treeTableParentIdAttr: string;
+    treeIndentSize: number | null;
+    treeCheckStrictly: boolean;
     columns: ColumnsPreviewType[];
     dynamicColumnsSource: {} | { caption: string } | { type: string } | null;
     dynamicCellsAttribute: string;

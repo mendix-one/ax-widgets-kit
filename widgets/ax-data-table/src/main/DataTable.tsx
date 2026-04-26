@@ -28,6 +28,7 @@ export const DataTable = observer(function DataTable() {
       selectedRowKeys: store.selectedKeys,
       preserveSelectedRowKeys: store.keepSelection,
       hideSelectAll: store.selectionMethod !== 'checkbox' || !store.showSelectAll,
+      checkStrictly: store.enableTreeTable ? store.treeCheckStrictly : undefined,
       onChange: (keys: Array<string | number>) => {
         store.handleSelectionChange(keys.map((key) => String(key)))
       },
@@ -36,7 +37,7 @@ export const DataTable = observer(function DataTable() {
 
   const handleChange: TableProps<DataTableRow>['onChange'] = (nextPagination, _filters, sorter) => {
     if (store.paginationMode === 'pagingButtons' && nextPagination.current) {
-      store.handlePageChange(nextPagination.current)
+      store.handlePageChange(nextPagination.current, nextPagination.pageSize || store.pageSize)
     }
 
     if (Array.isArray(sorter)) {
@@ -60,8 +61,8 @@ export const DataTable = observer(function DataTable() {
 
   const emptyText = store.unavailable ? 'Datasource unavailable' : 'No rows to display'
 
-  let singleClickTimer: any;
-  let firstClickEvent = false;
+  let singleClickTimer: ReturnType<typeof setTimeout> | undefined
+  let firstClickEvent = false
 
   return (
     <Flex vertical gap={12} style={{ width: '100%' }}>
@@ -78,8 +79,16 @@ export const DataTable = observer(function DataTable() {
         locale={{ emptyText }}
         title={store.title ? () => <Typography.Title level={5} style={{ margin: 0 }}>{store.title}</Typography.Title> : undefined}
         onChange={handleChange}
+        expandable={store.enableTreeTable ? { indentSize: store.treeIndentSize } : undefined}
+        rowClassName={(row) =>
+          store.selectedKeys.includes(row.key) ? 'ant-table-row-selected' : ''
+        }
         onRow={(row) => ({
-          onClick: () => {
+          onClick: (event) => {
+            if (shouldIgnoreRowClick(event.target)) {
+              return
+            }
+
             if (!firstClickEvent) {
               firstClickEvent = true
               singleClickTimer = setTimeout(() => {
@@ -88,9 +97,15 @@ export const DataTable = observer(function DataTable() {
               }, 50)
             }
           },
-          onDoubleClick: () => {
-            clearTimeout(singleClickTimer);
-            firstClickEvent
+          onDoubleClick: (event) => {
+            if (shouldIgnoreRowClick(event.target)) {
+              return
+            }
+
+            if (singleClickTimer) {
+              clearTimeout(singleClickTimer)
+            }
+            firstClickEvent = false
             store.handleRowDoubleClick(row.item)
           },
         })}
@@ -254,4 +269,14 @@ function buildRowCountText(store: ReturnType<typeof useDataTableStore>): string 
   }
 
   return `${store.rows.length} rows`
+}
+
+function shouldIgnoreRowClick(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) {
+    return false
+  }
+
+  return Boolean(
+    target.closest('a, button, input, textarea, select, [role="button"], .ant-table-selection-column, .ant-table-row-expand-icon'),
+  )
 }

@@ -36,6 +36,7 @@ export interface DataTableRow {
   key: string
   item: ObjectItem
   cells: Record<string, DataTableCell>
+  children?: DataTableRow[]
 }
 
 export interface DataTableStoreConfig {
@@ -54,6 +55,9 @@ export interface DataTableStoreConfig {
   currentPage: number
   bordered: boolean
   showSizeChanger: boolean
+  enableTreeTable: boolean
+  treeIndentSize: number
+  treeCheckStrictly: boolean
 }
 
 export class DataTableStore {
@@ -74,6 +78,9 @@ export class DataTableStore {
   unavailable = false
   bordered = false
   showSizeChanger = false
+  enableTreeTable = false
+  treeIndentSize = 15
+  treeCheckStrictly = true
   hasMoreItems = false
   totalCount?: number = undefined
   currentPage = 1
@@ -83,7 +90,7 @@ export class DataTableStore {
   columns: DataTableColumn[] = []
   rows: DataTableRow[] = []
 
-  onPageChange?: (page: number) => void
+  onPageChange?: (pageNo: number, pageSize: number) => void
   onLoadMore?: () => void
   onSortChange?: (columnKey: string, direction: DataTableSortDirection) => void
   onSelectionChange?: (keys: string[]) => void
@@ -115,6 +122,9 @@ export class DataTableStore {
   setUnavailable(value: boolean) { this.unavailable = value }
   setBordered(value: boolean) { this.bordered = value }
   setShowSizeChanger(value: boolean) { this.showSizeChanger = value }
+  setEnableTreeTable(value: boolean) { this.enableTreeTable = value }
+  setTreeIndentSize(value: number) { this.treeIndentSize = value }
+  setTreeCheckStrictly(value: boolean) { this.treeCheckStrictly = value }
   setHasMoreItems(value: boolean) { this.hasMoreItems = value }
   setTotalCount(value: number | undefined) { this.totalCount = value }
   setCurrentPage(value: number) { this.currentPage = value }
@@ -126,7 +136,7 @@ export class DataTableStore {
   setColumns(columns: DataTableColumn[]) { this.columns = columns }
   setRows(rows: DataTableRow[]) { this.rows = rows }
 
-  setOnPageChange(handler: ((page: number) => void) | undefined) { this.onPageChange = handler }
+  setOnPageChange(handler: ((pageNo: number, pageSize: number) => void) | undefined) { this.onPageChange = handler }
   setOnLoadMore(handler: (() => void) | undefined) { this.onLoadMore = handler }
   setOnSortChange(handler: ((columnKey: string, direction: DataTableSortDirection) => void) | undefined) {
     this.onSortChange = handler
@@ -147,8 +157,8 @@ export class DataTableStore {
     }
   }
 
-  handlePageChange(page: number) {
-    this.onPageChange?.(page)
+  handlePageChange(pageNo: number, pageSize: number) {
+    this.onPageChange?.(pageNo, pageSize)
   }
 
   handleLoadMore() {
@@ -165,7 +175,7 @@ export class DataTableStore {
   }
 
   handleRowClick(item: ObjectItem) {
-    if (this.selectionMethod === 'row' && this.selectionMode !== 'none') {
+    if (this.selectionMode !== 'none') {
       const itemKey = String(item.id)
       const nextKeys = this.selectionMode === 'single'
         ? [itemKey]

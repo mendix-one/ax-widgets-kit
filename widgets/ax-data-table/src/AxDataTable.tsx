@@ -7,10 +7,12 @@ import { DataTable } from './main/DataTable'
 import {
     type DataTableCell,
     type DataTableColumn,
+    type DataTableRow,
     type DataTableSelectionMode,
     DataTableStore,
 } from './main/store'
 
+import type { Big } from 'big.js'
 import type { ListValue, ObjectItem } from 'mendix'
 import type { DynamicValue } from 'mendix'
 
@@ -43,6 +45,7 @@ function AxDataTableSync(props: AxDataTableContainerProps): ReactElement {
     useEffect(() => {
         buildStoreEvent(props, store)
         buildStoreConfig(props, store)
+        syncRuntimeState(props, store)
     }, [
         props,
         store,
@@ -50,7 +53,6 @@ function AxDataTableSync(props: AxDataTableContainerProps): ReactElement {
 
     useEffect(() => {
         buildPagination(props.dataSource, store)
-        syncRuntimeState(props, store)
     }, [props.dataSource, store])
 
     return <DataTable />
@@ -58,19 +60,28 @@ function AxDataTableSync(props: AxDataTableContainerProps): ReactElement {
 
 function buildStoreEvent(props: AxDataTableContainerProps, store: DataTableStore) {
 
-    store.setOnPageChange((page) => {
-        const safePage = Math.max(1, page)
+    store.setOnPageChange((pageNo, pageSize) => {
+        const safePageSize = Math.max(1, pageSize)
+        const pageSizeChanged = safePageSize !== store.pageSize
+        const safePage = Math.max(1, pageSizeChanged ? 1 : pageNo)
         store.setCurrentPage(safePage)
+        store.setPageSize(safePageSize)
 
         if (store.paginationMode === 'pagingButtons') {
-            props.dataSource.setOffset((safePage - 1) * Math.max(1, store.pageSize))
-            props.dataSource.setLimit(Math.max(1, store.pageSize))
+            if (store.enableTreeTable) {
+                props.dataSource.setOffset(0)
+                props.dataSource.setLimit(undefined)
+                return
+            }
+
+            props.dataSource.setOffset((safePage - 1) * safePageSize)
+            props.dataSource.setLimit(safePageSize)
             return
         }
 
         if (store.paginationMode === 'loadMore' || store.paginationMode === 'virtualScroll') {
             props.dataSource.setOffset(0)
-            props.dataSource.setLimit(Math.max(1, safePage * store.pageSize))
+            props.dataSource.setLimit(Math.max(1, safePage * safePageSize))
         }
     })
 
@@ -125,11 +136,20 @@ function buildStoreConfig(props: AxDataTableContainerProps, store: DataTableStor
     store.setKeepSelection(props.keepSelection)
     store.setBordered(props.bordered)
     store.setShowSizeChanger(props.showSizeChanger)
+    store.setEnableTreeTable(props.enableTreeTable)
+    store.setTreeIndentSize(props.treeIndentSize ?? 15)
+    store.setTreeCheckStrictly(props.treeCheckStrictly ?? true)
 }
 
 function buildPagination(dataSource: ListValue, store: DataTableStore) {
     // always need total count to render pagination correctly, even if pagination mode is 'none'
     dataSource.requestTotalCount(true)
+
+    if (store.enableTreeTable && store.paginationMode === 'pagingButtons') {
+        dataSource.setOffset(0)
+        dataSource.setLimit(undefined)
+        return
+    }
 
     const dsPageNo = dataSource.offset && dataSource.limit ? Math.floor(dataSource.offset / dataSource.limit) + 1 : 1
     if (dsPageNo !== store.currentPage) {
@@ -154,12 +174,24 @@ function syncRuntimeState(props: AxDataTableContainerProps, store: DataTableStor
 
     if (props.dataSource.status.toString().toLocaleLowerCase() === 'available') {
         store.setHasMoreItems(Boolean(props.dataSource.hasMoreItems))
-        store.setTotalCount(props.dataSource.totalCount)
         const columns = [...normalizeColumns(props.columns ?? []), ...normalizeDynamicColumns(props)]
-        const rows = (props.dataSource.items ?? []).map((item) => buildRow(item, columns, props.dynamicCellsAttribute))
+        const flatRows = (props.dataSource.items ?? []).map((item) => buildRow(item, columns, props.dynamicCellsAttribute))
+        const treeRows = store.enableTreeTable
+            ? buildTreeRows(flatRows, props.treeTableIdAttr, props.treeTableParentIdAttr)
+            : flatRows
+
+        const rows = store.enableTreeTable && store.paginationMode === 'pagingButtons'
+            ? paginateTreeRows(treeRows, store.currentPage, store.pageSize)
+            : treeRows
+
+        store.setTotalCount(
+            store.enableTreeTable && store.paginationMode === 'pagingButtons'
+                ? treeRows.length
+                : props.dataSource.totalCount,
+        )
         store.setColumns(columns)
         store.setRows(rows)
-        store.pruneSelection(rows.map((row) => row.key))
+        store.pruneSelection(flatRows.map((row) => row.key))
 
         store.setSelectionMode(getSelectionMode(props.selection))
         store.setSelectedKeys(getSelectionKeys(props.selection))
@@ -344,6 +376,69 @@ function getDynamicCellText(dynamicCells: Record<string, unknown>, key: string):
     }
 
     return JSON.stringify(value)
+}
+
+function buildTreeRows(
+    flatRows: DataTableRow[],
+    idAttr: AxDataTableContainerProps['treeTableIdAttr'],
+    parentIdAttr: AxDataTableContainerProps['treeTableParentIdAttr'],
+): DataTableRow[] {
+    if (!idAttr || !parentIdAttr) {
+        return flatRows
+    }
+
+    // Build lookup: treeId string -> mutable row clone
+    const rowByTreeId = new Map<string, DataTableRow>()
+    const rowClones = flatRows.map((row) => {
+        const clone: DataTableRow = { ...row, children: undefined }
+        const rawId = idAttr.get(row.item).value
+        if (rawId !== undefined && rawId !== null) {
+            const treeId = (rawId as Big | string | undefined) instanceof Object && 'toString' in Object(rawId)
+                ? (rawId as { toString(): string }).toString()
+                : String(rawId)
+            rowByTreeId.set(treeId, clone)
+        }
+
+        return clone
+    })
+
+    const roots: DataTableRow[] = []
+
+    for (const clone of rowClones) {
+        const originalRow = flatRows.find((r) => r.key === clone.key)
+        if (!originalRow) {
+            roots.push(clone)
+            continue
+        }
+
+        const rawParentId = parentIdAttr.get(originalRow.item).value
+        const parentIdStr = rawParentId !== undefined && rawParentId !== null
+            ? ((rawParentId as Big | string | undefined) instanceof Object && 'toString' in Object(rawParentId)
+                ? (rawParentId as { toString(): string }).toString()
+                : String(rawParentId))
+            : ''
+
+        if (!parentIdStr || !rowByTreeId.has(parentIdStr)) {
+            roots.push(clone)
+        } else {
+            const parent = rowByTreeId.get(parentIdStr)!
+            if (!parent.children) {
+                parent.children = []
+            }
+
+            parent.children.push(clone)
+        }
+    }
+
+    return roots
+}
+
+function paginateTreeRows(rows: DataTableRow[], currentPage: number, pageSize: number): DataTableRow[] {
+    const safePageSize = Math.max(1, pageSize)
+    const safePage = Math.max(1, currentPage)
+    const startIndex = (safePage - 1) * safePageSize
+
+    return rows.slice(startIndex, startIndex + safePageSize)
 }
 
 function normalizeAlign(value?: string): DataTableColumn['align'] {

@@ -113,6 +113,38 @@
         </property>
       </propertyGroup>
     </propertyGroup>
+    <propertyGroup caption="Tree Table">
+      <property key="enableTreeTable" type="boolean" defaultValue="false">
+        <caption>Tree table</caption>
+        <description>Enable tree table mode to show hierarchical data.</description>
+      </property>
+      <property key="treeTableIdAttr" type="attribute" required="false" dataSource="dataSource">
+        <caption>Row ID attribute</caption>
+        <description>Attribute that provides a unique ID for each row in tree table mode.</description>
+        <attributeTypes>
+          <attributeType name="String" />
+          <attributeType name="Integer" />
+          <attributeType name="Long" />
+        </attributeTypes>
+      </property>
+      <property key="treeTableParentIdAttr" type="attribute" required="false" dataSource="dataSource">
+        <caption>Parent ID attribute</caption>
+        <description>Attribute that provides the parent row ID for each row in tree table mode. Rows with an empty or unmatched parent ID are treated as root rows.</description>
+        <attributeTypes>
+          <attributeType name="String" />
+          <attributeType name="Integer" />
+          <attributeType name="Long" />
+        </attributeTypes>
+      </property>
+      <property key="treeIndentSize" type="integer" defaultValue="15">
+        <caption>Indent size</caption>
+        <description>Indent width in pixels for each level of the tree hierarchy.</description>
+      </property>
+      <property key="treeCheckStrictly" type="boolean" defaultValue="true">
+        <caption>Check strictly</caption>
+        <description>When enabled, parent and child checkboxes are independent. When disabled, checking a parent also checks all its children.</description>
+      </property>
+    </propertyGroup>
     <propertyGroup caption="Columns">
       <propertyGroup caption="Definitions">
         <property key="columns" type="object" isList="true" required="false">
@@ -120,6 +152,21 @@
           <description>Fixed column definitions bound directly to attributes on the row datasource entity.</description>
           <properties>
             <propertyGroup caption="Column">
+              <property key="attributeValue" type="attribute" required="false" dataSource="../dataSource">
+                <caption>Attribute value</caption>
+                <description>Datasource attribute shown in the cell and used for sorting when enabled.</description>
+                <attributeTypes>
+                  <attributeType name="AutoNumber" />
+                  <attributeType name="Boolean" />
+                  <attributeType name="DateTime" />
+                  <attributeType name="Decimal" />
+                  <attributeType name="Enum" />
+                  <attributeType name="HashString" />
+                  <attributeType name="Integer" />
+                  <attributeType name="Long" />
+                  <attributeType name="String" />
+                </attributeTypes>
+              </property>
               <property key="columnKey" type="string">
                 <caption>Column key</caption>
                 <description>Stable key for the column.</description>
@@ -149,21 +196,7 @@
                   <enumerationValue key="link">Link</enumerationValue>
                 </enumerationValues>
               </property>
-              <property key="attributeValue" type="attribute" required="false" dataSource="../dataSource">
-                <caption>Attribute value</caption>
-                <description>Datasource attribute shown in the cell and used for sorting when enabled.</description>
-                <attributeTypes>
-                  <attributeType name="AutoNumber" />
-                  <attributeType name="Boolean" />
-                  <attributeType name="DateTime" />
-                  <attributeType name="Decimal" />
-                  <attributeType name="Enum" />
-                  <attributeType name="HashString" />
-                  <attributeType name="Integer" />
-                  <attributeType name="Long" />
-                  <attributeType name="String" />
-                </attributeTypes>
-              </property>
+
               <property key="dynamicTextValue" type="textTemplate" required="false" dataSource="../dataSource">
                 <caption>Dynamic text value</caption>
                 <description>Datasource-linked text template shown in the cell.</description>
