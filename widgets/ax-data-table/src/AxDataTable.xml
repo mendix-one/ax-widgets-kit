@@ -13,11 +13,26 @@
           <description>Datasource providing the row objects shown in the table.</description>
         </property>
       </propertyGroup>
-      <propertyGroup caption="Table Options">
+      <propertyGroup caption="Title">
+        <property key="showTitle" type="boolean" defaultValue="false">
+          <caption>Show title</caption>
+          <description>Display a title above the table.</description>
+        </property>
         <property key="title" type="textTemplate" required="false">
           <caption>Title</caption>
           <description>Optional title displayed above the table.</description>
         </property>
+        <property key="titleAlign" type="enumeration" defaultValue="left">
+          <caption>Text align</caption>
+          <description>Horizontal alignment of the title text.</description>
+          <enumerationValues>
+            <enumerationValue key="left">Left</enumerationValue>
+            <enumerationValue key="center">Center</enumerationValue>
+            <enumerationValue key="right">Right</enumerationValue>
+          </enumerationValues>
+        </property>
+      </propertyGroup>
+      <propertyGroup caption="Table Options">
         <property key="stickyHeader" type="boolean" defaultValue="false">
           <caption>Sticky header</caption>
           <description>Keep the table header fixed while the table body scrolls.</description>
@@ -29,6 +44,14 @@
         <property key="bordered" type="boolean" defaultValue="false">
           <caption>Bordered</caption>
           <description>Show borders around the table cells and header.</description>
+        </property>
+        <property key="headerRowHeight" type="integer" defaultValue="0">
+          <caption>Header row height</caption>
+          <description>Fixed header row height in pixels. Leave at 0 for auto.</description>
+        </property>
+        <property key="bodyRowHeight" type="integer" defaultValue="0">
+          <caption>Body row height</caption>
+          <description>Fixed body row height in pixels. Leave at 0 for auto.</description>
         </property>
       </propertyGroup>
       <propertyGroup caption="Pagination">
@@ -217,18 +240,24 @@
                 <caption>Sortable</caption>
                 <description>Enable remote sorting for this column when its attribute allows sorting.</description>
               </property>
-              <property key="align" type="enumeration" defaultValue="left">
-                <caption>Alignment</caption>
-                <description>Align the column header and cells.</description>
+              <property key="headerAlign" type="enumeration" defaultValue="left">
+                <caption>Header align</caption>
+                <description>Alignment for the column header only.</description>
                 <enumerationValues>
                   <enumerationValue key="left">Left</enumerationValue>
                   <enumerationValue key="center">Center</enumerationValue>
                   <enumerationValue key="right">Right</enumerationValue>
                 </enumerationValues>
               </property>
-              <property key="width" type="integer" defaultValue="180">
-                <caption>Width</caption>
-                <description>Preferred column width in pixels.</description>
+              <property key="cellAlign" type="enumeration" defaultValue="auto">
+                <caption>Cell Alignment</caption>
+                <description>Align the column header and cells.</description>
+                <enumerationValues>
+                  <enumerationValue key="auto">Auto</enumerationValue>
+                  <enumerationValue key="left">Left</enumerationValue>
+                  <enumerationValue key="center">Center</enumerationValue>
+                  <enumerationValue key="right">Right</enumerationValue>
+                </enumerationValues>
               </property>
               <property key="fixed" type="enumeration" defaultValue="none">
                 <caption>Fixed position</caption>
@@ -243,11 +272,24 @@
                 <caption>Ellipsis</caption>
                 <description>Truncate overflowing cell text with ellipsis.</description>
               </property>
+              <property key="width" type="integer" defaultValue="180">
+                <caption>Width</caption>
+                <description>Preferred column width in pixels.</description>
+              </property>
+              <property key="minWidth" type="integer" defaultValue="0">
+                <caption>Min width</caption>
+                <description>Minimum column width in pixels. Leave at 0 for auto.</description>
+              </property>
+              <property key="maxWidth" type="integer" defaultValue="0">
+                <caption>Max width</caption>
+                <description>Maximum column width in pixels. Leave at 0 for auto.</description>
+              </property>
             </propertyGroup>
           </properties>
         </property>
       </propertyGroup>
-      <propertyGroup caption="Dynamic columns">
+    </propertyGroup>
+          <propertyGroup caption="Dynamic columns">
         <property key="dynamicColumnsSource" type="datasource" isList="true" required="false">
           <caption>Dynamic columns source</caption>
           <description>Optional datasource that provides dynamic column metadata, such as when columns come from JSON configuration.</description>
@@ -298,7 +340,6 @@
           <description>Optional fixed-position string for each dynamic column: left, right, or none.</description>
         </property>
       </propertyGroup>
-    </propertyGroup>
     <propertyGroup caption="Events">
       <property key="onRowClick" type="action" required="false" dataSource="dataSource">
         <caption>On row click</caption>

@@ -7,6 +7,8 @@ import { CSSProperties } from "react";
 import { DynamicValue, EditableValue, ListValue, ListActionValue, ListAttributeValue, ListExpressionValue, SelectionSingleValue, SelectionMultiValue } from "mendix";
 import { Big } from "big.js";
 
+export type TitleAlignEnum = "left" | "center" | "right";
+
 export type PaginationModeEnum = "pagingButtons" | "virtualScroll" | "loadMore" | "none";
 
 export type PaginationVerticalPositionEnum = "above" | "below" | "both";
@@ -17,7 +19,9 @@ export type SelectionMethodEnum = "checkbox" | "radio" | "row";
 
 export type RenderTypeEnum = "attribute" | "dynamicText" | "link";
 
-export type AlignEnum = "left" | "center" | "right";
+export type HeaderAlignEnum = "left" | "center" | "right";
+
+export type CellAlignEnum = "auto" | "left" | "center" | "right";
 
 export type FixedEnum = "none" | "left" | "right";
 
@@ -34,10 +38,13 @@ export interface ColumnsType {
     linkAction?: ListActionValue;
     allowRowEvents: boolean;
     sortable: boolean;
-    align: AlignEnum;
-    width: number;
+    headerAlign: HeaderAlignEnum;
+    cellAlign: CellAlignEnum;
     fixed: FixedEnum;
     ellipsis: boolean;
+    width: number;
+    minWidth: number;
+    maxWidth: number;
 }
 
 export interface ColumnsPreviewType {
@@ -53,10 +60,13 @@ export interface ColumnsPreviewType {
     linkAction: {} | null;
     allowRowEvents: boolean;
     sortable: boolean;
-    align: AlignEnum;
-    width: number | null;
+    headerAlign: HeaderAlignEnum;
+    cellAlign: CellAlignEnum;
     fixed: FixedEnum;
     ellipsis: boolean;
+    width: number | null;
+    minWidth: number | null;
+    maxWidth: number | null;
 }
 
 export interface AxDataTableContainerProps {
@@ -65,10 +75,14 @@ export interface AxDataTableContainerProps {
     style?: CSSProperties;
     tabIndex?: number;
     dataSource: ListValue;
+    showTitle: boolean;
     title?: DynamicValue<string>;
+    titleAlign: TitleAlignEnum;
     stickyHeader: boolean;
     tableHeight: number;
     bordered: boolean;
+    headerRowHeight: number;
+    bodyRowHeight: number;
     paginationMode: PaginationModeEnum;
     defaultPageNumber: number;
     pageSize: number;
@@ -114,10 +128,14 @@ export interface AxDataTablePreviewProps {
     renderMode: "design" | "xray" | "structure";
     translate: (text: string) => string;
     dataSource: {} | { caption: string } | { type: string } | null;
+    showTitle: boolean;
     title: string;
+    titleAlign: TitleAlignEnum;
     stickyHeader: boolean;
     tableHeight: number | null;
     bordered: boolean;
+    headerRowHeight: number | null;
+    bodyRowHeight: number | null;
     paginationMode: PaginationModeEnum;
     defaultPageNumber: number | null;
     pageSize: number | null;

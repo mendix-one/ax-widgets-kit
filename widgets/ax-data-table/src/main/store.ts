@@ -24,7 +24,10 @@ export interface DataTableColumn {
   groupKey?: string
   groupCaption?: string
   align: DataTableAlign
+  headerAlign?: DataTableAlign
   width?: number
+  minWidth?: number
+  maxWidth?: number
   fixed?: DataTableFixed
   ellipsis: boolean
   renderType: 'attribute' | 'dynamicText' | 'link'
@@ -39,8 +42,12 @@ export interface DataTableRow {
   children?: DataTableRow[]
 }
 
+export type DataTableTitleAlign = 'left' | 'center' | 'right'
+
 export interface DataTableStoreConfig {
   title: string
+  showTitle: boolean
+  titleAlign: DataTableTitleAlign
   stickyHeader: boolean
   tableHeight: number
   paginationMode: DataTablePaginationMode
@@ -55,6 +62,8 @@ export interface DataTableStoreConfig {
   currentPage: number
   bordered: boolean
   showSizeChanger: boolean
+  headerRowHeight: number
+  bodyRowHeight: number
   enableTreeTable: boolean
   treeIndentSize: number
   treeCheckStrictly: boolean
@@ -62,6 +71,8 @@ export interface DataTableStoreConfig {
 
 export class DataTableStore {
   title = ''
+  showTitle = false
+  titleAlign: DataTableTitleAlign = 'left'
   stickyHeader = false
   tableHeight = 480
   paginationMode: DataTablePaginationMode = 'pagingButtons'
@@ -78,6 +89,8 @@ export class DataTableStore {
   unavailable = false
   bordered = false
   showSizeChanger = false
+  headerRowHeight = 0
+  bodyRowHeight = 0
   enableTreeTable = false
   treeIndentSize = 15
   treeCheckStrictly = true
@@ -106,6 +119,8 @@ export class DataTableStore {
   }
 
   setTitle(value: string) { this.title = value }
+  setShowTitle(value: boolean) { this.showTitle = value }
+  setTitleAlign(value: DataTableTitleAlign) { this.titleAlign = value }
   setStickyHeader(value: boolean) { this.stickyHeader = value }
   setTableHeight(value: number) { this.tableHeight = value }
   setPaginationMode(value: DataTablePaginationMode) { this.paginationMode = value }
@@ -122,6 +137,8 @@ export class DataTableStore {
   setUnavailable(value: boolean) { this.unavailable = value }
   setBordered(value: boolean) { this.bordered = value }
   setShowSizeChanger(value: boolean) { this.showSizeChanger = value }
+  setHeaderRowHeight(value: number) { this.headerRowHeight = value }
+  setBodyRowHeight(value: number) { this.bodyRowHeight = value }
   setEnableTreeTable(value: boolean) { this.enableTreeTable = value }
   setTreeIndentSize(value: number) { this.treeIndentSize = value }
   setTreeCheckStrictly(value: boolean) { this.treeCheckStrictly = value }

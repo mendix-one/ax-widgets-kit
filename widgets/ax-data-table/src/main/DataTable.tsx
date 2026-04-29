@@ -19,6 +19,9 @@ export const DataTable = observer(function DataTable() {
       total: store.totalCount,
       showSizeChanger: store.showSizeChanger,
       position: paginationPosition,
+      showTotal: store.showRowCount
+        ? (_total: number) => <Typography.Text type="secondary">{buildRowCountText(store)}</Typography.Text>
+        : undefined,
     }
     : false
 
@@ -77,13 +80,24 @@ export const DataTable = observer(function DataTable() {
         sticky={store.stickyHeader}
         scroll={store.stickyHeader || store.paginationMode === 'virtualScroll' ? { y: store.tableHeight } : undefined}
         locale={{ emptyText }}
-        title={store.title ? () => <Typography.Title level={5} style={{ margin: 0 }}>{store.title}</Typography.Title> : undefined}
+        title={store.showTitle && store.title ? () => (
+          <Typography.Title
+            level={5}
+            style={{ margin: 0, textAlign: store.titleAlign }}
+          >
+            {store.title}
+          </Typography.Title>
+        ) : undefined}
         onChange={handleChange}
         expandable={store.enableTreeTable ? { indentSize: store.treeIndentSize } : undefined}
         rowClassName={(row) =>
           store.selectedKeys.includes(row.key) ? 'ant-table-row-selected' : ''
         }
+        onHeaderRow={() => ({
+          style: store.headerRowHeight > 0 ? { height: store.headerRowHeight } : undefined,
+        })}
         onRow={(row) => ({
+          style: store.bodyRowHeight > 0 ? { height: store.bodyRowHeight } : undefined,
           onClick: (event) => {
             if (shouldIgnoreRowClick(event.target)) {
               return
@@ -121,19 +135,11 @@ export const DataTable = observer(function DataTable() {
         }
       />
 
-      {(store.paginationMode === 'loadMore' || store.showRowCount) && (
-        <Flex
-          justify={store.paginationHorizontalAlign}
-          align="center"
-          gap={12}
-          style={{ width: '100%' }}
-        >
-          {store.showRowCount ? <Typography.Text type="secondary">{buildRowCountText(store)}</Typography.Text> : null}
-          {store.paginationMode === 'loadMore' && store.hasMoreItems ? (
-            <Button onClick={() => store.handleLoadMore()} loading={store.loading}>
-              Load more
-            </Button>
-          ) : null}
+      {store.paginationMode === 'loadMore' && store.hasMoreItems && (
+        <Flex justify={store.paginationHorizontalAlign} align="center" style={{ width: '100%' }}>
+          <Button onClick={() => store.handleLoadMore()} loading={store.loading}>
+            Load more
+          </Button>
         </Flex>
       )}
     </Flex>
@@ -155,6 +161,19 @@ function buildColumns(store: ReturnType<typeof useDataTableStore>): TableColumns
       ellipsis: column.ellipsis,
       sorter: column.canSort,
       sortOrder: store.sortColumnKey === column.key ? mapStoreOrder(store.sortDirection) : null,
+      onHeaderCell: () => ({
+        style: {
+          ...(column.headerAlign ? { textAlign: column.headerAlign } : {}),
+          ...(column.minWidth ? { minWidth: column.minWidth } : {}),
+          ...(column.maxWidth ? { maxWidth: column.maxWidth } : {}),
+        },
+      }),
+      onCell: () => ({
+        style: {
+          ...(column.minWidth ? { minWidth: column.minWidth } : {}),
+          ...(column.maxWidth ? { maxWidth: column.maxWidth } : {}),
+        },
+      }),
       render: (_value, row) => {
         const cell = row.cells[column.key]
         if (cell.kind === 'link') {
