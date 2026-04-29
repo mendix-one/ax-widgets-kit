@@ -20,7 +20,7 @@ export const DataTable = observer(function DataTable() {
       showSizeChanger: store.showSizeChanger,
       position: paginationPosition,
       showTotal: store.showRowCount
-        ? (_total: number) => <Typography.Text type="secondary">{buildRowCountText(store)}</Typography.Text>
+        ? (_total: number) => <Typography.Text>{buildRowCountText(store)}</Typography.Text>
         : undefined,
     }
     : false
@@ -280,7 +280,7 @@ function buildRowCountText(store: ReturnType<typeof useDataTableStore>): string 
 
   const start = store.paginationMode === 'pagingButtons' ? (store.currentPage - 1) * store.pageSize + 1 : 1
   const end = store.paginationMode === 'pagingButtons'
-    ? start + store.rows.length - 1
+    ? start + store.visibleRows.length - 1
     : store.rows.length
 
   if (typeof store.totalCount === 'number') {
