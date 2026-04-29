@@ -186,10 +186,16 @@ export function normalizeDynamicColumns(props: AxDataTableContainerProps): Runti
             return []
         }
 
-        const visible = props.dynamicColumnVisible?.get(item).value ?? true
+        const visibleStr = props.dynamicColumnVisible?.get(item).value
+        const visible = visibleStr === undefined || visibleStr === null ? true : visibleStr.trim() !== 'false'
         if (!visible) {
             return []
         }
+
+        const cellAlign = normalizeAlign(props.dynamicColumnAlign?.get(item).value)
+        const headerAlignRaw = props.dynamicColumnHeaderAlign?.get(item).value
+        const sortableStr = props.dynamicColumnSortable?.get(item).value
+        const ellipsisStr = props.dynamicColumnEllipsis?.get(item).value
 
         return [{
             source: 'dynamic',
@@ -197,13 +203,14 @@ export function normalizeDynamicColumns(props: AxDataTableContainerProps): Runti
             title: props.dynamicColumnTitle?.get(item).value ?? key,
             groupKey: props.dynamicColumnGroupKey?.get(item).value || undefined,
             groupCaption: props.dynamicColumnGroupTitle?.get(item).value || undefined,
-            align: normalizeAlign(props.dynamicColumnAlign?.get(item).value),
+            align: cellAlign,
+            headerAlign: headerAlignRaw ? normalizeAlign(headerAlignRaw) : cellAlign,
             width: normalizeWidth(props.dynamicColumnWidth?.get(item).value),
             fixed: normalizeFixed(props.dynamicColumnFixed?.get(item).value),
-            ellipsis: true,
+            ellipsis: ellipsisStr === undefined || ellipsisStr === null ? true : ellipsisStr.trim() !== 'false',
             renderType: 'dynamicText',
             allowRowEvents: true,
-            canSort: false,
+            canSort: sortableStr !== undefined && sortableStr !== null ? sortableStr.trim() !== 'false' : false,
             valueKey: props.dynamicColumnValueKey?.get(item).value || key,
         }]
     })
@@ -397,6 +404,11 @@ export function normalizeFixed(value?: string): DataTableColumn['fixed'] {
 export function normalizeWidth(value: unknown): number | undefined {
     if (typeof value === 'number' && value > 0) {
         return value
+    }
+
+    if (typeof value === 'string' && value.trim()) {
+        const parsed = Number(value.trim())
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined
     }
 
     if (value && typeof value === 'object' && 'toString' in value) {

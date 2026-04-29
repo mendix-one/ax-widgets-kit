@@ -294,9 +294,9 @@
           <caption>Dynamic columns source</caption>
           <description>Optional datasource that provides dynamic column metadata, such as when columns come from JSON configuration.</description>
         </property>
-        <property key="dynamicCellsAttribute" type="attribute" required="false" dataSource="dynamicColumnsSource">
+        <property key="dynamicCellsAttribute" type="attribute" required="false" dataSource="dataSource">
           <caption>Dynamic cells JSON</caption>
-          <description>String attribute on each row containing a JSON object used to resolve dynamic cell values.</description>
+          <description>String attribute on the row datasource containing a JSON object that maps column keys to cell values.</description>
           <attributeTypes>
             <attributeType name="String" />
           </attributeTypes>
@@ -321,23 +321,33 @@
           <caption>Dynamic group title</caption>
           <description>Optional grouped-header title for each dynamic column item.</description>
         </property>
-        <property key="dynamicColumnVisible" type="expression" required="false" dataSource="dynamicColumnsSource">
+        <property key="dynamicColumnVisible" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
           <caption>Dynamic visible</caption>
-          <description>Boolean expression that determines whether each dynamic column is shown.</description>
-          <returnType type="Boolean" />
+          <description>ColumnDef attribute controlling visibility. Any value other than "false" shows the column.</description>
         </property>
-        <property key="dynamicColumnWidth" type="expression" required="false" dataSource="dynamicColumnsSource">
+        <property key="dynamicColumnWidth" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
           <caption>Dynamic width</caption>
-          <description>Optional integer expression for the preferred width of each dynamic column.</description>
-          <returnType type="Integer" />
+          <description>ColumnDef attribute for preferred column width in pixels (e.g. "150").</description>
         </property>
         <property key="dynamicColumnAlign" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
-          <caption>Dynamic align</caption>
-          <description>Optional alignment string for each dynamic column: left, center, or right.</description>
+          <caption>Dynamic cell align</caption>
+          <description>ColumnDef attribute for cell alignment: left, center, or right.</description>
+        </property>
+        <property key="dynamicColumnHeaderAlign" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
+          <caption>Dynamic header align</caption>
+          <description>ColumnDef attribute for header alignment: left, center, or right. Falls back to cell align when empty.</description>
         </property>
         <property key="dynamicColumnFixed" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
           <caption>Dynamic fixed</caption>
-          <description>Optional fixed-position string for each dynamic column: left, right, or none.</description>
+          <description>ColumnDef attribute for fixed position: left, right, or none.</description>
+        </property>
+        <property key="dynamicColumnSortable" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
+          <caption>Dynamic sortable</caption>
+          <description>ColumnDef attribute that enables client-side sorting. Any value other than "false" enables sorting.</description>
+        </property>
+        <property key="dynamicColumnEllipsis" type="textTemplate" required="false" dataSource="dynamicColumnsSource">
+          <caption>Dynamic ellipsis</caption>
+          <description>ColumnDef attribute that enables text truncation with ellipsis. Any value other than "false" enables ellipsis.</description>
         </property>
       </propertyGroup>
     <propertyGroup caption="Events">

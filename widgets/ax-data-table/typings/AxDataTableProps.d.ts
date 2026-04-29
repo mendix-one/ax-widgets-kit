@@ -108,10 +108,13 @@ export interface AxDataTableContainerProps {
     dynamicColumnValueKey?: ListExpressionValue<string>;
     dynamicColumnGroupKey?: ListExpressionValue<string>;
     dynamicColumnGroupTitle?: ListExpressionValue<string>;
-    dynamicColumnVisible?: ListExpressionValue<boolean>;
-    dynamicColumnWidth?: ListExpressionValue<Big>;
+    dynamicColumnVisible?: ListExpressionValue<string>;
+    dynamicColumnWidth?: ListExpressionValue<string>;
     dynamicColumnAlign?: ListExpressionValue<string>;
+    dynamicColumnHeaderAlign?: ListExpressionValue<string>;
     dynamicColumnFixed?: ListExpressionValue<string>;
+    dynamicColumnSortable?: ListExpressionValue<string>;
+    dynamicColumnEllipsis?: ListExpressionValue<string>;
     onRowClick?: ListActionValue;
     onRowDoubleClick?: ListActionValue;
 }
@@ -164,7 +167,10 @@ export interface AxDataTablePreviewProps {
     dynamicColumnVisible: string;
     dynamicColumnWidth: string;
     dynamicColumnAlign: string;
+    dynamicColumnHeaderAlign: string;
     dynamicColumnFixed: string;
+    dynamicColumnSortable: string;
+    dynamicColumnEllipsis: string;
     onRowClick: {} | null;
     onRowDoubleClick: {} | null;
     onSelectionChanged: {} | null;
